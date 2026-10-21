@@ -2108,13 +2108,13 @@
           <i class="fa-solid fa-arrow-right-to-bracket"></i>
         </div>
         <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Masuk ke Toko Saya</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed" x-text="backendMode === 'supabase' ? 'Gunakan email dan password toko yang sudah terdaftar.' : 'Mode demo lokal: gunakan username: ummi, password: ummiku.'"></p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Gunakan email atau username dan password toko yang sudah terdaftar.</p>
       </div>
 
       <form @submit.prevent="login()" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" x-text="backendMode === 'supabase' ? 'Email Toko' : 'Username'">Email Toko / Username</label>
-          <input :type="backendMode === 'supabase' ? 'email' : 'text'" id="login-username" autocomplete="username" x-model="loginForm.username" :placeholder="backendMode === 'supabase' ? 'owner@tokosaya.com' : 'Username'" required class="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta">
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Email Toko / Username</label>
+          <input type="text" id="login-username" autocomplete="username" x-model="loginForm.username" placeholder="Masukkan email toko atau username" required class="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta">
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
