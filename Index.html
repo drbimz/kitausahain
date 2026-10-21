@@ -2216,7 +2216,10 @@
           <input type="text" id="login-username" autocomplete="username" x-model="loginForm.username" placeholder="Masukkan email toko atau username" required class="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
+          <div class="flex justify-between items-center mb-1.5">
+            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">Password</label>
+            <button type="button" @click="openForgotPasswordModal()" class="text-[11px] text-brand-terracotta hover:underline font-medium">Lupa password?</button>
+          </div>
           <input type="password" x-model="loginForm.password" placeholder="Masukkan password" required class="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta">
         </div>
         
@@ -2291,6 +2294,47 @@
         Sudah punya akun toko? 
         <button type="button" @click="openLoginModal()" class="text-brand-olive hover:underline font-semibold ml-1">
           Masuk di sini
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 3: LUPA PASSWORD ================= -->
+  <div x-show="showForgotPasswordModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div class="bg-white dark:bg-[#131b28] w-full max-w-md rounded-3xl shadow-2xl p-7 sm:p-8 relative border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100" @click.outside="showForgotPasswordModal = false">
+      <button @click="showForgotPasswordModal = false" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 w-8 h-8 rounded-full flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="mb-6 text-left">
+        <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400 flex items-center justify-center text-sm mb-3">
+          <i class="fa-solid fa-key"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Lupa Password Toko</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+          Masukkan alamat email yang terdaftar pada toko Anda. Kami akan mengirimkan tautan untuk mengatur ulang password baru Anda.
+        </p>
+      </div>
+
+      <form @submit.prevent="sendPasswordResetEmail()" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Email Terdaftar</label>
+          <input type="email" x-model="forgotPasswordEmail" placeholder="nama@email.com" required class="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-amber-500">
+        </div>
+
+        <p x-show="forgotPasswordError" class="text-rose-600 text-xs font-medium" x-text="forgotPasswordError"></p>
+        <p x-show="forgotPasswordSuccess" class="text-emerald-600 text-xs font-medium leading-relaxed bg-emerald-50 dark:bg-emerald-950/40 p-3 rounded-xl border border-emerald-200 dark:border-emerald-800" x-text="forgotPasswordSuccess"></p>
+
+        <button type="submit" :disabled="loading" class="w-full h-12 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-medium transition text-xs sm:text-sm shadow-warm-sm disabled:opacity-60 flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-paper-plane text-xs"></i>
+          <span>Kirim Link Reset Password</span>
+        </button>
+      </form>
+
+      <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
+        Ingat password Anda?
+        <button type="button" @click="showForgotPasswordModal = false; openLoginModal()" class="text-brand-terracotta hover:underline font-semibold ml-1">
+          Kembali ke Login
         </button>
       </div>
     </div>
@@ -2529,18 +2573,63 @@
         currentStoreStatus: 'published',
         showLoginModal: false,
         showRegisterModal: false,
+        showForgotPasswordModal: false,
+        forgotPasswordEmail: '',
+        forgotPasswordError: '',
+        forgotPasswordSuccess: '',
         authMode: 'login',
 
         openLoginModal() {
           this.showRegisterModal = false;
+          this.showForgotPasswordModal = false;
           this.loginError = '';
           this.showLoginModal = true;
         },
 
         openRegisterModal() {
           this.showLoginModal = false;
+          this.showForgotPasswordModal = false;
           this.loginError = '';
           this.showRegisterModal = true;
+        },
+
+        openForgotPasswordModal() {
+          this.showLoginModal = false;
+          this.showRegisterModal = false;
+          this.forgotPasswordEmail = (this.loginForm.username && this.loginForm.username.includes('@')) ? this.loginForm.username : '';
+          this.forgotPasswordError = '';
+          this.forgotPasswordSuccess = '';
+          this.showForgotPasswordModal = true;
+        },
+
+        async sendPasswordResetEmail() {
+          const email = this.forgotPasswordEmail.trim();
+          if (!email || !email.includes('@')) {
+            this.forgotPasswordError = 'Silakan masukkan alamat email yang valid.';
+            return;
+          }
+          this.loading = true;
+          this.loadingText = 'Mengirim instruksi reset password...';
+          this.forgotPasswordError = '';
+          this.forgotPasswordSuccess = '';
+
+          try {
+            if (this.backendMode === 'supabase') {
+              const { error } = await this.supabaseClient.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin
+              });
+              if (error) throw error;
+              this.forgotPasswordSuccess = 'Tautan reset password berhasil dikirim ke ' + email + '. Silakan periksa kotak masuk atau spam email Anda.';
+              this.showToast('Email reset password terkirim!');
+            } else {
+              this.forgotPasswordSuccess = 'Simulasi: Link reset password telah dikirim ke ' + email + '.';
+              this.showToast('Email reset password terkirim!');
+            }
+          } catch (err) {
+            this.forgotPasswordError = errMsg(err);
+          } finally {
+            this.loading = false;
+          }
         },
 
         openAuthModal(mode = 'login') {
@@ -3236,6 +3325,15 @@
             // Cari toko milik user yang sedang login
             let { data: store, error } = await this.supabaseClient.from('businesses').select('*').eq('owner_id', user.id).maybeSingle();
 
+            // Khusus akun resmi Ummi (ummi@kitausahain.com): otomatis tautkan ke toko dapoer-asri jika belum bertaut
+            if (!store && user.email === 'ummi@kitausahain.com') {
+              let { data: dapoerBiz } = await this.supabaseClient.from('businesses').select('*').eq('slug', 'dapoer-asri').maybeSingle();
+              if (dapoerBiz) {
+                await this.supabaseClient.from('businesses').update({ owner_id: user.id }).eq('id', dapoerBiz.id);
+                store = { ...dapoerBiz, owner_id: user.id };
+              }
+            }
+
             // Jika user baru belum punya toko, buatkan otomatis
             if (!store && !error) {
               const metaName = (user.user_metadata && user.user_metadata.store_name) || 'Toko ' + user.email.split('@')[0];
@@ -3467,14 +3565,6 @@
 
         async restoreSession() {
           try {
-            // Cek sesi login demo admin Dapoer Asri (ummi)
-            if (sessionStorage.getItem(DEMO_LOGIN_KEY) === '1' || sessionStorage.getItem(DEMO_LOGIN_KEY) === 'dapoer-asri') {
-              this.currentUser = { username: 'ummi', ummiName: 'Dapoer Asri Ummiku Sayang', role: 'admin' };
-              this.currentStoreSlug = 'dapoer-asri';
-              this.isLoggedIn = true;
-              return;
-            }
-
             if (this.backendMode === 'supabase') {
               const { data } = await this.supabaseClient.auth.getSession();
               if (data && data.session) await this.loadSupabaseStore(data.session.user);
@@ -3512,44 +3602,42 @@
           this.loading = true;
           this.loadingText = 'Memeriksa akun...';
           this.loginError = '';
-          const username = this.loginForm.username.trim();
+          const rawInput = this.loginForm.username.trim();
           const password = this.loginForm.password;
           let mustChangePassword = false;
 
-          try {
-            // 1. Jalur Kredensial Admin Demo Dapoer Asri (ummi / ummiku)
-            if (username.toLowerCase() === 'ummi' && password === 'ummiku') {
-              sessionStorage.setItem(DEMO_LOGIN_KEY, '1');
-              this.currentUser = { username: 'ummi', ummiName: 'Dapoer Asri Ummiku Sayang', role: 'admin' };
-              this.currentStoreSlug = 'dapoer-asri';
-              this.isLoggedIn = true;
-              this.showLoginModal = false;
-              this.loginForm = { username: '', password: '' };
-              this.currentView = 'dashboard';
-              await this.fetchData();
-              this.showToast('Login berhasil sebagai Admin Dapoer Asri');
-              return;
+          // Normalisasi: jika pengguna mengetik 'ummi', otomatis diarahkan ke akun resmi 'ummi@kitausahain.com'
+          let emailToLogin = rawInput;
+          if (!emailToLogin.includes('@')) {
+            if (emailToLogin.toLowerCase() === 'ummi') {
+              emailToLogin = 'ummi@kitausahain.com';
+            } else {
+              emailToLogin = emailToLogin + '@kitausahain.com';
             }
+          }
 
-            // 2. Jalur Akun Supabase (Email & Password terdaftar)
+          try {
             if (this.backendMode === 'supabase') {
-              const { data, error } = await this.supabaseClient.auth.signInWithPassword({ email: username, password });
+              const { data, error } = await this.supabaseClient.auth.signInWithPassword({ email: emailToLogin, password });
               if (error) {
-                throw new Error(/invalid login/i.test(error.message) ? 'Email atau password salah' : error.message);
+                if (/invalid login/i.test(error.message) || /invalid_credentials/i.test(error.message)) {
+                  throw new Error('Email atau password salah. Pastikan akun sudah dibuat di Supabase.');
+                }
+                throw new Error(error.message);
               }
               if (!(await this.loadSupabaseStore(data.user))) {
-                throw new Error('Akun ini belum memiliki toko terdaftar.');
+                throw new Error('Akun ini belum memiliki toko terdaftar di platform.');
               }
             } else if (this.backendMode === 'gas') {
-              const res = await gasCall('checkLoginCredentials', username, password);
-              if (!res || !res.success) throw new Error((res && res.message) || 'Username atau Password salah');
+              const res = await gasCall('checkLoginCredentials', emailToLogin, password);
+              if (!res || !res.success) throw new Error((res && res.message) || 'Email atau Password salah');
               this.gasToken = res.token;
               sessionStorage.setItem(GAS_TOKEN_KEY, res.token);
               this.currentUser = res.user;
               this.isLoggedIn = true;
               mustChangePassword = !!res.mustChangePassword;
             } else {
-              throw new Error('Username atau password salah');
+              throw new Error('Sistem backend tidak terhubung');
             }
 
             this.showLoginModal = false;
@@ -3561,7 +3649,7 @@
               this.dashboardTab = 'settings';
               this.showToast('Anda masih memakai password bawaan. Segera ganti password!', 'error');
             } else {
-              this.showToast('Login berhasil');
+              this.showToast('Login berhasil. Selamat datang kembali!');
             }
           } catch (e) {
             this.loginError = errMsg(e);
