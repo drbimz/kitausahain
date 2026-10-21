@@ -27,6 +27,10 @@ CREATE TABLE IF NOT EXISTS public.businesses (
     hero_desc TEXT DEFAULT 'Olahan bersih, higienis, dan 100% halal khusus untuk keluarga Anda.',
     about_title TEXT DEFAULT 'Kenapa Memilih Kami?',
     about_desc TEXT DEFAULT 'Dapur rumahan higienis yang mengutamakan kualitas rasa dan kesehatan keluarga Anda.',
+    kitchen_address TEXT DEFAULT 'Jl. Cempaka Indah No. 12, Kelurahan Asri, Jawa Tengah, Indonesia.',
+    operational_hours TEXT DEFAULT 'Senin - Minggu: 08.00 - 18.00 WIB',
+    operational_note TEXT DEFAULT 'Pemesanan Pre-Order dibuka setiap hari (H-1)',
+    maps_embed_url TEXT DEFAULT '',
     theme_config JSONB DEFAULT '{"primaryColor": "#BA4A24", "secondaryColor": "#2D4F38"}'::jsonb,
     sections_config JSONB DEFAULT '{"hero": true, "features": true, "products": true, "about": true, "promo": true, "location": true}'::jsonb,
     published_at TIMESTAMPTZ DEFAULT NOW(),
@@ -160,6 +164,13 @@ ALTER TABLE public.businesses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.products   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.orders     ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.setoran    ENABLE ROW LEVEL SECURITY;
+
+
+-- Migration agar tabel businesses lama otomatis memiliki kolom lokasi & jam operasional
+ALTER TABLE public.businesses ADD COLUMN IF NOT EXISTS kitchen_address TEXT DEFAULT 'Jl. Cempaka Indah No. 12, Kelurahan Asri, Jawa Tengah, Indonesia.';
+ALTER TABLE public.businesses ADD COLUMN IF NOT EXISTS operational_hours TEXT DEFAULT 'Senin - Minggu: 08.00 - 18.00 WIB';
+ALTER TABLE public.businesses ADD COLUMN IF NOT EXISTS operational_note TEXT DEFAULT 'Pemesanan Pre-Order dibuka setiap hari (H-1)';
+ALTER TABLE public.businesses ADD COLUMN IF NOT EXISTS maps_embed_url TEXT DEFAULT '';
 
 -- BUSINESSES RLS
 DROP POLICY IF EXISTS "Public view published businesses" ON public.businesses;

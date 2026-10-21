@@ -28,8 +28,8 @@
      * Jika dikosongkan, konfigurasi bisa diisi admin lewat Dashboard > Koneksi Supabase (hanya di browser itu).
      */
     window.APP_CONFIG = {
-      supabaseUrl: '',
-      supabaseAnonKey: ''
+      supabaseUrl: 'https://bnyzrkkdhxsnsepvdlhs.supabase.co',
+      supabaseAnonKey: 'sb_publishable_DXUEyhfXNDhFYJIwt4qLPg_sVtYf_X8'
     };
 
     (function () {
@@ -1061,8 +1061,8 @@
             <div>
               <h3 class="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">Alamat Dapur Produksi</h3>
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                <span x-text="settings.storeName || 'Dapoer Asri'"></span><br>
-                Jl. Cempaka Indah No. 12, Kelurahan Asri, Jawa Tengah, Indonesia.
+                <span class="font-semibold text-slate-900 dark:text-white" x-text="settings.storeName || 'Dapoer Asri'"></span><br>
+                <span class="whitespace-pre-line" x-text="settings.kitchenAddress || 'Jl. Cempaka Indah No. 12, Kelurahan Asri, Jawa Tengah, Indonesia.'"></span>
               </p>
             </div>
           </div>
@@ -1076,8 +1076,8 @@
               <h3 class="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">Jam Operasional Pre-Order
               </h3>
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                Senin - Minggu: 08.00 - 18.00 WIB<br>
-                <span class="text-brand-terracotta font-semibold">Pemesanan Pre-Order dibuka setiap hari (H-1)</span>
+                <span x-text="settings.operationalHours || 'Senin - Minggu: 08.00 - 18.00 WIB'"></span><br>
+                <span class="text-brand-terracotta font-semibold" x-text="settings.operationalNote || 'Pemesanan Pre-Order dibuka setiap hari (H-1)'"></span>
               </p>
             </div>
           </div>
@@ -1245,12 +1245,7 @@
             <i class="fa-solid fa-file-invoice-dollar w-4"></i><span>Laporan Keuangan</span>
           </button>
 
-          <!-- SATU FITUR KONEKSI SUPABASE LENGKAP -->
-          <button @click="dashboardTab = 'supabase'"
-            :class="dashboardTab === 'supabase' ? 'bg-brand-olive text-white font-semibold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'"
-            class="w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-xs transition">
-            <i class="fa-solid fa-cloud w-4"></i><span>Koneksi Supabase Cloud</span>
-          </button>
+          
 
           <div class="pt-4 border-t border-slate-200 dark:border-slate-800 mt-3">
             <button @click="logout()"
@@ -1795,6 +1790,42 @@
                 </div>
               </div>
 
+              
+              <!-- 2. LOKASI DAPUR & JAM OPERASIONAL -->
+              <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <i class="fa-solid fa-location-dot text-brand-olive"></i>
+                  <span>Lokasi Dapur & Jam Operasional</span>
+                </h3>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Alamat Lengkap Dapur Produksi</label>
+                  <textarea x-model="settings.kitchenAddress" rows="2" placeholder="Contoh: Jl. Cempaka Indah No. 12, Kelurahan Asri, Jawa Tengah, Indonesia."
+                    class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm"></textarea>
+                  <p class="text-[11px] text-slate-400 mt-1">Alamat ini tampil di halaman "Lokasi & Kontak" toko Anda.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Jam Operasional Pre-Order</label>
+                    <input type="text" x-model="settings.operationalHours" placeholder="Senin - Minggu: 08.00 - 18.00 WIB"
+                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Catatan Pemesanan Pre-Order</label>
+                    <input type="text" x-model="settings.operationalNote" placeholder="Pemesanan Pre-Order dibuka setiap hari (H-1)"
+                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Link Embed Google Maps (Opsional)</label>
+                  <input type="text" x-model="settings.mapsEmbedUrl" placeholder="https://www.google.com/maps/embed?pb=..."
+                    class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-mono">
+                  <p class="text-[11px] text-slate-400 mt-1">Buka Google Maps > Bagikan > Sematkan peta > salin nilai di atribut src.</p>
+                </div>
+              </div>
+
               <!-- 3. KUSTOMISASI KONTEN & DESKRIPSI LANDING PAGE -->
               <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
                 <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
@@ -2029,55 +2060,7 @@
           </div>
         </div>
 
-        <!-- ================= TAB: SATU FITUR KONEKSI SUPABASE LENGKAP ================= -->
-        <div x-show="dashboardTab === 'supabase'" class="space-y-5">
-          <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Koneksi Database & Cloud Storage (Supabase)
-          </h2>
-
-          <div
-            class="bg-white dark:bg-[#161f30] p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-2xl space-y-5 shadow-sm">
-            <div
-              class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
-              <p class="font-semibold text-slate-800 dark:text-slate-100"><i
-                  class="fa-solid fa-cloud text-brand-olive mr-1"></i> Satu Fitur Integrasi Supabase:</p>
-              <p>• Menyimpan seluruh data menu produk, riwayat pesanan pelanggan, dan foto galeri ke cloud Supabase.</p>
-              <p>• Jalankan <code>supabase_schema.sql</code> terlebih dahulu (tabel <code>admins</code>,
-                <code>products</code>, <code>orders</code>, <code>settings</code>, bucket <code>dapoer-asri</code> +
-                RLS).</p>
-              <p>• Login admin memakai <b>email &amp; password Supabase Auth</b>. Buat user di Authentication &gt; Users
-                lalu daftarkan ke tabel <code>admins</code> (lihat petunjuk di file SQL).</p>
-              <p>• Agar semua pengunjung melihat menu dari database, isi juga <code>APP_CONFIG</code> di bagian atas
-                <code>Index.html</code>.</p>
-            </div>
-
-            <form @submit.prevent="saveSupabaseConfig()" class="space-y-4">
-              <div>
-                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Supabase Project
-                  URL</label>
-                <input type="url" x-model="supabaseConfig.url" placeholder="https://your-project.supabase.co" required
-                  class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs font-mono">
-              </div>
-
-              <div>
-                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Supabase Anon
-                  Key</label>
-                <input type="password" x-model="supabaseConfig.anonKey" placeholder="eyJhbGciOiJIUzI1NiIsIn..." required
-                  class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs font-mono">
-              </div>
-
-              <div class="pt-1 flex gap-3">
-                <button type="submit"
-                  class="flex-1 h-11 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-semibold transition text-xs shadow-sm">
-                  Simpan & Hubungkan Supabase
-                </button>
-                <button type="button" @click="resetSupabaseConfig()"
-                  class="h-11 px-5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold">
-                  Reset
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        
 
       </div>
 
@@ -2137,11 +2120,7 @@
         </button>
       </div>
 
-      <div class="mt-2 text-center" x-show="isSupabaseConfigured && !hasEmbeddedSupabaseConfig">
-        <button type="button" @click="resetSupabaseConfig()" class="text-[11px] text-slate-400 hover:text-slate-600 underline">
-          Putuskan koneksi Supabase di browser ini
-        </button>
-      </div>
+      
     </div>
   </div>
 
@@ -2272,7 +2251,7 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const ORDER_STATUSES = ['Pre-Order', 'Diproses', 'Siap Kirim', 'Selesai', 'Dibatalkan'];
-    const SETTINGS_KEYS = ['storeName', 'storeSubtitle', 'waNumber', 'logoUrl', 'bgImageUrl', 'landingLayout', 'heroBadge', 'heroTitle', 'heroDesc', 'aboutTitle', 'aboutDesc'];
+    const SETTINGS_KEYS = ['storeName', 'storeSubtitle', 'waNumber', 'logoUrl', 'bgImageUrl', 'landingLayout', 'heroBadge', 'heroTitle', 'heroDesc', 'aboutTitle', 'aboutDesc', 'kitchenAddress', 'operationalHours', 'operationalNote', 'mapsEmbedUrl'];
     const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
     const GAS_TOKEN_KEY = 'dapoer_gas_token';
@@ -2580,7 +2559,8 @@
         initSupabase() {
           try {
             if (window.supabase && this.supabaseConfig.url && this.supabaseConfig.anonKey) {
-              this.supabaseClient = window.supabase.createClient(this.supabaseConfig.url, this.supabaseConfig.anonKey, {
+              const sanitizedUrl = (this.supabaseConfig.url || '').trim().replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
+              this.supabaseClient = window.supabase.createClient(sanitizedUrl, this.supabaseConfig.anonKey, {
                 auth: { persistSession: true, autoRefreshToken: true, storageKey: 'dapoer-asri-auth' }
               });
               this.supabaseClient.auth.onAuthStateChange((event) => {
