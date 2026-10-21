@@ -151,6 +151,7 @@
       -webkit-text-size-adjust: 100%;
       background-color: #FAF6F0;
       color: #241812;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     button, input, textarea, select {
@@ -158,14 +159,14 @@
     }
 
     /* STRICT ENFORCEMENT: JANGAN PERNAH PAKE POPPINS BOLD (Maksimal weight 600 / Semibold) */
-    b, strong, h1, h2, h3, h4, h5, h6, .font-semibold, .font-semibold, .font-black {
+    b, strong, h1, h2, h3, h4, h5, h6, .font-semibold, .font-bold, .font-extrabold, .font-black {
       font-weight: 600 !important;
     }
 
-    /* Clean Dark Mode (Graphite/Slate with warm undertone) */
-    .dark html, .dark body {
-      background-color: #0d1218;
-      color: #f1f5f9;
+    /* Clean Dark Mode (Graphite/Obsidian #0b0f17 dengan teks terang kontras #f1f5f9) */
+    html.dark, html.dark body, body.dark {
+      background-color: #0b0f17 !important;
+      color: #f1f5f9 !important;
     }
 
     /* Warm Atmospheric Vignette & Subtle Glow for Food Showcase */
@@ -194,9 +195,15 @@
       border: 1px solid rgba(186, 74, 36, 0.12);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .dark .card-craft {
-      background-color: #151d2a;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    html.dark .card-craft, body.dark .card-craft {
+      background-color: #131b28 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+    }
+    html.dark .card-craft:hover, body.dark .card-craft:hover {
+      background-color: #182232 !important;
+      border-color: rgba(200, 83, 43, 0.35) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
     }
     .card-craft:hover {
       transform: translateY(-3px);
@@ -243,7 +250,7 @@
     }
   </style>
 </head>
-<body x-data="appData()" class="bg-[#FAF7F2] dark:bg-[#0b0f17] text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 w-full overflow-x-clip min-h-screen">
+<body x-data="appData()" class="bg-[#FAF6F0] dark:bg-[#0b0f17] text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 w-full overflow-x-clip min-h-screen">
 
   <!-- TOAST NOTIFICATION -->
   <div x-show="toast.show" x-cloak 
@@ -386,8 +393,10 @@
 
   <!-- ================= MULTI-TENANT SPLASH PORTAL (HALAMAN PERTAMA) ================= -->
   <main x-show="currentView === 'splash'" x-cloak x-transition:enter="transition ease-out duration-300" 
-        class="min-h-screen flex flex-col justify-between relative overflow-hidden"
-        style="background: radial-gradient(circle at 50% 15%, rgba(186, 74, 36, 0.10) 0%, rgba(36, 24, 18, 0.02) 65%), #FAF6F0;">
+        class="min-h-screen flex flex-col justify-between relative overflow-hidden bg-[#FAF6F0] dark:bg-[#0b0f17] text-slate-800 dark:text-slate-100 transition-colors duration-300">
+    
+    <!-- Ambient Radial Glow (Hangat di Terang, Bara Charcoal di Gelap) -->
+    <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_15%,rgba(186,74,36,0.08)_0%,transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_15%,rgba(217,91,48,0.14)_0%,transparent_65%)] transition-all duration-300"></div>
     
     <!-- Top Bar Portal Splash -->
     <div class="max-w-7xl mx-auto px-6 sm:px-10 py-6 w-full flex items-center justify-between relative z-10">
@@ -405,7 +414,7 @@
       </div>
 
       <div class="flex items-center space-x-3">
-        <button @click="toggleDarkMode()" title="Ganti Tema" class="w-10 h-10 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <button @click="toggleDarkMode()" title="Ganti Tema" class="w-10 h-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#131b28] text-slate-700 dark:text-amber-400 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-[#1a2436] shadow-sm transition">
           <i class="fa-solid text-xs" :class="darkMode ? 'fa-sun text-amber-400' : 'fa-moon'"></i>
         </button>
       </div>
@@ -436,7 +445,7 @@
         </button>
 
         <button @click="openAuthModal('login')" 
-                class="w-full sm:w-auto h-13 sm:h-14 px-8 sm:px-9 rounded-2xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 font-medium text-xs sm:text-sm shadow-sm transition flex items-center justify-center space-x-2.5 tracking-normal">
+                class="w-full sm:w-auto h-13 sm:h-14 px-8 sm:px-9 rounded-2xl bg-white dark:bg-[#131b28] hover:bg-slate-50 dark:hover:bg-[#1a2436] text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700/80 font-medium text-xs sm:text-sm shadow-sm transition flex items-center justify-center space-x-2.5 tracking-normal">
           <i class="fa-solid fa-arrow-right-to-bracket text-brand-terracotta"></i>
           <span>Masuk ke Toko Saya</span>
         </button>
@@ -452,29 +461,29 @@
       </div>
 
       <!-- 3 Pilar Keunggulan Platform -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 text-left">
-        <div class="p-5 rounded-2xl bg-white/90 dark:bg-[#161f30]/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 shadow-warm-sm">
-          <div class="w-9 h-9 rounded-xl bg-brand-olive-soft text-brand-olive flex items-center justify-center text-sm mb-3">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 pt-12 sm:pt-16 text-left">
+        <div class="p-7 rounded-3xl bg-white/95 dark:bg-[#131b28] backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-warm-sm dark:shadow-[0_4px_24px_rgba(0,0,0,0.35)] space-y-3 transition-colors duration-300">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 dark:border dark:border-emerald-800/50 flex items-center justify-center text-sm mb-4">
             <i class="fa-solid fa-share-nodes"></i>
           </div>
-          <h4 class="font-semibold text-xs text-slate-900 dark:text-white mb-1">Link Toko Mandiri</h4>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">Setiap toko memiliki link unik yang siap Anda cantumkan di bio Instagram & status WhatsApp.</p>
+          <h4 class="font-semibold text-sm text-slate-900 dark:text-white mb-1.5 tracking-tight">Link Toko Mandiri</h4>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">Setiap toko memiliki link unik yang siap Anda cantumkan di bio Instagram & status WhatsApp.</p>
         </div>
 
-        <div class="p-5 rounded-2xl bg-white/90 dark:bg-[#161f30]/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 shadow-warm-sm">
-          <div class="w-9 h-9 rounded-xl bg-brand-terracotta-soft text-brand-terracotta flex items-center justify-center text-sm mb-3">
-            <i class="fa-brands fa-whatsapp text-base"></i>
+        <div class="p-7 rounded-3xl bg-white/95 dark:bg-[#131b28] backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-warm-sm dark:shadow-[0_4px_24px_rgba(0,0,0,0.35)] space-y-3 transition-colors duration-300">
+          <div class="w-10 h-10 rounded-2xl bg-orange-50 dark:bg-orange-950/60 text-brand-terracotta dark:text-orange-400 dark:border dark:border-orange-800/50 flex items-center justify-center text-base mb-4">
+            <i class="fa-brands fa-whatsapp"></i>
           </div>
-          <h4 class="font-semibold text-xs text-slate-900 dark:text-white mb-1">Pesan Cepat WhatsApp</h4>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">Pesanan pembeli otomatis terformat rapi dan dikirim langsung ke WhatsApp toko Anda.</p>
+          <h4 class="font-semibold text-sm text-slate-900 dark:text-white mb-1.5 tracking-tight">Pesan Cepat WhatsApp</h4>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">Pesanan pembeli otomatis terformat rapi dan dikirim langsung ke WhatsApp toko Anda.</p>
         </div>
 
-        <div class="p-5 rounded-2xl bg-white/90 dark:bg-[#161f30]/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 shadow-warm-sm">
-          <div class="w-9 h-9 rounded-xl bg-brand-turmeric-soft text-brand-turmeric flex items-center justify-center text-sm mb-3">
-            <i class="fa-solid fa-shield-halved text-sm"></i>
+        <div class="p-7 rounded-3xl bg-white/95 dark:bg-[#131b28] backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-warm-sm dark:shadow-[0_4px_24px_rgba(0,0,0,0.35)] space-y-3 transition-colors duration-300">
+          <div class="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 dark:border dark:border-amber-800/50 flex items-center justify-center text-sm mb-4">
+            <i class="fa-solid fa-shield-halved"></i>
           </div>
-          <h4 class="font-semibold text-xs text-slate-900 dark:text-white mb-1">Data Terisolasi 100%</h4>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">Katalog, daftar pesanan, dan keuangan toko Anda privat dan tidak bercampur dengan orang lain.</p>
+          <h4 class="font-semibold text-sm text-slate-900 dark:text-white mb-1.5 tracking-tight">Data Terisolasi 100%</h4>
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">Katalog, daftar pesanan, dan keuangan toko Anda privat dan tidak bercampur dengan orang lain.</p>
         </div>
       </div>
 
@@ -1759,7 +1768,7 @@
 
   <!-- ================= MODAL LOGIN & SIGN UP (MULTI-TENANT SAAS) ================= -->
   <div x-show="showLoginModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-[2px] p-4">
-    <div class="bg-white dark:bg-[#161f30] w-full max-w-md rounded-2xl shadow-xl p-6 relative border border-slate-200 dark:border-slate-800" @click.outside="showLoginModal = false">
+    <div class="bg-white dark:bg-[#131b28] w-full max-w-md rounded-3xl shadow-2xl p-7 sm:p-8 relative border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100" @click.outside="showLoginModal = false">
       <button @click="showLoginModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
