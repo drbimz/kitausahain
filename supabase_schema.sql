@@ -118,6 +118,21 @@ CREATE TABLE IF NOT EXISTS public.setoran (
 CREATE INDEX IF NOT EXISTS setoran_business_idx ON public.setoran(business_id);
 
 -- ------------------------------------------------------------------------------
+-- 4b. TABEL PENGATURAN / SETTINGS SISTEM (settings) - Kompatibilitas & Fallback
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.settings (
+    key TEXT PRIMARY KEY,
+    value TEXT,
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.settings ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Public read settings" ON public.settings;
+CREATE POLICY "Public read settings" ON public.settings FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Auth write settings" ON public.settings FOR ALL;
+CREATE POLICY "Auth write settings" ON public.settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
+-- ------------------------------------------------------------------------------
 -- 5. SEED AKUN DUMMY / DEMO PERMANEN: DAPOER ASRI
 -- ------------------------------------------------------------------------------
 INSERT INTO public.businesses (
