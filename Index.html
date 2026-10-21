@@ -2076,15 +2076,33 @@
             <p class="text-[11px] text-slate-400 mb-4">Minimal 8 karakter. Segera ganti jika masih memakai password
               bawaan.</p>
             <form @submit.prevent="changePassword()" class="space-y-3">
-              <input type="password" id="pw-old" x-show="backendMode === 'gas'" x-model="passwordForm.oldPassword"
-                :required="backendMode === 'gas'" autocomplete="current-password" placeholder="Password lama"
-                class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
-              <input type="password" id="pw-new" x-model="passwordForm.newPassword" minlength="8" required
-                autocomplete="new-password" placeholder="Password baru"
-                class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
-              <input type="password" id="pw-confirm" x-model="passwordForm.confirmPassword" minlength="8" required
-                autocomplete="new-password" placeholder="Ulangi password baru"
-                class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
+              <div class="relative" x-show="backendMode === 'gas'">
+                <input :type="showOldPassword ? 'text' : 'password'" id="pw-old" x-model="passwordForm.oldPassword"
+                  :required="backendMode === 'gas'" autocomplete="current-password" placeholder="Password lama"
+                  class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-11 py-2.5 text-xs sm:text-sm">
+                <button type="button" @click="showOldPassword = !showOldPassword" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition" title="Lihat/Sembunyikan password">
+                  <i :class="showOldPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
+                </button>
+              </div>
+
+              <div class="relative">
+                <input :type="showNewPassword ? 'text' : 'password'" id="pw-new" x-model="passwordForm.newPassword" minlength="8" required
+                  autocomplete="new-password" placeholder="Password baru"
+                  class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-11 py-2.5 text-xs sm:text-sm">
+                <button type="button" @click="showNewPassword = !showNewPassword" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition" title="Lihat/Sembunyikan password">
+                  <i :class="showNewPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
+                </button>
+              </div>
+
+              <div class="relative">
+                <input :type="showConfirmPassword ? 'text' : 'password'" id="pw-confirm" x-model="passwordForm.confirmPassword" minlength="8" required
+                  autocomplete="new-password" placeholder="Ulangi password baru"
+                  class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-11 py-2.5 text-xs sm:text-sm">
+                <button type="button" @click="showConfirmPassword = !showConfirmPassword" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition" title="Lihat/Sembunyikan password">
+                  <i :class="showConfirmPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
+                </button>
+              </div>
+
               <button type="submit" id="pw-submit"
                 class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold transition text-xs sm:text-sm shadow-sm">Simpan
                 Password Baru</button>
@@ -2220,7 +2238,12 @@
             <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">Password</label>
             <button type="button" @click="openForgotPasswordModal()" class="text-[11px] text-brand-terracotta hover:underline font-medium">Lupa password?</button>
           </div>
-          <input type="password" x-model="loginForm.password" placeholder="Masukkan password" required class="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta">
+          <div class="relative">
+            <input :type="showLoginPassword ? 'text' : 'password'" x-model="loginForm.password" placeholder="Masukkan password" required class="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl pl-4 pr-11 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta">
+            <button type="button" @click="showLoginPassword = !showLoginPassword" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition" title="Lihat/Sembunyikan password">
+              <i :class="showLoginPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
+            </button>
+          </div>
         </div>
         
         <p x-show="loginError" class="text-rose-600 text-xs font-medium" x-text="loginError"></p>
@@ -2278,7 +2301,12 @@
 
         <div>
           <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Buat Password</label>
-          <input type="password" x-model="registerForm.password" placeholder="Minimal 6 karakter" required minlength="6" class="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive">
+          <div class="relative">
+            <input :type="showRegisterPassword ? 'text' : 'password'" x-model="registerForm.password" placeholder="Minimal 6 karakter" required minlength="6" class="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 rounded-xl pl-4 pr-11 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive">
+            <button type="button" @click="showRegisterPassword = !showRegisterPassword" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition" title="Lihat/Sembunyikan password">
+              <i :class="showRegisterPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
+            </button>
+          </div>
         </div>
         
         <p x-show="loginError" class="text-rose-600 text-xs font-medium" x-text="loginError"></p>
@@ -2574,6 +2602,11 @@
         showLoginModal: false,
         showRegisterModal: false,
         showForgotPasswordModal: false,
+        showLoginPassword: false,
+        showRegisterPassword: false,
+        showOldPassword: false,
+        showNewPassword: false,
+        showConfirmPassword: false,
         forgotPasswordEmail: '',
         forgotPasswordError: '',
         forgotPasswordSuccess: '',

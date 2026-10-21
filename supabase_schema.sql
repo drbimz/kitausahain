@@ -133,78 +133,33 @@ DROP POLICY IF EXISTS "Auth write settings" ON public.settings;
 CREATE POLICY "Auth write settings" ON public.settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 -- ------------------------------------------------------------------------------
--- 5. AKUN RESMI: UMMI DAPOER ASRI (ummi@kitausahain.com / password: ummiku)
+-- 5. TOKO UTAMA: DAPOER ASRI (dapoer-asri)
 -- ------------------------------------------------------------------------------
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
-DO $$
-DECLARE
-    ummi_id UUID;
-BEGIN
-    -- Cek atau buat user ummi@kitausahain.com di auth.users
-    SELECT id INTO ummi_id FROM auth.users WHERE email = 'ummi@kitausahain.com';
-    
-    IF ummi_id IS NULL THEN
-        ummi_id := gen_random_uuid();
-        INSERT INTO auth.users (
-            instance_id,
-            id,
-            aud,
-            role,
-            email,
-            encrypted_password,
-            email_confirmed_at,
-            raw_app_meta_data,
-            raw_user_meta_data,
-            created_at,
-            updated_at
-        )
-        VALUES (
-            '00000000-0000-0000-0000-000000000000',
-            ummi_id,
-            'authenticated',
-            'authenticated',
-            'ummi@kitausahain.com',
-            crypt('ummiku', gen_salt('bf')),
-            NOW(),
-            '{"provider":"email","providers":["email"]}'::jsonb,
-            '{"business_name":"Dapoer Asri","store_name":"Dapoer Asri","wa_number":"6282226479060"}'::jsonb,
-            NOW(),
-            NOW()
-        );
-    ELSE
-        -- Update password ummiku dan pastikan status email_confirmed_at aktif
-        UPDATE auth.users
-        SET encrypted_password = crypt('ummiku', gen_salt('bf')),
-            email_confirmed_at = COALESCE(email_confirmed_at, NOW())
-        WHERE id = ummi_id;
-    END IF;
-
-    -- Tautkan bisnis Dapoer Asri ke akun resmi Ummi
-    INSERT INTO public.businesses (
-        id, owner_id, slug, business_name, business_subtitle, wa_number, status,
-        hero_title, hero_desc, about_title, about_desc
-    )
-    VALUES (
-        '00000000-0000-0000-0000-000000000001',
-        ummi_id,
-        'dapoer-asri',
-        'Dapoer Asri',
-        'Ummiku Sayang',
-        '6282226479060',
-        'published',
-        'Cita Rasa Masakan Rumah Penuh Cinta.',
-        'Kering kentang balado renyah, salad buah segar kaya vitamin, dan rice bowl hangat khas Dapoer Asri. Olahan bersih, higienis, dan 100% halal khusus untuk keluarga Anda.',
-        'Kenapa Memilih Dapoer Asri?',
-        'Dapur rumahan higienis yang mengutamakan kualitas rasa dan kesehatan keluarga Anda.'
-    )
-    ON CONFLICT (slug) DO UPDATE SET
-        owner_id = ummi_id,
-        status = 'published',
-        business_name = EXCLUDED.business_name,
-        wa_number = EXCLUDED.wa_number;
-
-END $$;
+-- Catatan Pemilik Toko:
+-- Buat akun admin di Supabase Dashboard -> Authentication -> Users -> "Add User"
+-- Email: ummi@kitausahain.com | Password: ummiku | Auto Confirm: Yes
+-- Saat Ummi login di website, sistem otomatis menautkan toko Dapoer Asri ini.
+INSERT INTO public.businesses (
+    id, owner_id, slug, business_name, business_subtitle, wa_number, status,
+    hero_title, hero_desc, about_title, about_desc
+)
+VALUES (
+    '00000000-0000-0000-0000-000000000001',
+    NULL,
+    'dapoer-asri',
+    'Dapoer Asri',
+    'Ummiku Sayang',
+    '6282226479060',
+    'published',
+    'Cita Rasa Masakan Rumah Penuh Cinta.',
+    'Kering kentang balado renyah, salad buah segar kaya vitamin, dan rice bowl hangat khas Dapoer Asri. Olahan bersih, higienis, dan 100% halal khusus untuk keluarga Anda.',
+    'Kenapa Memilih Dapoer Asri?',
+    'Dapur rumahan higienis yang mengutamakan kualitas rasa dan kesehatan keluarga Anda.'
+)
+ON CONFLICT (slug) DO UPDATE SET
+    status = 'published',
+    business_name = EXCLUDED.business_name,
+    wa_number = EXCLUDED.wa_number;
 
 -- Seed Produk Demo Dapoer Asri
 INSERT INTO public.products (id, business_id, name, price, hpp, category, image, description)
