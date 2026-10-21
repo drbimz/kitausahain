@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Kita Usahain - Platform Website Builder UMKM</title>
   
-  <!-- Google Fonts: Plus Jakarta Sans & Lora (Warm Culinary Craft) -->
+  <!-- Google Fonts: Poppins (Clean, Airy Modernist) - Hanya 300, 400, 500, 600 (Tanpa Bold) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -39,8 +39,17 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-            serif: ['"Lora"', 'Georgia', 'serif'],
+            sans: ['"Poppins"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            serif: ['"Poppins"', 'sans-serif'],
+          },
+          fontWeight: {
+            light: '300',
+            normal: '400',
+            medium: '500',
+            semibold: '600',
+            bold: '600',       /* Rule: Jangan pernah pakai Poppins bold (700+). Map bold to 600 */
+            extrabold: '600',  /* Map extrabold to 600 */
+            black: '600',      /* Map black to 600 */
           },
           colors: {
             brand: {
@@ -135,10 +144,22 @@
       padding: 0;
       width: 100%;
       overflow-x: clip !important;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-weight: 400;
+      line-height: 1.68;
+      letter-spacing: -0.01em;
       -webkit-text-size-adjust: 100%;
       background-color: #FAF6F0;
       color: #241812;
+    }
+
+    button, input, textarea, select {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
+
+    /* STRICT ENFORCEMENT: JANGAN PERNAH PAKE POPPINS BOLD (Maksimal weight 600 / Semibold) */
+    b, strong, h1, h2, h3, h4, h5, h6, .font-semibold, .font-semibold, .font-black {
+      font-weight: 600 !important;
     }
 
     /* Clean Dark Mode (Graphite/Slate with warm undertone) */
@@ -261,7 +282,7 @@
         </template>
         
         <div>
-          <h1 class="font-bold text-base sm:text-lg leading-tight text-slate-900 dark:text-white" x-text="settings.storeName || 'Dapoer Asri'"></h1>
+          <h1 class="font-semibold text-base sm:text-lg leading-tight text-slate-900 dark:text-white" x-text="settings.storeName || 'Dapoer Asri'"></h1>
           <p class="text-xs text-slate-500 dark:text-slate-400" x-text="settings.storeSubtitle || 'Ummiku Sayang'"></p>
         </div>
       </div>
@@ -371,62 +392,59 @@
     <!-- Top Bar Portal Splash -->
     <div class="max-w-7xl mx-auto px-6 sm:px-10 py-6 w-full flex items-center justify-between relative z-10">
       <div class="flex items-center space-x-3 select-none">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-terracotta to-amber-500 text-white flex items-center justify-center font-bold text-base shadow-sm">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-terracotta to-amber-500 text-white flex items-center justify-center font-semibold text-base shadow-sm">
           <i class="fa-solid fa-store"></i>
         </div>
         <div>
           <div class="flex items-center gap-1.5">
-            <span class="font-bold text-lg text-slate-900 dark:text-white block leading-tight tracking-tight">Kita Usahain</span>
-            <span class="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-brand-terracotta/15 text-brand-terracotta">Platform</span>
+            <span class="font-semibold text-lg text-slate-900 dark:text-white block leading-tight tracking-tight">Kita Usahain</span>
+            <span class="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-brand-terracotta/15 text-brand-terracotta">Platform</span>
           </div>
           <span class="text-[11px] text-slate-500 dark:text-slate-400">Website Builder & Pre-Order UMKM</span>
         </div>
       </div>
 
       <div class="flex items-center space-x-3">
-        <button @click="toggleDarkMode()" class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <button @click="toggleDarkMode()" title="Ganti Tema" class="w-10 h-10 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition">
           <i class="fa-solid text-xs" :class="darkMode ? 'fa-sun text-amber-400' : 'fa-moon'"></i>
-        </button>
-        <button @click="openAuthModal('login')" class="h-10 px-5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-white text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm transition">
-          Masuk ke Toko
         </button>
       </div>
     </div>
 
     <!-- Center Hero Splash Box -->
-    <div class="max-w-4xl mx-auto px-6 py-10 text-center my-auto space-y-8 relative z-10 w-full">
+    <div class="max-w-4xl mx-auto px-6 sm:px-12 py-16 sm:py-24 text-center my-auto space-y-10 relative z-10 w-full">
       
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-brand-terracotta/10 text-brand-terracotta border border-brand-terracotta/20 shadow-sm">
+      <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-medium bg-brand-terracotta/10 text-brand-terracotta border border-brand-terracotta/20 shadow-sm tracking-wide">
         <i class="fa-solid fa-sparkles text-xs"></i>
         <span>Sistem Website & Pre-Order UMKM Siap Pakai</span>
       </div>
 
-      <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-[1.16] tracking-tight">
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-semibold text-slate-900 dark:text-white leading-[1.22] tracking-tight pb-1">
         Miliki Website Toko Kuliner Sendiri Dalam Hitungan Detik.
       </h1>
 
-      <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+      <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed sm:leading-loose font-normal">
         Kelola katalog menu, sistem Pre-Order harian, dan terima pesanan langsung ke WhatsApp Anda tanpa biaya potongan aplikasi. Setiap toko memiliki link website sendiri yang siap dibagikan ke pelanggan.
       </p>
 
       <!-- 2 Pilihan Utama Splash: Daftar Toko Baru & Masuk -->
-      <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto">
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-5 max-w-lg mx-auto">
         <button @click="openAuthModal('register')" 
-                class="w-full sm:w-auto h-12 sm:h-13 px-8 rounded-2xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-bold text-xs sm:text-sm shadow-warm-lg transition flex items-center justify-center space-x-2.5">
+                class="w-full sm:w-auto h-13 sm:h-14 px-8 sm:px-9 rounded-2xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-medium text-xs sm:text-sm shadow-warm-lg transition flex items-center justify-center space-x-2.5 tracking-normal">
           <i class="fa-solid fa-store text-base"></i>
           <span>Daftar Toko Baru (Sign Up)</span>
         </button>
 
         <button @click="openAuthModal('login')" 
-                class="w-full sm:w-auto h-12 sm:h-13 px-8 rounded-2xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 font-bold text-xs sm:text-sm shadow-sm transition flex items-center justify-center space-x-2">
+                class="w-full sm:w-auto h-13 sm:h-14 px-8 sm:px-9 rounded-2xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 font-medium text-xs sm:text-sm shadow-sm transition flex items-center justify-center space-x-2.5 tracking-normal">
           <i class="fa-solid fa-arrow-right-to-bracket text-brand-terracotta"></i>
           <span>Masuk ke Toko Saya</span>
         </button>
       </div>
 
       <!-- Preview Live Demo Store -->
-      <div class="pt-1">
-        <button @click="openDemoStore()" class="inline-flex items-center gap-2 text-xs font-bold text-brand-terracotta hover:underline">
+      <div class="pt-3">
+        <button @click="openDemoStore()" class="inline-flex items-center gap-2 text-xs font-medium text-brand-terracotta hover:underline transition">
           <i class="fa-solid fa-eye text-xs"></i>
           <span>Lihat Contoh Tampilan Toko Pembeli (Live Demo Toko)</span>
           <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -439,7 +457,7 @@
           <div class="w-9 h-9 rounded-xl bg-brand-olive-soft text-brand-olive flex items-center justify-center text-sm mb-3">
             <i class="fa-solid fa-share-nodes"></i>
           </div>
-          <h4 class="font-bold text-xs text-slate-900 dark:text-white mb-1">Link Toko Mandiri</h4>
+          <h4 class="font-semibold text-xs text-slate-900 dark:text-white mb-1">Link Toko Mandiri</h4>
           <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">Setiap toko memiliki link unik yang siap Anda cantumkan di bio Instagram & status WhatsApp.</p>
         </div>
 
@@ -447,7 +465,7 @@
           <div class="w-9 h-9 rounded-xl bg-brand-terracotta-soft text-brand-terracotta flex items-center justify-center text-sm mb-3">
             <i class="fa-brands fa-whatsapp text-base"></i>
           </div>
-          <h4 class="font-bold text-xs text-slate-900 dark:text-white mb-1">Pesan Cepat WhatsApp</h4>
+          <h4 class="font-semibold text-xs text-slate-900 dark:text-white mb-1">Pesan Cepat WhatsApp</h4>
           <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">Pesanan pembeli otomatis terformat rapi dan dikirim langsung ke WhatsApp toko Anda.</p>
         </div>
 
@@ -455,7 +473,7 @@
           <div class="w-9 h-9 rounded-xl bg-brand-turmeric-soft text-brand-turmeric flex items-center justify-center text-sm mb-3">
             <i class="fa-solid fa-shield-halved text-sm"></i>
           </div>
-          <h4 class="font-bold text-xs text-slate-900 dark:text-white mb-1">Data Terisolasi 100%</h4>
+          <h4 class="font-semibold text-xs text-slate-900 dark:text-white mb-1">Data Terisolasi 100%</h4>
           <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">Katalog, daftar pesanan, dan keuangan toko Anda privat dan tidak bercampur dengan orang lain.</p>
         </div>
       </div>
@@ -475,14 +493,14 @@
         <i class="fa-solid fa-store-slash"></i>
       </div>
       <div>
-        <h2 class="font-serif text-2xl font-bold text-slate-900 dark:text-white">Toko Tidak Ditemukan</h2>
+        <h2 class="font-sans text-2xl font-semibold text-slate-900 dark:text-white">Toko Tidak Ditemukan</h2>
         <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
           Alamat website toko <span class="font-mono font-semibold text-brand-terracotta" x-text="'?' + currentStoreSlug"></span> belum terdaftar di platform kami.
         </p>
       </div>
       <div class="pt-2 flex flex-col gap-2.5">
         <button @click="currentView = 'splash'; window.history.pushState({}, '', '/');" 
-                class="w-full h-11 rounded-xl bg-brand-terracotta text-white font-bold text-xs hover:bg-brand-terracotta-dark transition shadow-sm">
+                class="w-full h-11 rounded-xl bg-brand-terracotta text-white font-semibold text-xs hover:bg-brand-terracotta-dark transition shadow-sm">
           Kembali ke Halaman Utama Platform
         </button>
         <button @click="openDemoStore()" 
@@ -500,7 +518,7 @@
         <i class="fa-solid fa-kitchen-set"></i>
       </div>
       <div>
-        <h2 class="font-serif text-2xl font-bold text-slate-900 dark:text-white" x-text="settings.storeName || 'Toko Kuliner'"></h2>
+        <h2 class="font-sans text-2xl font-semibold text-slate-900 dark:text-white" x-text="settings.storeName || 'Toko Kuliner'"></h2>
         <p class="text-xs text-amber-600 dark:text-amber-400 font-semibold mt-1">Website Sedang Disiapkan (Draft)</p>
         <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
           Pemilik toko sedang meracik menu dan menyiapkan website ini. Silakan kunjungi kembali dalam waktu dekat!
@@ -508,7 +526,7 @@
       </div>
       <div class="pt-2">
         <button @click="currentView = 'splash'; window.history.pushState({}, '', '/');" 
-                class="w-full h-11 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-bold text-xs hover:opacity-90 transition shadow-sm">
+                class="w-full h-11 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-semibold text-xs hover:opacity-90 transition shadow-sm">
           Ke Halaman Utama Platform
         </button>
       </div>
@@ -524,7 +542,7 @@
           <i class="fa-solid fa-triangle-exclamation"></i>
           <span>Mode Preview: Website ini masih berstatus <b>DRAFT</b> dan belum bisa diakses oleh pelanggan publik.</span>
         </div>
-        <button @click="publishStoreWebsite()" class="px-3.5 py-1 rounded-lg bg-slate-900 text-white text-[11px] font-bold hover:bg-slate-800 transition">
+        <button @click="publishStoreWebsite()" class="px-3.5 py-1 rounded-lg bg-slate-900 text-white text-[11px] font-semibold hover:bg-slate-800 transition">
           Publikasikan Sekarang
         </button>
       </div>
@@ -535,7 +553,7 @@
              :style="`background-image: linear-gradient(180deg, rgba(36, 24, 18, 0.88) 0%, rgba(36, 24, 18, 0.70) 45%, rgba(36, 24, 18, 0.95) 100%), url('${bgImageUrl || heroBestImage}'); background-size: cover; background-position: center;`">
       <div class="max-w-7xl mx-auto px-6 sm:px-10 relative z-10 w-full">
         <div class="max-w-3xl space-y-6">
-          <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.18]"
+          <h1 class="font-sans text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-[1.18]"
               x-text="settings.heroTitle || 'Cita Rasa Masakan Rumah Penuh Cinta.'">
           </h1>
           <p class="text-sm sm:text-base text-slate-200 leading-relaxed max-w-2xl font-normal"
@@ -566,7 +584,7 @@
             <i class="fa-solid fa-leaf"></i>
           </div>
           <div>
-            <h4 class="text-xs font-bold text-slate-900 dark:text-white">Bahan Segar Harian</h4>
+            <h4 class="text-xs font-semibold text-slate-900 dark:text-white">Bahan Segar Harian</h4>
             <p class="text-[11px] text-slate-500 dark:text-slate-400">Belanja pasar pagi pilihan</p>
           </div>
         </div>
@@ -576,7 +594,7 @@
             <i class="fa-solid fa-certificate"></i>
           </div>
           <div>
-            <h4 class="text-xs font-bold text-slate-900 dark:text-white">100% Halal & Bersih</h4>
+            <h4 class="text-xs font-semibold text-slate-900 dark:text-white">100% Halal & Bersih</h4>
             <p class="text-[11px] text-slate-500 dark:text-slate-400">Dapur standar higienis</p>
           </div>
         </div>
@@ -586,7 +604,7 @@
             <i class="fa-solid fa-fire-burner"></i>
           </div>
           <div>
-            <h4 class="text-xs font-bold text-slate-900 dark:text-white">Dimasak Fresh H-1</h4>
+            <h4 class="text-xs font-semibold text-slate-900 dark:text-white">Dimasak Fresh H-1</h4>
             <p class="text-[11px] text-slate-500 dark:text-slate-400">Tanpa simpan beku lama</p>
           </div>
         </div>
@@ -596,7 +614,7 @@
             <i class="fa-solid fa-heart"></i>
           </div>
           <div>
-            <h4 class="text-xs font-bold text-slate-900 dark:text-white">Resep Warisan Ummi</h4>
+            <h4 class="text-xs font-semibold text-slate-900 dark:text-white">Resep Warisan Ummi</h4>
             <p class="text-[11px] text-slate-500 dark:text-slate-400">Bumbu otentik berlimpah</p>
           </div>
         </div>
@@ -607,11 +625,11 @@
     <section class="py-16 sm:py-20 max-w-7xl mx-auto px-6 sm:px-10">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
-          <span class="text-xs uppercase tracking-wider text-brand-terracotta font-bold">Menu Pilihan Hari Ini</span>
-          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">Sajian Hangat Dapoer Asri</h2>
+          <span class="text-xs uppercase tracking-wider text-brand-terracotta font-semibold">Menu Pilihan Hari Ini</span>
+          <h2 class="font-sans text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white mt-1">Sajian Hangat Dapoer Asri</h2>
         </div>
         <button @click="currentView = 'menu'; window.scrollTo({top: 0, behavior: 'smooth'})"
-                class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-terracotta hover:underline">
+                class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-terracotta hover:underline">
           <span>Lihat Semua Menu (<span x-text="activeProducts.length"></span>)</span>
           <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </button>
@@ -625,10 +643,10 @@
                 <img :src="product.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'" 
                      :alt="product.name" 
                      class="w-full h-full object-cover transition duration-300 group-hover:scale-105">
-                <span class="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/95 text-slate-900 dark:text-white text-[11px] font-bold px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm" x-text="product.category"></span>
+                <span class="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/95 text-slate-900 dark:text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm" x-text="product.category"></span>
               </div>
               <div class="p-5">
-                <h3 class="font-serif font-bold text-lg text-slate-900 dark:text-white mb-1.5" x-text="product.name"></h3>
+                <h3 class="font-sans font-semibold text-lg text-slate-900 dark:text-white mb-1.5" x-text="product.name"></h3>
                 <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-2" x-text="product.description"></p>
               </div>
             </div>
@@ -636,7 +654,7 @@
             <div class="p-5 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
               <div>
                 <span class="text-[10px] uppercase tracking-wider text-slate-400 block font-semibold">Harga Pre-Order</span>
-                <span class="text-lg font-bold text-brand-terracotta" x-text="formatRupiah(product.price)"></span>
+                <span class="text-lg font-semibold text-brand-terracotta" x-text="formatRupiah(product.price)"></span>
               </div>
               <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo Dapoer Asri, saya ingin pesan: ' + product.name + ' (' + formatRupiah(product.price) + ')')}`" 
                  target="_blank" 
@@ -651,7 +669,7 @@
 
       <div class="text-center pt-10">
         <button @click="currentView = 'menu'; window.scrollTo({top: 0, behavior: 'smooth'})"
-                class="h-12 px-8 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-bold text-xs sm:text-sm shadow-warm-md transition inline-flex items-center gap-2">
+                class="h-12 px-8 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold text-xs sm:text-sm shadow-warm-md transition inline-flex items-center gap-2">
           <i class="fa-solid fa-utensils text-xs"></i>
           <span>Buka Halaman Katalog Lengkap</span>
         </button>
@@ -666,8 +684,8 @@
       
       <!-- Header View Menu -->
       <div class="text-center max-w-2xl mx-auto space-y-2">
-        <span class="text-xs uppercase tracking-wider text-brand-terracotta font-bold">Katalog Resmi Pre-Order</span>
-        <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Pilihan Menu Lengkap Dapoer Asri</h1>
+        <span class="text-xs uppercase tracking-wider text-brand-terracotta font-semibold">Katalog Resmi Pre-Order</span>
+        <h1 class="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white">Pilihan Menu Lengkap Dapoer Asri</h1>
         <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Dimasak segar setiap hari dengan bahan berkualitas pilihan dan 100% halal.</p>
       </div>
 
@@ -705,10 +723,10 @@
                 <img :src="product.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'" 
                      :alt="product.name" 
                      class="w-full h-full object-cover transition duration-300 group-hover:scale-105">
-                <span class="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/95 text-slate-900 dark:text-white text-[11px] font-bold px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm" x-text="product.category"></span>
+                <span class="absolute top-3 left-3 bg-white/95 dark:bg-slate-900/95 text-slate-900 dark:text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm" x-text="product.category"></span>
               </div>
               <div class="p-5">
-                <h3 class="font-serif font-bold text-lg text-slate-900 dark:text-white mb-1.5" x-text="product.name"></h3>
+                <h3 class="font-sans font-semibold text-lg text-slate-900 dark:text-white mb-1.5" x-text="product.name"></h3>
                 <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed" x-text="product.description"></p>
               </div>
             </div>
@@ -716,7 +734,7 @@
             <div class="p-5 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
               <div>
                 <span class="text-[10px] uppercase tracking-wider text-slate-400 block font-semibold">Harga Pre-Order</span>
-                <span class="text-lg font-bold text-brand-terracotta" x-text="formatRupiah(product.price)"></span>
+                <span class="text-lg font-semibold text-brand-terracotta" x-text="formatRupiah(product.price)"></span>
               </div>
               <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo Dapoer Asri, saya ingin memesan menu Pre-Order: ' + product.name + ' (' + formatRupiah(product.price) + '). Mohon info slot pengiriman terdekat.')}`" 
                  target="_blank" 
@@ -740,8 +758,8 @@
     <div class="max-w-7xl mx-auto px-6 sm:px-10 space-y-12">
       
       <div class="text-center max-w-2xl mx-auto space-y-2">
-        <span class="text-xs uppercase tracking-wider text-brand-terracotta font-bold">Profil Dapur & Filosofi Rasa</span>
-        <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white" x-text="settings.aboutTitle || 'Cerita Hangat Dapoer Asri'"></h1>
+        <span class="text-xs uppercase tracking-wider text-brand-terracotta font-semibold">Profil Dapur & Filosofi Rasa</span>
+        <h1 class="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white" x-text="settings.aboutTitle || 'Cerita Hangat Dapoer Asri'"></h1>
         <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400" x-text="settings.aboutDesc || 'Dapur rumahan higienis yang mengutamakan kualitas rasa dan kesehatan keluarga Anda.'"></p>
       </div>
 
@@ -751,14 +769,14 @@
           <div class="rounded-3xl overflow-hidden border-4 border-white dark:border-slate-800 shadow-warm-lg aspect-[4/5] bg-slate-100 relative">
             <img :src="heroBestImage" alt="Dapur Asri" class="w-full h-full object-cover">
             <div class="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-white/95 dark:bg-[#161f30]/95 backdrop-blur-md border border-slate-200 dark:border-slate-700 text-center">
-              <p class="font-serif font-bold text-sm text-slate-900 dark:text-white" x-text="settings.storeName + ' — Ummiku Sayang'"></p>
+              <p class="font-sans font-semibold text-sm text-slate-900 dark:text-white" x-text="settings.storeName + ' — Ummiku Sayang'"></p>
               <p class="text-[11px] text-brand-terracotta font-semibold mt-0.5">100% Halal Thayyib • Tanpa Pengawet Buatan</p>
             </div>
           </div>
         </div>
 
         <div class="lg:col-span-7 space-y-6 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-          <p class="text-base font-serif text-slate-800 dark:text-slate-100 font-semibold italic border-l-2 border-brand-terracotta pl-4">
+          <p class="text-base font-sans text-slate-800 dark:text-slate-100 font-semibold italic border-l-2 border-brand-terracotta pl-4">
             "Bermula dari kecintaan memasak bekal sehat untuk anak dan keluarga, kami ingin berbagi rasa hangat masakan rumah yang otentik untuk seluruh pelanggan."
           </p>
 
@@ -769,17 +787,17 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
             <div class="p-4 rounded-xl bg-brand-cream/80 dark:bg-[#161f30] border border-brand-terracotta/10">
               <i class="fa-solid fa-leaf text-brand-olive text-lg mb-2 block"></i>
-              <h4 class="font-bold text-slate-900 dark:text-white text-xs mb-1">Bahan Segar Harian</h4>
+              <h4 class="font-semibold text-slate-900 dark:text-white text-xs mb-1">Bahan Segar Harian</h4>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Sayur, buah, dan daging dibeli fresh sesuai kuota PO.</p>
             </div>
             <div class="p-4 rounded-xl bg-brand-cream/80 dark:bg-[#161f30] border border-brand-terracotta/10">
               <i class="fa-solid fa-shield-halved text-brand-terracotta text-lg mb-2 block"></i>
-              <h4 class="font-bold text-slate-900 dark:text-white text-xs mb-1">Standar Bersih & Halal</h4>
+              <h4 class="font-semibold text-slate-900 dark:text-white text-xs mb-1">Standar Bersih & Halal</h4>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Dapur bersih bebas kontaminasi, terjamin thayyib.</p>
             </div>
             <div class="p-4 rounded-xl bg-brand-cream/80 dark:bg-[#161f30] border border-brand-terracotta/10">
               <i class="fa-solid fa-pepper-hot text-brand-turmeric text-lg mb-2 block"></i>
-              <h4 class="font-bold text-slate-900 dark:text-white text-xs mb-1">Rempah Asli Nusantara</h4>
+              <h4 class="font-semibold text-slate-900 dark:text-white text-xs mb-1">Rempah Asli Nusantara</h4>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Bumbu balado dan saus racikan homemade asli.</p>
             </div>
           </div>
@@ -794,8 +812,8 @@
     <div class="max-w-7xl mx-auto px-6 sm:px-10 space-y-10">
       
       <div class="text-center max-w-2xl mx-auto space-y-2">
-        <span class="text-xs uppercase tracking-wider text-brand-terracotta font-bold">Penawaran Spesial</span>
-        <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Paket Bundling Hemat Pre-Order</h1>
+        <span class="text-xs uppercase tracking-wider text-brand-terracotta font-semibold">Penawaran Spesial</span>
+        <h1 class="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white">Paket Bundling Hemat Pre-Order</h1>
         <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Solusi hemat lauk renyah dan camilan sehat sekeluarga dengan harga spesial.</p>
       </div>
 
@@ -803,14 +821,14 @@
       <div class="rounded-3xl p-8 sm:p-12 moving-gradient-card text-white shadow-warm-lg relative overflow-hidden">
         <div class="max-w-2xl relative z-10 space-y-4">
           <span class="inline-block px-3.5 py-1 rounded-full bg-white/20 text-xs font-semibold uppercase tracking-wider">Promo Favorit Keluarga</span>
-          <h2 class="font-serif text-2xl sm:text-4xl font-extrabold tracking-tight">Bundling Hemat: 2 Kering Kentang + 2 Salad Buah Keju</h2>
+          <h2 class="font-sans text-2xl sm:text-4xl font-semibold tracking-tight">Bundling Hemat: 2 Kering Kentang + 2 Salad Buah Keju</h2>
           <p class="text-xs sm:text-base text-white/90 leading-relaxed">
             Dapatkan 2 toples kering kentang crispy balado tahan renyah + 2 bowl salad buah saus creamy keju melimpah. Lebih hemat hingga Rp 15.000 untuk pengiriman minggu ini!
           </p>
           <div class="pt-2 flex flex-wrap items-center gap-4">
             <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo Dapoer Asri, saya ingin klaim Promo Paket Bundling Keluarga Hemat (2 Kentang + 2 Salad Buah).')}`" 
                target="_blank" 
-               class="h-12 px-7 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs sm:text-sm transition flex items-center space-x-2 shadow-md">
+               class="h-12 px-7 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-semibold text-xs sm:text-sm transition flex items-center space-x-2 shadow-md">
               <i class="fa-brands fa-whatsapp text-emerald-600 text-base"></i>
               <span>Klaim Promo via WhatsApp</span>
             </a>
@@ -821,7 +839,7 @@
 
       <!-- Testimoni Pelanggan -->
       <div class="pt-6 space-y-6">
-        <h3 class="font-serif text-xl sm:text-2xl font-bold text-slate-900 dark:text-white text-center">Apa Kata Pelanggan Setia?</h3>
+        <h3 class="font-sans text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white text-center">Apa Kata Pelanggan Setia?</h3>
         
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#161f30] shadow-sm flex flex-col justify-between">
@@ -829,9 +847,9 @@
               "Kering kentang baladonya beneran renyah kriuk gak berminyak. Beli 2 toples langsung ludes buat bekal sekolah anak dan lauk sarapan."
             </p>
             <div class="flex items-center space-x-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-              <div class="w-8 h-8 rounded-full bg-brand-olive text-white flex items-center justify-center text-xs font-bold">R</div>
+              <div class="w-8 h-8 rounded-full bg-brand-olive text-white flex items-center justify-center text-xs font-semibold">R</div>
               <div>
-                <p class="font-bold text-xs text-slate-900 dark:text-white">Ibu Ratna</p>
+                <p class="font-semibold text-xs text-slate-900 dark:text-white">Ibu Ratna</p>
                 <p class="text-[10px] text-slate-400">Pelanggan Tetap</p>
               </div>
             </div>
@@ -842,9 +860,9 @@
               "Salad buah kejunya tumpah-tumpah, dressing mayonya creamy homemade pas banget gak kemanisan. Selalu repeat order tiap buka PO!"
             </p>
             <div class="flex items-center space-x-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-              <div class="w-8 h-8 rounded-full bg-brand-terracotta text-white flex items-center justify-center text-xs font-bold">D</div>
+              <div class="w-8 h-8 rounded-full bg-brand-terracotta text-white flex items-center justify-center text-xs font-semibold">D</div>
               <div>
-                <p class="font-bold text-xs text-slate-900 dark:text-white">Dian Permata</p>
+                <p class="font-semibold text-xs text-slate-900 dark:text-white">Dian Permata</p>
                 <p class="text-[10px] text-slate-400">Pecinta Salad Buah</p>
               </div>
             </div>
@@ -855,9 +873,9 @@
               "Rice bowl chicken mentai pas buat makan siang meeting kantor. Saus mentainya wangi torch gurih nendang, porsi bikin kenyang."
             </p>
             <div class="flex items-center space-x-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-              <div class="w-8 h-8 rounded-full bg-brand-olive text-white flex items-center justify-center text-xs font-bold">H</div>
+              <div class="w-8 h-8 rounded-full bg-brand-olive text-white flex items-center justify-center text-xs font-semibold">H</div>
               <div>
-                <p class="font-bold text-xs text-slate-900 dark:text-white">Bpk. Hendra</p>
+                <p class="font-semibold text-xs text-slate-900 dark:text-white">Bpk. Hendra</p>
                 <p class="text-[10px] text-slate-400">Pesanan Kantor</p>
               </div>
             </div>
@@ -873,8 +891,8 @@
     <div class="max-w-7xl mx-auto px-6 sm:px-10 space-y-10">
       
       <div class="text-center max-w-2xl mx-auto space-y-2">
-        <span class="text-xs uppercase tracking-wider text-brand-terracotta font-bold">Informasi Dapur</span>
-        <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Lokasi Dapur & Jam Operasional</h1>
+        <span class="text-xs uppercase tracking-wider text-brand-terracotta font-semibold">Informasi Dapur</span>
+        <h1 class="font-sans text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white">Lokasi Dapur & Jam Operasional</h1>
         <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Kunjungi dapur kami atau pesan langsung melalui WhatsApp resmi.</p>
       </div>
 
@@ -886,7 +904,7 @@
               <i class="fa-solid fa-location-dot"></i>
             </div>
             <div>
-              <h3 class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">Alamat Dapur Produksi</h3>
+              <h3 class="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">Alamat Dapur Produksi</h3>
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
                 <span x-text="settings.storeName || 'Dapoer Asri'"></span><br>
                 Jl. Cempaka Indah No. 12, Kelurahan Asri, Jawa Tengah, Indonesia.
@@ -899,7 +917,7 @@
               <i class="fa-solid fa-clock"></i>
             </div>
             <div>
-              <h3 class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">Jam Operasional Pre-Order</h3>
+              <h3 class="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">Jam Operasional Pre-Order</h3>
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
                 Senin - Minggu: 08.00 - 18.00 WIB<br>
                 <span class="text-brand-terracotta font-semibold">Pemesanan Pre-Order dibuka setiap hari (H-1)</span>
@@ -912,7 +930,7 @@
               <i class="fa-brands fa-whatsapp text-lg"></i>
             </div>
             <div>
-              <h3 class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">Kontak WhatsApp Resmi</h3>
+              <h3 class="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">Kontak WhatsApp Resmi</h3>
               <p class="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1" x-text="'+' + cleanWaNumber"></p>
               <div class="pt-2">
                 <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo Dapoer Asri, saya ingin tanya info lokasi dan pesanan.')}`" 
@@ -947,7 +965,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 pb-10 border-b border-slate-200 dark:border-slate-800">
         
         <div>
-          <h4 class="font-serif font-bold text-sm text-slate-900 dark:text-white" x-text="settings.storeName || 'Dapoer Asri'"></h4>
+          <h4 class="font-sans font-semibold text-sm text-slate-900 dark:text-white" x-text="settings.storeName || 'Dapoer Asri'"></h4>
           <p class="text-xs text-slate-400 mt-1" x-text="settings.storeSubtitle || 'Ummiku Sayang'"></p>
           <p class="text-xs mt-3 leading-relaxed">
             Kuliner olahan rumahan khas nusantara dengan sistem Pre-Order segar, bersih, dan higienis.
@@ -955,7 +973,7 @@
         </div>
 
         <div>
-          <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-3">Menu Navigasi</h4>
+          <h4 class="font-semibold text-sm text-slate-900 dark:text-white mb-3">Menu Navigasi</h4>
           <ul class="space-y-2">
             <li><button @click="currentView = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-brand-terracotta dark:hover:text-white transition">Beranda</button></li>
             <li><button @click="currentView = 'menu'; window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-brand-terracotta dark:hover:text-white transition">Katalog Menu Pre-Order</button></li>
@@ -966,7 +984,7 @@
         </div>
 
         <div>
-          <h4 class="font-bold text-sm text-slate-900 dark:text-white mb-3">Pemesanan WhatsApp</h4>
+          <h4 class="font-semibold text-sm text-slate-900 dark:text-white mb-3">Pemesanan WhatsApp</h4>
           <div class="flex items-center space-x-3 mb-4">
             <a :href="`https://wa.me/${cleanWaNumber}`" target="_blank" class="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-emerald-500 flex items-center justify-center transition">
               <i class="fa-brands fa-whatsapp text-sm"></i>
@@ -999,12 +1017,12 @@
             <img :src="storeLogo" class="w-10 h-10 rounded-xl object-cover border border-slate-200 dark:border-slate-700 flex-shrink-0">
           </template>
           <template x-if="!storeLogo">
-            <div class="w-10 h-10 rounded-xl bg-brand-olive text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+            <div class="w-10 h-10 rounded-xl bg-brand-olive text-white flex items-center justify-center font-semibold text-sm flex-shrink-0">
               <span x-text="currentUser.ummiName ? currentUser.ummiName.charAt(0) : 'U'"></span>
             </div>
           </template>
           <div class="min-w-0">
-            <p class="font-bold text-xs truncate text-slate-900 dark:text-white" x-text="currentUser.ummiName || settings.storeName || 'Ummiku Sayang'"></p>
+            <p class="font-semibold text-xs truncate text-slate-900 dark:text-white" x-text="currentUser.ummiName || settings.storeName || 'Ummiku Sayang'"></p>
             <p class="text-[11px] text-slate-400">Admin Dapoer Asri</p>
           </div>
         </div>
@@ -1058,7 +1076,7 @@
         <!-- TAB 1: OVERVIEW -->
         <div x-show="dashboardTab === 'overview'" class="space-y-6">
           <div class="flex justify-between items-center">
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Ringkasan Penjualan & Usaha</h2>
+            <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Ringkasan Penjualan & Usaha</h2>
             <button @click="fetchData()" class="px-3.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-1.5">
               <i class="fa-solid fa-rotate text-[11px]"></i>
               <span>Perbarui</span>
@@ -1068,19 +1086,19 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
             <div class="bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Total Omset Pesanan</span>
-              <h3 class="text-2xl font-bold text-brand-terracotta mt-2" x-text="formatRupiah(totalOmset)"></h3>
-              <p class="text-xs text-slate-500 mt-1">Estimasi Laba: <span class="font-bold text-emerald-600 dark:text-emerald-400" x-text="formatRupiah(totalProfit)"></span></p>
+              <h3 class="text-2xl font-semibold text-brand-terracotta mt-2" x-text="formatRupiah(totalOmset)"></h3>
+              <p class="text-xs text-slate-500 mt-1">Estimasi Laba: <span class="font-semibold text-emerald-600 dark:text-emerald-400" x-text="formatRupiah(totalProfit)"></span></p>
             </div>
 
             <div class="bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Total Pesanan Masuk</span>
-              <h3 class="text-2xl font-bold text-slate-900 dark:text-white mt-2" x-text="orders.length + ' Pesanan'"></h3>
+              <h3 class="text-2xl font-semibold text-slate-900 dark:text-white mt-2" x-text="orders.length + ' Pesanan'"></h3>
               <p class="text-xs text-slate-500 mt-1">Tercatat di sistem</p>
             </div>
 
             <div class="bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Katalog Menu Aktif</span>
-              <h3 class="text-2xl font-bold text-slate-900 dark:text-white mt-2" x-text="products.length + ' Menu'"></h3>
+              <h3 class="text-2xl font-semibold text-slate-900 dark:text-white mt-2" x-text="products.length + ' Menu'"></h3>
               <p class="text-xs text-slate-500 mt-1">Siap dipesan pengunjung</p>
             </div>
           </div>
@@ -1088,7 +1106,7 @@
           <!-- Recent Orders Table -->
           <div class="bg-white dark:bg-[#161f30] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm overflow-hidden">
             <div class="flex justify-between items-center mb-4">
-              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Pesanan Pre-Order Terbaru</h3>
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Pesanan Pre-Order Terbaru</h3>
               <button @click="dashboardTab = 'orders'" class="text-xs font-semibold text-brand-terracotta hover:underline">Lihat Semua →</button>
             </div>
             
@@ -1113,8 +1131,8 @@
                     <tr>
                       <td class="py-3 pr-3 font-semibold text-slate-900 dark:text-white" x-text="order.customerName"></td>
                       <td class="py-3 pr-3 text-slate-600 dark:text-slate-400" x-text="order.productName"></td>
-                      <td class="py-3 pr-3 text-center font-bold" x-text="order.qty"></td>
-                      <td class="py-3 pr-3 font-bold text-brand-terracotta" x-text="formatRupiah(order.totalPrice)"></td>
+                      <td class="py-3 pr-3 text-center font-semibold" x-text="order.qty"></td>
+                      <td class="py-3 pr-3 font-semibold text-brand-terracotta" x-text="formatRupiah(order.totalPrice)"></td>
                       <td class="py-3">
                         <span class="text-[10px] px-2.5 py-0.5 rounded-md font-semibold border"
                               :class="getStatusBadgeClass(order.status)"
@@ -1132,7 +1150,7 @@
         <div x-show="dashboardTab === 'hpp_calculator'" class="space-y-6">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
-              <h2 class="text-xl font-bold text-slate-900 dark:text-white">Kalkulator HPP Produk & Biaya Trial</h2>
+              <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Kalkulator HPP Produk & Biaya Trial</h2>
               <p class="text-xs text-slate-500">Hitung komponen HPP secara akurat: bahan pokok, kemasan, promosi, trial riset resep, dan alokasi uang cadangan.</p>
             </div>
             
@@ -1152,7 +1170,7 @@
             
             <!-- Form Komponen HPP (Kiri) -->
             <div class="lg:col-span-7 bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-5 shadow-sm">
-              <h3 class="text-sm font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3 flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3 flex items-center justify-between">
                 <span>1. Komponen Biaya Pokok Produksi (per Porsi)</span>
                 <span class="text-xs text-brand-terracotta font-semibold" x-text="hppCalc.productName || 'Menu Kustom'"></span>
               </h3>
@@ -1206,7 +1224,7 @@
 
               <!-- Target Margin & Dana Cadangan -->
               <div class="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-4">
-                <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">2. Pengaturan Margin & Uang Cadangan</h4>
+                <h4 class="text-xs font-semibold text-slate-900 dark:text-white uppercase tracking-wider">2. Pengaturan Margin & Uang Cadangan</h4>
                 
                 <div class="grid grid-cols-2 gap-4">
                   <div>
@@ -1224,7 +1242,7 @@
             <!-- Hasil Analisis HPP & Margin (Kanan) -->
             <div class="lg:col-span-5 space-y-5">
               <div class="bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-                <h3 class="text-sm font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h3 class="text-sm font-semibold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
                   Ringkasan Kalkulasi HPP & Laba
                 </h3>
 
@@ -1232,7 +1250,7 @@
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex justify-between items-center">
                   <div>
                     <span class="text-xs text-slate-500 dark:text-slate-400 block font-medium">Total HPP per Porsi</span>
-                    <span class="text-xl font-bold text-slate-900 dark:text-white" x-text="formatRupiah(totalHppPerPorsi)"></span>
+                    <span class="text-xl font-semibold text-slate-900 dark:text-white" x-text="formatRupiah(totalHppPerPorsi)"></span>
                   </div>
                   <span class="text-xs px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-700 font-semibold">Modal Bersih</span>
                 </div>
@@ -1241,33 +1259,33 @@
                 <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 flex justify-between items-center">
                   <div>
                     <span class="text-xs text-emerald-700 dark:text-emerald-300 block font-medium">Rekomendasi Harga Jual</span>
-                    <span class="text-2xl font-bold text-emerald-600 dark:text-emerald-400" x-text="formatRupiah(rekomendasiHargaJual)"></span>
+                    <span class="text-2xl font-semibold text-emerald-600 dark:text-emerald-400" x-text="formatRupiah(rekomendasiHargaJual)"></span>
                   </div>
-                  <span class="text-xs text-emerald-700 font-bold" x-text="hppCalc.targetMargin + '% Markup'"></span>
+                  <span class="text-xs text-emerald-700 font-semibold" x-text="hppCalc.targetMargin + '% Markup'"></span>
                 </div>
 
                 <!-- Rincian Alokasi Laba -->
                 <div class="space-y-2.5 pt-2 text-xs">
                   <div class="flex justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
                     <span class="text-slate-500">Laba Kotor per Porsi:</span>
-                    <span class="font-bold text-slate-900 dark:text-white" x-text="formatRupiah(labaKotorPerPorsi)"></span>
+                    <span class="font-semibold text-slate-900 dark:text-white" x-text="formatRupiah(labaKotorPerPorsi)"></span>
                   </div>
                   <div class="flex justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
                     <span class="text-brand-terracotta font-medium">Tabungan Uang Cadangan Usaha (<span x-text="hppCalc.cadanganPersen + '%'"></span>):</span>
-                    <span class="font-bold text-brand-terracotta" x-text="formatRupiah(nominalUangCadangan)"></span>
+                    <span class="font-semibold text-brand-terracotta" x-text="formatRupiah(nominalUangCadangan)"></span>
                   </div>
                   <div class="flex justify-between py-1.5 border-b border-slate-100 dark:border-slate-800">
-                    <span class="text-emerald-600 font-bold">Laba Bersih Siap Nikmati:</span>
-                    <span class="font-bold text-emerald-600" x-text="formatRupiah(labaBersihPerPorsi)"></span>
+                    <span class="text-emerald-600 font-semibold">Laba Bersih Siap Nikmati:</span>
+                    <span class="font-semibold text-emerald-600" x-text="formatRupiah(labaBersihPerPorsi)"></span>
                   </div>
                 </div>
 
                 <!-- Proyeksi 100 Porsi -->
                 <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 text-xs text-slate-600 dark:text-slate-300">
-                  <p class="font-bold text-slate-800 dark:text-slate-200 mb-1">Simulasi Penjualan 100 Porsi:</p>
-                  <p>• Omset: <span class="font-bold text-slate-900 dark:text-white" x-text="formatRupiah(rekomendasiHargaJual * 100)"></span></p>
-                  <p>• Uang Cadangan Terkumpul: <span class="font-bold text-brand-terracotta" x-text="formatRupiah(nominalUangCadangan * 100)"></span></p>
-                  <p>• Keuntungan Bersih: <span class="font-bold text-emerald-600" x-text="formatRupiah(labaBersihPerPorsi * 100)"></span></p>
+                  <p class="font-semibold text-slate-800 dark:text-slate-200 mb-1">Simulasi Penjualan 100 Porsi:</p>
+                  <p>• Omset: <span class="font-semibold text-slate-900 dark:text-white" x-text="formatRupiah(rekomendasiHargaJual * 100)"></span></p>
+                  <p>• Uang Cadangan Terkumpul: <span class="font-semibold text-brand-terracotta" x-text="formatRupiah(nominalUangCadangan * 100)"></span></p>
+                  <p>• Keuntungan Bersih: <span class="font-semibold text-emerald-600" x-text="formatRupiah(labaBersihPerPorsi * 100)"></span></p>
                 </div>
 
                 <!-- Tombol Terapkan HPP ke Menu -->
@@ -1287,7 +1305,7 @@
         <div x-show="dashboardTab === 'orders'" class="space-y-5">
           <div class="flex justify-between items-center">
             <div>
-              <h2 class="text-xl font-bold text-slate-900 dark:text-white">Daftar Pesanan Pre-Order</h2>
+              <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Daftar Pesanan Pre-Order</h2>
               <p class="text-xs text-slate-500">Klik status untuk mengubah status pesanan secara instan.</p>
             </div>
             <button @click="resetOrderForm(); dashboardTab = 'cashier'" class="h-10 px-4 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm">
@@ -1320,10 +1338,10 @@
                   <tr>
                     <td class="py-3 pr-3 font-mono text-[11px] text-slate-400" x-text="order.id"></td>
                     <td class="py-3 pr-3" x-text="order.date"></td>
-                    <td class="py-3 pr-3 font-bold text-slate-900 dark:text-white" x-text="order.customerName"></td>
+                    <td class="py-3 pr-3 font-semibold text-slate-900 dark:text-white" x-text="order.customerName"></td>
                     <td class="py-3 pr-3 text-slate-600 dark:text-slate-400" x-text="order.productName"></td>
-                    <td class="py-3 pr-3 text-center font-bold" x-text="order.qty"></td>
-                    <td class="py-3 pr-3 font-bold text-brand-terracotta" x-text="formatRupiah(order.totalPrice)"></td>
+                    <td class="py-3 pr-3 text-center font-semibold" x-text="order.qty"></td>
+                    <td class="py-3 pr-3 font-semibold text-brand-terracotta" x-text="formatRupiah(order.totalPrice)"></td>
                     <td class="py-3 pr-3">
                       <button @click="quickToggleStatus(order)" 
                               title="Klik untuk ubah status"
@@ -1346,7 +1364,7 @@
         <div x-show="dashboardTab === 'products'" class="space-y-5">
           <div class="flex justify-between items-center">
             <div>
-              <h2 class="text-xl font-bold text-slate-900 dark:text-white">Kelola Menu & Foto Produk</h2>
+              <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Kelola Menu & Foto Produk</h2>
               <p class="text-xs text-slate-500">Unggah foto menu langsung dari komputer atau ponsel Anda.</p>
             </div>
             <button @click="openProductModal()" class="h-10 px-4 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm">
@@ -1361,8 +1379,8 @@
                 <div>
                   <img :src="product.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80'" class="w-full h-44 object-cover bg-slate-100 dark:bg-slate-800">
                   <div class="p-5">
-                    <span class="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded font-bold uppercase" x-text="product.category"></span>
-                    <h3 class="font-bold text-base mt-2 text-slate-900 dark:text-white" x-text="product.name"></h3>
+                    <span class="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded font-semibold uppercase" x-text="product.category"></span>
+                    <h3 class="font-semibold text-base mt-2 text-slate-900 dark:text-white" x-text="product.name"></h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2" x-text="product.description"></p>
                     
                     <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between text-xs">
@@ -1372,7 +1390,7 @@
                       </div>
                       <div>
                         <span class="text-slate-400 block text-[10px]">Harga Jual</span>
-                        <span class="font-bold text-brand-terracotta" x-text="formatRupiah(product.price)"></span>
+                        <span class="font-semibold text-brand-terracotta" x-text="formatRupiah(product.price)"></span>
                       </div>
                     </div>
                   </div>
@@ -1389,7 +1407,7 @@
 
         <!-- TAB: INPUT PESANAN (KASIR) -->
         <div x-show="dashboardTab === 'cashier'" class="space-y-5">
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white" x-text="orderForm.id ? 'Edit Pesanan' : 'Input Pesanan Pre-Order'"></h2>
+          <h2 class="text-xl font-semibold text-slate-900 dark:text-white" x-text="orderForm.id ? 'Edit Pesanan' : 'Input Pesanan Pre-Order'"></h2>
           
           <div class="bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-xl shadow-sm">
             <form @submit.prevent="submitOrder()" class="space-y-4">
@@ -1418,7 +1436,7 @@
                 </div>
                 <div>
                   <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Total Harga</label>
-                  <input type="text" readonly :value="formatRupiah(orderForm.totalPrice)" class="w-full bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-bold text-brand-terracotta">
+                  <input type="text" readonly :value="formatRupiah(orderForm.totalPrice)" class="w-full bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-brand-terracotta">
                 </div>
               </div>
 
@@ -1445,7 +1463,7 @@
               </div>
 
               <div class="flex gap-3 pt-1">
-                <button type="submit" class="flex-1 h-11 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-bold transition text-xs sm:text-sm shadow-sm">
+                <button type="submit" class="flex-1 h-11 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-semibold transition text-xs sm:text-sm shadow-sm">
                   <span x-text="orderForm.id ? 'Perbarui Pesanan' : 'Simpan Pesanan'"></span>
                 </button>
                 <template x-if="orderForm.id">
@@ -1460,7 +1478,7 @@
         <div x-show="dashboardTab === 'settings'" class="space-y-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
             <div>
-              <h2 class="text-xl font-bold text-slate-900 dark:text-white">Pengaturan Toko, Tata Letak & Background</h2>
+              <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Pengaturan Toko, Tata Letak & Background</h2>
               <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Atur profil, 3 pilihan tampilan landing page, deskripsi, dan foto background fullscreen.</p>
             </div>
             <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-terracotta/10 text-brand-terracotta text-xs font-semibold">
@@ -1474,7 +1492,7 @@
               
               <!-- 1. IDENTITAS TOKO & KONTAK -->
               <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
                   <i class="fa-solid fa-store text-brand-olive mr-1.5"></i> Identitas Toko & Kontak
                 </h3>
 
@@ -1498,7 +1516,7 @@
 
               <!-- 3. KUSTOMISASI KONTEN & DESKRIPSI LANDING PAGE -->
               <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
                   <i class="fa-solid fa-pen-nib text-brand-turmeric mr-1.5"></i> Kustomisasi Teks & Deskripsi Landing Page
                 </h3>
 
@@ -1528,13 +1546,13 @@
 
               <!-- 4. UPLOAD LOGO & BACKGROUND FULLSCREEN -->
               <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
                   <i class="fa-solid fa-image text-brand-terracotta mr-1.5"></i> Logo & Background Hero Fullscreen
                 </h3>
 
                 <!-- Upload Logo File -->
                 <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40">
-                  <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-2">Logo Toko (File Langsung)</label>
+                  <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200 mb-2">Logo Toko (File Langsung)</label>
                   <div class="flex items-center gap-3.5">
                     <template x-if="settings.logoUrl">
                       <img :src="settings.logoUrl" class="w-12 h-12 rounded-xl object-cover border border-slate-200 dark:border-slate-700 flex-shrink-0">
@@ -1548,7 +1566,7 @@
 
                 <!-- Upload Background Hero File (Fullscreen) -->
                 <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40">
-                  <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-2">Gambar Background Hero (Fullscreen Sinematik)</label>
+                  <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200 mb-2">Gambar Background Hero (Fullscreen Sinematik)</label>
                   
                   <div class="space-y-3">
                     <div class="flex items-center gap-3.5">
@@ -1587,7 +1605,7 @@
               </div>
 
               <div class="pt-2">
-                <button type="submit" class="w-full h-12 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-bold transition text-xs sm:text-sm shadow-md flex items-center justify-center space-x-2">
+                <button type="submit" class="w-full h-12 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-semibold transition text-xs sm:text-sm shadow-md flex items-center justify-center space-x-2">
                   <i class="fa-solid fa-check"></i>
                   <span>Simpan Semua Pengaturan & Tampilan</span>
                 </button>
@@ -1598,13 +1616,13 @@
 
           <!-- Ganti Password Admin -->
           <div x-show="backendMode !== 'local'" class="bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-xl shadow-sm">
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1"><i class="fa-solid fa-key text-brand-terracotta mr-1"></i> Ganti Password Admin</h3>
+            <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-1"><i class="fa-solid fa-key text-brand-terracotta mr-1"></i> Ganti Password Admin</h3>
             <p class="text-[11px] text-slate-400 mb-4">Minimal 8 karakter. Segera ganti jika masih memakai password bawaan.</p>
             <form @submit.prevent="changePassword()" class="space-y-3">
               <input type="password" id="pw-old" x-show="backendMode === 'gas'" x-model="passwordForm.oldPassword" :required="backendMode === 'gas'" autocomplete="current-password" placeholder="Password lama" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
               <input type="password" id="pw-new" x-model="passwordForm.newPassword" minlength="8" required autocomplete="new-password" placeholder="Password baru" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
               <input type="password" id="pw-confirm" x-model="passwordForm.confirmPassword" minlength="8" required autocomplete="new-password" placeholder="Ulangi password baru" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
-              <button type="submit" id="pw-submit" class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-bold transition text-xs sm:text-sm shadow-sm">Simpan Password Baru</button>
+              <button type="submit" id="pw-submit" class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold transition text-xs sm:text-sm shadow-sm">Simpan Password Baru</button>
             </form>
           </div>
         </div>
@@ -1612,7 +1630,7 @@
         <!-- TAB: LAPORAN -->
         <div x-show="dashboardTab === 'reports'" class="space-y-5">
           <div class="flex justify-between items-center no-print">
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Laporan Keuangan Pre-Order</h2>
+            <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Laporan Keuangan Pre-Order</h2>
             
             <div class="flex items-center gap-2">
               <select x-model="reportPeriod" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-medium">
@@ -1630,7 +1648,7 @@
 
           <div id="printArea" class="bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-5 shadow-sm">
             <div class="text-center border-b border-slate-200 dark:border-slate-800 pb-4">
-              <h3 class="text-xl font-bold text-slate-900 dark:text-white" x-text="settings.storeName || 'Dapoer Asri'"></h3>
+              <h3 class="text-xl font-semibold text-slate-900 dark:text-white" x-text="settings.storeName || 'Dapoer Asri'"></h3>
               <p class="text-xs text-slate-500" x-text="settings.storeSubtitle || 'Ummiku Sayang'"></p>
               <p class="text-xs font-semibold text-brand-terracotta mt-1">Laporan Rekapitulasi Pre-Order</p>
               <p class="text-[11px] text-slate-400 mt-0.5" x-text="'Dicetak: ' + new Date().toLocaleDateString('id-ID')"></p>
@@ -1639,19 +1657,19 @@
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
               <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="text-[10px] text-slate-500 font-semibold uppercase">Total Pesanan</span>
-                <p class="text-base font-bold text-slate-900 dark:text-white mt-1" x-text="reportCountedOrders.length + ' Order'"></p>
+                <p class="text-base font-semibold text-slate-900 dark:text-white mt-1" x-text="reportCountedOrders.length + ' Order'"></p>
               </div>
               <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="text-[10px] text-slate-500 font-semibold uppercase">Total Omset</span>
-                <p class="text-base font-bold text-brand-terracotta mt-1" x-text="formatRupiah(reportTotalOmset)"></p>
+                <p class="text-base font-semibold text-brand-terracotta mt-1" x-text="formatRupiah(reportTotalOmset)"></p>
               </div>
               <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="text-[10px] text-slate-500 font-semibold uppercase">Total Modal (HPP)</span>
-                <p class="text-base font-bold text-slate-700 dark:text-slate-300 mt-1" x-text="formatRupiah(reportTotalHpp)"></p>
+                <p class="text-base font-semibold text-slate-700 dark:text-slate-300 mt-1" x-text="formatRupiah(reportTotalHpp)"></p>
               </div>
               <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
                 <span class="text-[10px] text-slate-500 font-semibold uppercase">Laba Bersih</span>
-                <p class="text-base font-bold text-emerald-600 mt-1" x-text="formatRupiah(reportTotalProfit)"></p>
+                <p class="text-base font-semibold text-emerald-600 mt-1" x-text="formatRupiah(reportTotalProfit)"></p>
               </div>
             </div>
 
@@ -1671,10 +1689,10 @@
                   <template x-for="item in filteredReportOrders" :key="item.id">
                     <tr>
                       <td class="py-2.5" x-text="item.date"></td>
-                      <td class="py-2.5 font-bold text-slate-900 dark:text-white" x-text="item.customerName"></td>
+                      <td class="py-2.5 font-semibold text-slate-900 dark:text-white" x-text="item.customerName"></td>
                       <td class="py-2.5 text-slate-600 dark:text-slate-400" x-text="item.productName"></td>
-                      <td class="py-2.5 text-center font-bold" x-text="item.qty"></td>
-                      <td class="py-2.5 text-right font-bold text-brand-terracotta" x-text="formatRupiah(item.totalPrice)"></td>
+                      <td class="py-2.5 text-center font-semibold" x-text="item.qty"></td>
+                      <td class="py-2.5 text-right font-semibold text-brand-terracotta" x-text="formatRupiah(item.totalPrice)"></td>
                       <td class="py-2.5 text-right" x-text="item.status || 'Pre-Order'"></td>
                     </tr>
                   </template>
@@ -1686,11 +1704,11 @@
 
         <!-- ================= TAB: SATU FITUR KONEKSI SUPABASE LENGKAP ================= -->
         <div x-show="dashboardTab === 'supabase'" class="space-y-5">
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Koneksi Database & Cloud Storage (Supabase)</h2>
+          <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Koneksi Database & Cloud Storage (Supabase)</h2>
           
           <div class="bg-white dark:bg-[#161f30] p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-2xl space-y-5 shadow-sm">
             <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
-              <p class="font-bold text-slate-800 dark:text-slate-100"><i class="fa-solid fa-cloud text-brand-olive mr-1"></i> Satu Fitur Integrasi Supabase:</p>
+              <p class="font-semibold text-slate-800 dark:text-slate-100"><i class="fa-solid fa-cloud text-brand-olive mr-1"></i> Satu Fitur Integrasi Supabase:</p>
               <p>• Menyimpan seluruh data menu produk, riwayat pesanan pelanggan, dan foto galeri ke cloud Supabase.</p>
               <p>• Jalankan <code>supabase_schema.sql</code> terlebih dahulu (tabel <code>admins</code>, <code>products</code>, <code>orders</code>, <code>settings</code>, bucket <code>dapoer-asri</code> + RLS).</p>
               <p>• Login admin memakai <b>email &amp; password Supabase Auth</b>. Buat user di Authentication &gt; Users lalu daftarkan ke tabel <code>admins</code> (lihat petunjuk di file SQL).</p>
@@ -1709,7 +1727,7 @@
               </div>
 
               <div class="pt-1 flex gap-3">
-                <button type="submit" class="flex-1 h-11 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-bold transition text-xs shadow-sm">
+                <button type="submit" class="flex-1 h-11 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-semibold transition text-xs shadow-sm">
                   Simpan & Hubungkan Supabase
                 </button>
                 <button type="button" @click="resetSupabaseConfig()" class="h-11 px-5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold">
@@ -1750,12 +1768,12 @@
       <div class="flex items-center space-x-2 p-1 rounded-xl bg-slate-100 dark:bg-slate-800 mb-5">
         <button type="button" @click="authMode = 'login'; loginError = ''" 
                 :class="authMode === 'login' ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'"
-                class="flex-1 py-2 rounded-lg text-xs font-bold transition text-center">
+                class="flex-1 py-2 rounded-lg text-xs font-semibold transition text-center">
           Masuk ke Toko Saya
         </button>
         <button type="button" @click="authMode = 'register'; loginError = ''" 
                 :class="authMode === 'register' ? 'bg-brand-terracotta text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'"
-                class="flex-1 py-2 rounded-lg text-xs font-bold transition text-center">
+                class="flex-1 py-2 rounded-lg text-xs font-semibold transition text-center">
           Daftar Toko Baru (Sign Up)
         </button>
       </div>
@@ -1763,7 +1781,7 @@
       <!-- FORM 1: LOGIN -->
       <div x-show="authMode === 'login'">
         <div class="mb-4 text-left">
-          <h3 class="text-base font-bold text-slate-900 dark:text-white">Masuk Admin Toko</h3>
+          <h3 class="text-base font-semibold text-slate-900 dark:text-white">Masuk Admin Toko</h3>
           <p class="text-xs text-slate-400 mt-0.5" x-text="backendMode === 'supabase' ? 'Gunakan email & password akun toko Supabase Anda.' : 'Mode lokal: gunakan username: ummi, password: ummiku.'"></p>
         </div>
 
@@ -1779,7 +1797,7 @@
           
           <p x-show="loginError" class="text-rose-600 text-xs font-semibold" x-text="loginError"></p>
 
-          <button type="submit" id="login-submit" :disabled="loading" class="w-full h-11 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-bold transition text-xs sm:text-sm shadow-sm disabled:opacity-60">
+          <button type="submit" id="login-submit" :disabled="loading" class="w-full h-11 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-semibold transition text-xs sm:text-sm shadow-sm disabled:opacity-60">
             Masuk ke Toko
           </button>
         </form>
@@ -1788,7 +1806,7 @@
       <!-- FORM 2: REGISTER AKUN / TOKO BARU (MULTI-TENANT SIGN UP) -->
       <div x-show="authMode === 'register'">
         <div class="mb-4 text-left">
-          <h3 class="text-base font-bold text-slate-900 dark:text-white">Buat Website Toko Baru</h3>
+          <h3 class="text-base font-semibold text-slate-900 dark:text-white">Buat Website Toko Baru</h3>
           <p class="text-xs text-slate-400 mt-0.5">Daftarkan toko kuliner Anda. Sistem dan pencatatan Anda terisolasi 100% dan tidak bercampur dengan orang lain.</p>
         </div>
 
@@ -1815,7 +1833,7 @@
           
           <p x-show="loginError" class="text-rose-600 text-xs font-semibold" x-text="loginError"></p>
 
-          <button type="submit" :disabled="loading" class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-bold transition text-xs sm:text-sm shadow-md disabled:opacity-60 flex items-center justify-center space-x-2">
+          <button type="submit" :disabled="loading" class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold transition text-xs sm:text-sm shadow-md disabled:opacity-60 flex items-center justify-center space-x-2">
             <i class="fa-solid fa-rocket text-xs"></i>
             <span>Daftar & Buat Toko Saya</span>
           </button>
@@ -1838,7 +1856,7 @@
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
-      <h3 class="text-base font-bold mb-4 text-slate-900 dark:text-white" x-text="productForm.id ? 'Edit Menu' : 'Tambah Menu Baru'"></h3>
+      <h3 class="text-base font-semibold mb-4 text-slate-900 dark:text-white" x-text="productForm.id ? 'Edit Menu' : 'Tambah Menu Baru'"></h3>
 
       <form @submit.prevent="saveProduct()" class="space-y-4">
         <div>
@@ -1863,7 +1881,7 @@
         </div>
 
         <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40">
-          <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1.5">Foto Menu (Upload File Langsung)</label>
+          <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200 mb-1.5">Foto Menu (Upload File Langsung)</label>
           <div class="flex items-center gap-3">
             <template x-if="productForm.image">
               <img :src="productForm.image" class="w-12 h-12 rounded-xl object-cover border border-slate-200 dark:border-slate-700 flex-shrink-0">
@@ -1879,7 +1897,7 @@
           <textarea x-model="productForm.description" rows="2" placeholder="Deskripsi menu..." required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm"></textarea>
         </div>
 
-        <button type="submit" class="w-full h-11 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-bold transition text-xs sm:text-sm shadow-sm">
+        <button type="submit" class="w-full h-11 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-semibold transition text-xs sm:text-sm shadow-sm">
           Simpan Menu
         </button>
       </form>
@@ -2051,6 +2069,21 @@
         currentStoreStatus: 'published',
         showLoginModal: false,
         authMode: 'login', // 'login' | 'register'
+
+        openAuthModal(mode = 'login') {
+          this.authMode = mode;
+          this.loginError = '';
+          this.showLoginModal = true;
+        },
+
+        async openDemoStore() {
+          const url = new URL(window.location.href);
+          url.searchParams.set('store', 'dapoer-asri');
+          window.history.pushState({}, '', url.toString());
+          this.currentStoreSlug = 'dapoer-asri';
+          await this.loadTenantWebsite('dapoer-asri');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
         showProductModal: false,
         selectedCategory: 'Semua',
 
