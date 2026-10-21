@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS public.settings (
 ALTER TABLE public.settings ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Public read settings" ON public.settings;
 CREATE POLICY "Public read settings" ON public.settings FOR SELECT USING (true);
-DROP POLICY IF EXISTS "Auth write settings" ON public.settings FOR ALL;
+DROP POLICY IF EXISTS "Auth write settings" ON public.settings;
 CREATE POLICY "Auth write settings" ON public.settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 -- ------------------------------------------------------------------------------
