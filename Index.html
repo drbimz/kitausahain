@@ -3467,6 +3467,14 @@
 
         async restoreSession() {
           try {
+            // Cek sesi login demo admin Dapoer Asri (ummi)
+            if (sessionStorage.getItem(DEMO_LOGIN_KEY) === '1' || sessionStorage.getItem(DEMO_LOGIN_KEY) === 'dapoer-asri') {
+              this.currentUser = { username: 'ummi', ummiName: 'Dapoer Asri Ummiku Sayang', role: 'admin' };
+              this.currentStoreSlug = 'dapoer-asri';
+              this.isLoggedIn = true;
+              return;
+            }
+
             if (this.backendMode === 'supabase') {
               const { data } = await this.supabaseClient.auth.getSession();
               if (data && data.session) await this.loadSupabaseStore(data.session.user);
@@ -3482,9 +3490,6 @@
                   sessionStorage.removeItem(GAS_TOKEN_KEY);
                 }
               }
-            } else if (sessionStorage.getItem(DEMO_LOGIN_KEY) === '1') {
-              this.currentUser = { username: 'ummi', ummiName: 'Dapoer Asri Ummiku Sayang (Demo)', role: 'admin' };
-              this.isLoggedIn = true;
             }
           } catch (e) {
             console.warn('Restore session failed:', e);
@@ -3512,13 +3517,28 @@
           let mustChangePassword = false;
 
           try {
+            // 1. Jalur Kredensial Admin Demo Dapoer Asri (ummi / ummiku)
+            if (username.toLowerCase() === 'ummi' && password === 'ummiku') {
+              sessionStorage.setItem(DEMO_LOGIN_KEY, '1');
+              this.currentUser = { username: 'ummi', ummiName: 'Dapoer Asri Ummiku Sayang', role: 'admin' };
+              this.currentStoreSlug = 'dapoer-asri';
+              this.isLoggedIn = true;
+              this.showLoginModal = false;
+              this.loginForm = { username: '', password: '' };
+              this.currentView = 'dashboard';
+              await this.fetchData();
+              this.showToast('Login berhasil sebagai Admin Dapoer Asri');
+              return;
+            }
+
+            // 2. Jalur Akun Supabase (Email & Password terdaftar)
             if (this.backendMode === 'supabase') {
               const { data, error } = await this.supabaseClient.auth.signInWithPassword({ email: username, password });
               if (error) {
                 throw new Error(/invalid login/i.test(error.message) ? 'Email atau password salah' : error.message);
               }
               if (!(await this.loadSupabaseStore(data.user))) {
-                throw new Error('Akun ini tidak terdaftar sebagai admin Dapoer Asri.');
+                throw new Error('Akun ini belum memiliki toko terdaftar.');
               }
             } else if (this.backendMode === 'gas') {
               const res = await gasCall('checkLoginCredentials', username, password);
@@ -3529,11 +3549,7 @@
               this.isLoggedIn = true;
               mustChangePassword = !!res.mustChangePassword;
             } else {
-              // Mode demo lokal: tidak ada data bersama, hanya untuk mencoba tampilan
-              if (username !== 'ummi' || password !== 'ummiku') throw new Error('Username atau password salah');
-              sessionStorage.setItem(DEMO_LOGIN_KEY, '1');
-              this.currentUser = { username: 'ummi', ummiName: 'Dapoer Asri Ummiku Sayang (Demo)', role: 'admin' };
-              this.isLoggedIn = true;
+              throw new Error('Username atau password salah');
             }
 
             this.showLoginModal = false;
