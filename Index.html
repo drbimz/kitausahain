@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Dapoer Asri Ummiku Sayang - Pre-Order Kuliner Rumahan</title>
+  <title>Kita Usahain - Platform Website Builder UMKM</title>
   
   <!-- Google Fonts: Plus Jakarta Sans & Lora (Warm Culinary Craft) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -371,12 +371,15 @@
     <!-- Top Bar Portal Splash -->
     <div class="max-w-7xl mx-auto px-6 sm:px-10 py-6 w-full flex items-center justify-between relative z-10">
       <div class="flex items-center space-x-3 select-none">
-        <div class="w-10 h-10 rounded-xl bg-brand-terracotta text-white flex items-center justify-center font-bold text-base shadow-sm">
-          <i class="fa-solid fa-utensils"></i>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-terracotta to-amber-500 text-white flex items-center justify-center font-bold text-base shadow-sm">
+          <i class="fa-solid fa-store"></i>
         </div>
         <div>
-          <span class="font-bold text-base text-slate-900 dark:text-white block leading-tight">Dapoer Asri SaaS</span>
-          <span class="text-[11px] text-slate-500 dark:text-slate-400">Platform Website & Pre-Order UMKM</span>
+          <div class="flex items-center gap-1.5">
+            <span class="font-bold text-lg text-slate-900 dark:text-white block leading-tight tracking-tight">Kita Usahain</span>
+            <span class="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-brand-terracotta/15 text-brand-terracotta">Platform</span>
+          </div>
+          <span class="text-[11px] text-slate-500 dark:text-slate-400">Website Builder & Pre-Order UMKM</span>
         </div>
       </div>
 
@@ -461,7 +464,7 @@
 
     <!-- Bottom Footer Splash -->
     <div class="py-5 border-t border-slate-200/60 dark:border-slate-800/60 text-center text-[11px] text-slate-400 relative z-10">
-      <p>© 2026 Platform UMKM Kuliner Indonesia • Siap Deploy di Vercel</p>
+      <p>© 2026 Kita Usahain • Platform Website Builder UMKM Indonesia • Siap Deploy di Vercel</p>
     </div>
   </main>
 
@@ -2139,6 +2142,7 @@
           } else {
             // Kunjungan ke domain root utama (platform builder)
             this.currentView = 'splash';
+            document.title = 'Kita Usahain - Platform Website Builder UMKM';
             this.currentStoreSlug = 'dapoer-asri';
             this.fetchData();
           }
@@ -2331,6 +2335,7 @@
               const products = await sbq(this.supabaseClient.from('products').select('*').eq('business_id', biz.id).order('created_at', { ascending: false }));
               this.products = (products || []).map(normalizeProduct);
               this.currentView = 'home';
+              document.title = (this.settings.storeName || 'Toko') + ' - Pre-Order Online';
 
             } else {
               // Mode Lokal / Demo
@@ -2361,6 +2366,7 @@
 
               this.loadLocalData();
               this.currentView = 'home';
+              document.title = (this.settings.storeName || 'Toko') + ' - Pre-Order Online';
             }
           } catch(e) {
             console.error('Error loading tenant website:', e);
