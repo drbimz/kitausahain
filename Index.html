@@ -1856,18 +1856,10 @@
 
         <!-- TAB: PENGATURAN TOKO & BACKGROUND HERO (FULL SUPPORT) -->
         <div x-show="dashboardTab === 'settings'" class="space-y-6">
-          <div
-            class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
             <div>
-              <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Pengaturan Toko, Tata Letak & Background
-              </h2>
-              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Atur profil, 3 pilihan tampilan landing page,
-                deskripsi, dan foto background fullscreen.</p>
-            </div>
-            <div
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-terracotta/10 text-brand-terracotta text-xs font-semibold">
-              <i class="fa-solid fa-paintbrush"></i>
-              <span>3 Pilihan Tampilan</span>
+              <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Pengaturan Profil & Informasi Toko</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Atur profil toko, nomor WhatsApp pemesanan, alamat dapur, jam operasional, dan foto.</p>
             </div>
           </div>
 
@@ -1899,7 +1891,7 @@
                 <div>
                   <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nomor WhatsApp
                     Pemesanan (Awali 62)</label>
-                  <input type="text" x-model="settings.waNumber" placeholder="6282226479060" required
+                  <input type="text" x-model="settings.waNumber" placeholder="6281234567890" required
                     class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-mono">
                   <p class="text-[11px] text-slate-400 mt-1">Nomor ini menjadi tujuan pengiriman pesanan Pre-Order dari
                     pelanggan.</p>
@@ -1984,73 +1976,76 @@
                 </div>
               </div>
 
-              <!-- 4. UPLOAD LOGO & BACKGROUND FULLSCREEN -->
-              <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
-                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
-                  <i class="fa-solid fa-image text-brand-terracotta mr-1.5"></i> Logo & Background Hero Fullscreen
-                </h3>
+              <!-- 4. LOGO & BACKGROUND HERO TOKO -->
+              <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-5">
+                <div class="flex items-center justify-between">
+                  <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <i class="fa-solid fa-image text-brand-terracotta"></i>
+                    <span>Logo & Background Hero Toko</span>
+                  </h3>
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-semibold">Auto Kompres Otomatis</span>
+                </div>
 
-                <!-- Upload Logo File -->
-                <div
-                  class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40">
-                  <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200 mb-2">Logo Toko (File
-                    Langsung)</label>
-                  <div class="flex items-center gap-3.5">
+                <!-- Upload Logo File (Tanpa Link URL) -->
+                <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 space-y-2">
+                  <div class="flex justify-between items-center">
+                    <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200">Logo Toko (Upload File)</label>
+                    <span class="text-[11px] text-slate-400">Rasio 1:1 (Otomatis dikompres maks. 500 px)</span>
+                  </div>
+                  <div class="flex items-center gap-4">
                     <template x-if="settings.logoUrl">
-                      <img :src="settings.logoUrl"
-                        class="w-12 h-12 rounded-xl object-cover border border-slate-200 dark:border-slate-700 flex-shrink-0">
+                      <div class="relative group shrink-0">
+                        <img :src="settings.logoUrl" class="w-14 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <button type="button" @click="settings.logoUrl = ''" title="Hapus Logo" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full text-[10px] flex items-center justify-center shadow transition">
+                          <i class="fa-solid fa-xmark"></i>
+                        </button>
+                      </div>
                     </template>
                     <div class="flex-1">
                       <input type="file" accept="image/*" @change="handleFileUpload($event, 'logoUrl')"
-                        class="text-xs file:mr-2.5 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white">
-                      <p class="text-[11px] text-slate-400 mt-1">Pilih file logo dari perangkat Anda.</p>
+                        class="text-xs file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white hover:file:bg-brand-olive-dark file:cursor-pointer file:transition">
+                      <p class="text-[11px] text-slate-400 mt-1.5">Upload file logo dari perangkat Anda. Format didukung: JPG, PNG, WEBP, GIF.</p>
                     </div>
                   </div>
                 </div>
 
-                <!-- Upload Background Hero File (Fullscreen) -->
-                <div
-                  class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40">
-                  <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200 mb-2">Gambar Background
-                    Hero (Fullscreen Sinematik)</label>
+                <!-- Upload Background Hero File (Tanpa Link URL) -->
+                <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 space-y-3">
+                  <div class="flex justify-between items-center">
+                    <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200">Gambar Background Banner Hero (Upload File)</label>
+                    <span class="text-[11px] text-slate-400">Widescreen 16:9 (Otomatis dikompres maks. 1600 px)</span>
+                  </div>
 
-                  <div class="space-y-3">
-                    <div class="flex items-center gap-3.5">
-                      <template x-if="settings.bgImageUrl">
-                        <img :src="settings.bgImageUrl"
-                          class="w-20 h-12 rounded-xl object-cover border border-slate-200 dark:border-slate-700 flex-shrink-0 shadow-sm">
+                  <div class="flex items-start gap-4">
+                    <template x-if="settings.bgImageUrl">
+                      <div class="relative group shrink-0">
+                        <img :src="settings.bgImageUrl" class="w-24 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <button type="button" @click="settings.bgImageUrl = ''" title="Hapus Background" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full text-[10px] flex items-center justify-center shadow transition">
+                          <i class="fa-solid fa-xmark"></i>
+                        </button>
+                      </div>
+                    </template>
+                    <div class="flex-1">
+                      <input type="file" accept="image/*" @change="handleFileUpload($event, 'bgImageUrl')"
+                        class="text-xs file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white hover:file:bg-brand-olive-dark file:cursor-pointer file:transition">
+                      <p class="text-[11px] text-slate-400 mt-1.5">Upload foto suasana dapur atau sajian masakan. Resolusi dikompres otomatis agar halaman cepat dibuka.</p>
+                    </div>
+                  </div>
+
+                  <!-- Opsi Cepat: Pilih dari Foto Produk -->
+                  <div class="pt-3 border-t border-slate-200 dark:border-slate-700/80">
+                    <p class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-2">Atau klik salah satu foto menu Anda untuk dijadikan background:</p>
+                    <div class="flex gap-2.5 overflow-x-auto pb-1">
+                      <template x-for="p in products" :key="p.id">
+                        <div class="relative flex-shrink-0 cursor-pointer group"
+                          @click="settings.bgImageUrl = p.image; showToast('Background hero disetel dari foto ' + p.name)">
+                          <img :src="p.image" :title="p.name"
+                            class="w-14 h-10 rounded-lg object-cover border-2 transition"
+                            :class="settings.bgImageUrl === p.image ? 'border-brand-terracotta ring-2 ring-brand-terracotta/30 scale-105' : 'border-transparent group-hover:opacity-80'">
+                          <span class="text-[9px] block text-center truncate max-w-[56px] text-slate-400 mt-0.5"
+                            x-text="p.name"></span>
+                        </div>
                       </template>
-                      <div class="flex-1">
-                        <input type="file" accept="image/*" @change="handleFileUpload($event, 'bgImageUrl')"
-                          class="text-xs file:mr-2.5 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white">
-                        <p class="text-[11px] text-slate-400 mt-1">Upload foto resolusi tinggi untuk latar belakang
-                          fullscreen layar banner.</p>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">Atau
-                        masukkan URL gambar langsung:</label>
-                      <input type="url" x-model="settings.bgImageUrl" placeholder="https://images.unsplash.com/..."
-                        class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono">
-                    </div>
-
-                    <!-- Opsi Cepat: Pilih dari Foto Produk -->
-                    <div class="pt-3 border-t border-slate-200 dark:border-slate-700">
-                      <p class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-2">Atau klik foto produk
-                        untuk dijadikan background:</p>
-                      <div class="flex gap-2.5 overflow-x-auto pb-1">
-                        <template x-for="p in products" :key="p.id">
-                          <div class="relative flex-shrink-0 cursor-pointer group"
-                            @click="settings.bgImageUrl = p.image; showToast('Background hero disetel dari foto ' + p.name)">
-                            <img :src="p.image" :title="p.name"
-                              class="w-14 h-10 rounded-lg object-cover border-2 transition"
-                              :class="settings.bgImageUrl === p.image ? 'border-brand-terracotta ring-2 ring-brand-terracotta/30 scale-105' : 'border-transparent group-hover:opacity-80'">
-                            <span class="text-[9px] block text-center truncate max-w-[56px] text-slate-400 mt-0.5"
-                              x-text="p.name"></span>
-                          </div>
-                        </template>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -2070,7 +2065,7 @@
 
           <!-- Ganti Password Admin -->
           <div x-show="backendMode !== 'local'"
-            class="bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-xl shadow-sm">
+            class="bg-white dark:bg-[#161f30] p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-3xl shadow-sm">
             <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-1"><i
                 class="fa-solid fa-key text-brand-terracotta mr-1"></i> Ganti Password Admin</h3>
             <p class="text-[11px] text-slate-400 mb-4">Minimal 8 karakter. Segera ganti jika masih memakai password
@@ -2407,17 +2402,24 @@
             class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
         </div>
 
-        <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40">
-          <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200 mb-1.5">Foto Menu (Upload File
-            Langsung)</label>
-          <div class="flex items-center gap-3">
+        <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 space-y-2">
+          <div class="flex justify-between items-center">
+            <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200">Foto Menu Masakan</label>
+            <span class="text-[10px] text-slate-400">Rasio 4:3 (Auto Kompres 800px)</span>
+          </div>
+          <div class="flex items-center gap-3.5">
             <template x-if="productForm.image">
-              <img :src="productForm.image"
-                class="w-12 h-12 rounded-xl object-cover border border-slate-200 dark:border-slate-700 flex-shrink-0">
+              <div class="relative group shrink-0">
+                <img :src="productForm.image" class="w-14 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm">
+                <button type="button" @click="productForm.image = ''" title="Hapus Foto" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full text-[10px] flex items-center justify-center shadow transition">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
             </template>
             <div class="flex-1">
               <input type="file" accept="image/*" @change="handleFileUpload($event, 'productForm.image')"
-                class="text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white">
+                class="text-xs file:mr-2.5 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white hover:file:bg-brand-olive-dark file:cursor-pointer file:transition">
+              <p class="text-[11px] text-slate-400 mt-1">Upload foto dari HP/Laptop. Otomatis dikompres agar loading menu sangat cepat.</p>
             </div>
           </div>
         </div>
@@ -2703,7 +2705,7 @@
         settings: {
           storeName: 'Dapoer Asri',
           storeSubtitle: 'Ummiku Sayang',
-          waNumber: '6282226479060',
+          waNumber: '6281234567890',
           logoUrl: '',
           bgImageUrl: '',
           heroTitle: 'Cita Rasa Masakan Rumah Penuh Cinta.',
@@ -3117,7 +3119,7 @@
         },
 
         get cleanWaNumber() {
-          return normalizeWa(this.settings.waNumber) || '6282226479060';
+          return normalizeWa(this.settings.waNumber) || '6281234567890';
         },
 
         get activeProducts() {
@@ -3280,36 +3282,63 @@
             return;
           }
           if (file.size > MAX_UPLOAD_BYTES) {
-            this.showToast('Ukuran gambar maksimal 5 MB', 'error');
+            this.showToast('Ukuran file maksimal 5 MB', 'error');
             input.value = '';
             return;
           }
 
           this.loading = true;
-          this.loadingText = 'Mengunggah foto...';
+          this.loadingText = 'Mengompres & memproses foto...';
 
           try {
-            let url;
-            if (this.backendMode === 'supabase') {
-              const blob = await resizeImage(file, 1600, 0.85);
-              const ext = blob.type === 'image/png' ? 'png' : (blob.type === 'image/gif' ? 'gif' : 'jpg');
-              const filePath = `uploads/${newId('img')}.${ext}`;
-              await sbq(this.supabaseClient.storage.from('dapoer-asri')
-                .upload(filePath, blob, { cacheControl: '31536000', upsert: false, contentType: blob.type }));
-              url = this.supabaseClient.storage.from('dapoer-asri').getPublicUrl(filePath).data.publicUrl;
-            } else if (this.backendMode === 'gas') {
-              const blob = await resizeImage(file, 1600, 0.85);
-              const res = await this.gas('uploadImage', this.gasToken, await blobToDataUrl(blob), file.name);
-              url = res.url;
-            } else {
-              // Mode demo lokal: simpan kecil agar localStorage tidak penuh
-              url = await blobToDataUrl(await resizeImage(file, 800, 0.7));
+            // Tentukan batas resolusi kompresi sesuai target penggunaan:
+            // Logo: maks 500px | Foto Menu: maks 800px | Background Hero: maks 1600px
+            let maxResolution = 800;
+            let quality = 0.85;
+
+            if (targetPath === 'logoUrl') {
+              maxResolution = 500;
+              quality = 0.85;
+            } else if (targetPath === 'bgImageUrl') {
+              maxResolution = 1600;
+              quality = 0.82;
+            } else if (targetPath === 'productForm.image') {
+              maxResolution = 800;
+              quality = 0.85;
             }
-            this.assignFileValue(targetPath, url);
-            this.showToast('Foto berhasil diunggah');
+
+            // Kompresi otomatis berbasis HTML5 Canvas
+            const compressedBlob = await resizeImage(file, maxResolution, quality);
+            let finalUrl = '';
+
+            if (this.backendMode === 'supabase') {
+              try {
+                const ext = compressedBlob.type === 'image/png' ? 'png' : (compressedBlob.type === 'image/gif' ? 'gif' : 'jpg');
+                const filePath = `uploads/${newId('img')}.${ext}`;
+                const uploadRes = await sbq(this.supabaseClient.storage.from('dapoer-asri')
+                  .upload(filePath, compressedBlob, { cacheControl: '31536000', upsert: true, contentType: compressedBlob.type }));
+                
+                if (uploadRes && uploadRes.data) {
+                  finalUrl = this.supabaseClient.storage.from('dapoer-asri').getPublicUrl(filePath).data.publicUrl;
+                } else {
+                  finalUrl = await blobToDataUrl(compressedBlob);
+                }
+              } catch (storageErr) {
+                console.warn('Storage upload notice, using optimized Data URL:', storageErr);
+                finalUrl = await blobToDataUrl(compressedBlob);
+              }
+            } else if (this.backendMode === 'gas') {
+              const res = await this.gas('uploadImage', this.gasToken, await blobToDataUrl(compressedBlob), file.name);
+              finalUrl = res.url;
+            } else {
+              finalUrl = await blobToDataUrl(compressedBlob);
+            }
+
+            this.assignFileValue(targetPath, finalUrl);
+            this.showToast('Foto berhasil diunggah & dikompres');
           } catch (err) {
             console.error('Upload error:', err);
-            this.showToast('Gagal mengunggah foto: ' + errMsg(err), 'error');
+            this.showToast('Gagal memproses foto: ' + errMsg(err), 'error');
           } finally {
             this.loading = false;
             input.value = '';
@@ -3370,7 +3399,7 @@
             // Jika user baru belum punya toko, buatkan otomatis
             if (!store && !error) {
               const metaName = (user.user_metadata && user.user_metadata.store_name) || 'Toko ' + user.email.split('@')[0];
-              const metaWa = (user.user_metadata && user.user_metadata.wa_number) || '6282226479060';
+              const metaWa = (user.user_metadata && user.user_metadata.wa_number) || '6281234567890';
               const newSlug = this.generateSlug(metaName);
 
               const created = await this.supabaseClient.from('businesses').insert({

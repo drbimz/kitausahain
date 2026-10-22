@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS public.businesses (
     slug TEXT UNIQUE NOT NULL,
     business_name TEXT NOT NULL,
     business_subtitle TEXT DEFAULT 'Cita Rasa Masakan Rumah',
-    wa_number TEXT DEFAULT '6282226479060',
+    wa_number TEXT DEFAULT '6281234567890',
     status TEXT NOT NULL DEFAULT 'published' CHECK (status IN ('draft', 'published', 'unpublished')),
     logo_url TEXT DEFAULT '',
     banner_url TEXT DEFAULT '',
@@ -149,7 +149,7 @@ VALUES (
     'dapoer-asri',
     'Dapoer Asri',
     'Ummiku Sayang',
-    '6282226479060',
+    '6281234567890',
     'published',
     'Cita Rasa Masakan Rumah Penuh Cinta.',
     'Kering kentang balado renyah, salad buah segar kaya vitamin, dan rice bowl hangat khas Dapoer Asri. Olahan bersih, higienis, dan 100% halal khusus untuk keluarga Anda.',
@@ -268,7 +268,7 @@ DECLARE
     counter INT := 0;
 BEGIN
     biz_title := COALESCE(NEW.raw_user_meta_data->>'business_name', 'Toko Kuliner');
-    biz_wa    := COALESCE(NEW.raw_user_meta_data->>'wa_number', '6282226479060');
+    biz_wa    := COALESCE(NEW.raw_user_meta_data->>'wa_number', '6281234567890');
     
     base_slug := LOWER(REGEXP_REPLACE(biz_title, '[^a-zA-Z0-9]+', '-', 'g'));
     base_slug := TRIM(BOTH '-' FROM base_slug);

@@ -29,7 +29,7 @@ var SHEET_HEADERS = {
 var DEFAULT_SETTINGS = {
   storeName: 'Dapoer Asri',
   storeSubtitle: 'Ummiku Sayang',
-  waNumber: '6282226479060',
+  waNumber: '6281234567890',
   logoUrl: '',
   bgImageUrl: '',
   landingLayout: 'immersive', // 'immersive' | 'story' | 'quick_order'
