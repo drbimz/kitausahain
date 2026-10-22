@@ -397,15 +397,6 @@
 
         <template x-if="isLoggedIn">
           <div class="flex items-center space-x-2">
-            <!-- 1. Tombol Kembali ke Landing Page Platform Utama -->
-            <button
-              @click="currentView = 'splash'; window.scrollTo({top: 0, behavior: 'smooth'})"
-              title="Kembali ke Landing Page Platform Utama (Kita Usahain)"
-              class="h-10 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-amber-500/10 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center space-x-1.5 shadow-sm transition">
-              <i class="fa-solid fa-globe text-[11px] text-amber-500"></i>
-              <span class="hidden md:inline">Landing Platform</span>
-            </button>
-
             <!-- 2. Tombol Navigasi antara Dashboard & Landing Page Akun Toko -->
             <button
               @click="currentView = (currentView === 'dashboard' ? 'home' : 'dashboard'); window.scrollTo({top: 0, behavior: 'smooth'})"
