@@ -61,8 +61,9 @@ function send(res, status, body, headers = {}) {
 }
 
 function serveIndex(res) {
-  fs.readFile(path.join(ROOT, 'Index.html'), (err, content) => {
-    if (err) return send(res, 500, 'Error loading Index.html', { 'Content-Type': 'text/plain' });
+  const file = fs.existsSync(path.join(ROOT, 'index.html')) ? 'index.html' : 'Index.html';
+  fs.readFile(path.join(ROOT, file), (err, content) => {
+    if (err) return send(res, 500, 'Error loading index.html', { 'Content-Type': 'text/plain' });
     send(res, 200, content, { 'Content-Type': MIME_TYPES['.html'] });
   });
 }

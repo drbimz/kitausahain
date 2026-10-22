@@ -36,7 +36,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/Index.html"
+      "destination": "/index.html"
     }
   ]
 }
