@@ -397,14 +397,26 @@
 
         <template x-if="isLoggedIn">
           <div class="flex items-center space-x-2">
+            <!-- 1. Tombol Kembali ke Landing Page Platform Utama -->
+            <button
+              @click="currentView = 'splash'; window.scrollTo({top: 0, behavior: 'smooth'})"
+              title="Kembali ke Landing Page Platform Utama (Kita Usahain)"
+              class="h-10 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-amber-500/10 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center space-x-1.5 shadow-sm transition">
+              <i class="fa-solid fa-globe text-[11px] text-amber-500"></i>
+              <span class="hidden md:inline">Landing Platform</span>
+            </button>
+
+            <!-- 2. Tombol Navigasi antara Dashboard & Landing Page Akun Toko -->
             <button
               @click="currentView = (currentView === 'dashboard' ? 'home' : 'dashboard'); window.scrollTo({top: 0, behavior: 'smooth'})"
-              class="h-10 px-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold flex items-center space-x-2 shadow-sm">
+              class="h-10 px-3.5 rounded-xl border border-brand-terracotta/30 dark:border-amber-500/30 bg-amber-500/10 dark:bg-amber-500/15 text-brand-terracotta dark:text-amber-400 text-xs font-semibold flex items-center space-x-2 shadow-sm transition">
               <i class="fa-solid" :class="currentView === 'dashboard' ? 'fa-store' : 'fa-chart-pie'"></i>
               <span class="hidden sm:inline"
-                x-text="currentView === 'dashboard' ? 'Halaman Depan' : 'Dashboard Admin'"></span>
+                x-text="currentView === 'dashboard' ? 'Lihat Website Toko' : 'Dashboard Admin'"></span>
             </button>
-            <button @click="logout()" title="Logout"
+
+            <!-- 3. Tombol Logout -->
+            <button @click="logout()" title="Logout Akun"
               class="w-10 h-10 rounded-xl border border-rose-200 dark:border-rose-900/50 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition flex items-center justify-center text-sm">
               <i class="fa-solid fa-arrow-right-from-bracket"></i>
             </button>
@@ -479,6 +491,22 @@
       </div>
 
       <div class="flex items-center space-x-3">
+        <!-- Tombol Cepat jika sudah Login -->
+        <template x-if="isLoggedIn">
+          <div class="flex items-center space-x-2">
+            <button @click="currentView = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})"
+              class="h-9 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-[#131b28] text-slate-700 dark:text-slate-200 text-xs font-semibold hover:bg-slate-100 transition flex items-center gap-1.5 shadow-sm">
+              <i class="fa-solid fa-store text-amber-500 text-[11px]"></i>
+              <span class="hidden sm:inline">Website Toko</span>
+            </button>
+            <button @click="currentView = 'dashboard'; window.scrollTo({top: 0, behavior: 'smooth'})"
+              class="h-9 px-3.5 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-warm-sm">
+              <i class="fa-solid fa-chart-pie text-[11px]"></i>
+              <span>Dashboard Toko</span>
+            </button>
+          </div>
+        </template>
+
         <button @click="toggleDarkMode()" title="Ganti Tema"
           class="w-10 h-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#131b28] text-slate-700 dark:text-amber-400 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-[#1a2436] shadow-sm transition">
           <i class="fa-solid text-xs" :class="darkMode ? 'fa-sun text-amber-400' : 'fa-moon'"></i>
@@ -506,20 +534,38 @@
         aplikasi. Setiap toko memiliki link website sendiri yang siap dibagikan ke pelanggan.
       </p>
 
-      <!-- 2 Pilihan Utama Splash: Daftar & Login (1 Baris Sederhana) -->
-      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
-        <button @click="openRegisterModal()"
-          class="w-full sm:w-auto min-w-[150px] h-12 sm:h-13 px-8 rounded-2xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-medium text-sm shadow-warm-md hover:shadow-warm-lg transition flex items-center justify-center space-x-2 whitespace-nowrap">
-          <i class="fa-solid fa-store text-sm"></i>
-          <span>Daftar</span>
-        </button>
+      <!-- Pilihan Utama Splash: Tergantung Status Login -->
+      <template x-if="!isLoggedIn">
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+          <button @click="openRegisterModal()"
+            class="w-full sm:w-auto min-w-[150px] h-12 sm:h-13 px-8 rounded-2xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-medium text-sm shadow-warm-md hover:shadow-warm-lg transition flex items-center justify-center space-x-2 whitespace-nowrap">
+            <i class="fa-solid fa-store text-sm"></i>
+            <span>Daftar Toko Baru</span>
+          </button>
 
-        <button @click="openLoginModal()"
-          class="w-full sm:w-auto min-w-[150px] h-12 sm:h-13 px-8 rounded-2xl bg-white dark:bg-[#131b28] hover:bg-slate-50 dark:hover:bg-[#1a2436] text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700/80 font-medium text-sm shadow-sm hover:shadow transition flex items-center justify-center space-x-2 whitespace-nowrap">
-          <i class="fa-solid fa-arrow-right-to-bracket text-brand-terracotta"></i>
-          <span>Login</span>
-        </button>
-      </div>
+          <button @click="openLoginModal()"
+            class="w-full sm:w-auto min-w-[150px] h-12 sm:h-13 px-8 rounded-2xl bg-white dark:bg-[#131b28] hover:bg-slate-50 dark:hover:bg-[#1a2436] text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700/80 font-medium text-sm shadow-sm hover:shadow transition flex items-center justify-center space-x-2 whitespace-nowrap">
+            <i class="fa-solid fa-arrow-right-to-bracket text-brand-terracotta"></i>
+            <span>Login Toko</span>
+          </button>
+        </div>
+      </template>
+
+      <template x-if="isLoggedIn">
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-lg mx-auto">
+          <button @click="currentView = 'dashboard'; window.scrollTo({top: 0, behavior: 'smooth'})"
+            class="w-full sm:w-auto px-6 h-12 rounded-2xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-medium text-xs sm:text-sm shadow-warm-md transition flex items-center justify-center space-x-2 whitespace-nowrap">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Ke Dashboard (<span x-text="settings.storeName || 'Toko Saya'"></span>)</span>
+          </button>
+
+          <button @click="currentView = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})"
+            class="w-full sm:w-auto px-6 h-12 rounded-2xl bg-white dark:bg-[#131b28] hover:bg-slate-50 dark:hover:bg-[#1a2436] text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 font-medium text-xs sm:text-sm shadow-sm transition flex items-center justify-center space-x-2 whitespace-nowrap">
+            <i class="fa-solid fa-store text-amber-500"></i>
+            <span>Lihat Website Toko Saya</span>
+          </button>
+        </div>
+      </template>
 
       <!-- 3 Pilar Keunggulan Platform -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 pt-12 sm:pt-16 text-left">
@@ -620,6 +666,28 @@
   </main>
 
   <!-- ================= MULTI-VIEW SPA: BERANDA (HOME) ================= -->
+  <!-- FLOATING OWNER CONTROL BAR (HANYA MUNCUL JIKA PEMILIK TOKO SEDANG LOGIN) -->
+  <div x-show="isLoggedIn && currentView !== 'dashboard' && currentView !== 'splash'" x-cloak
+    class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white text-xs py-2 px-4 border-b border-amber-500/30 flex items-center justify-between gap-3 shadow-md z-30 relative">
+    <div class="flex items-center gap-2 truncate">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="text-slate-300 font-medium hidden sm:inline">Mode Pemilik Toko:</span>
+      <span class="text-amber-300 font-semibold truncate" x-text="settings.storeName || 'Toko Saya'"></span>
+    </div>
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <button @click="currentView = 'dashboard'; window.scrollTo({top: 0, behavior: 'smooth'})"
+        class="px-3 py-1 rounded-lg bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold text-[11px] transition flex items-center gap-1.5 shadow-sm">
+        <i class="fa-solid fa-chart-pie text-[10px]"></i>
+        <span>Dashboard Toko</span>
+      </button>
+      <button @click="currentView = 'splash'; window.scrollTo({top: 0, behavior: 'smooth'})"
+        class="px-2.5 py-1 rounded-lg bg-slate-700/80 hover:bg-slate-600 text-slate-200 font-medium text-[11px] transition flex items-center gap-1.5">
+        <i class="fa-solid fa-globe text-[10px] text-amber-400"></i>
+        <span>Landing Platform</span>
+      </button>
+    </div>
+  </div>
+
   <main x-show="currentView === 'home'" x-cloak x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
     class="w-full">
@@ -1245,9 +1313,22 @@
             <i class="fa-solid fa-file-invoice-dollar w-4"></i><span>Laporan Kas & Untung</span>
           </button>
 
-          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 mt-3">
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-800 mt-3 space-y-1">
+            <!-- 1. Tombol Buka Landing Page Akun Toko -->
+            <button @click="currentView = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})"
+              class="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-brand-terracotta hover:bg-orange-50 dark:hover:bg-orange-950/20 text-xs font-semibold transition">
+              <i class="fa-solid fa-store w-4 text-amber-500"></i><span>Lihat Website Toko</span>
+            </button>
+
+            <!-- 2. Tombol Kembali ke Landing Page Platform Utama -->
+            <button @click="currentView = 'splash'; window.scrollTo({top: 0, behavior: 'smooth'})"
+              class="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-semibold transition">
+              <i class="fa-solid fa-globe w-4 text-teal-600 dark:text-teal-400"></i><span>Landing Page Platform</span>
+            </button>
+
+            <!-- 3. Tombol Logout -->
             <button @click="logout()"
-              class="w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/20 text-xs font-semibold transition">
+              class="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/20 text-xs font-semibold transition">
               <i class="fa-solid fa-arrow-right-from-bracket w-4"></i><span>Keluar</span>
             </button>
           </div>
