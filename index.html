@@ -1442,11 +1442,23 @@
 
             <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
               <div class="space-y-3 max-w-xl">
+                <!-- Badges Status Deploy -->
                 <div class="flex items-center gap-2.5 flex-wrap">
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    Website Toko Online Aktif (Live)
-                  </span>
+                  <!-- 1. Status: Live / Aktif -->
+                  <template x-if="currentStoreStatus === 'published'">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm">
+                      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                      Website Toko Online Aktif (Live)
+                    </span>
+                  </template>
+                  <!-- 2. Status: Belum Deploy / Draf Offline -->
+                  <template x-if="currentStoreStatus !== 'published'">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm">
+                      <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                      Website Belum Dideploy (Draf Offline)
+                    </span>
+                  </template>
+
                   <span class="text-xs text-slate-300 font-medium flex items-center gap-1">
                     <i class="fa-solid fa-cloud-arrow-up text-amber-400"></i> Vercel Edge & Supabase Cloud
                   </span>
@@ -1460,35 +1472,64 @@
                     <span>Website Resmi:</span>
                     <span class="text-amber-400" x-text="settings.storeName || 'Dapoer Asri'"></span>
                   </h3>
-                  <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                  <!-- Deskripsi saat Live -->
+                  <p x-show="currentStoreStatus === 'published'" class="text-xs text-slate-300 mt-1 leading-relaxed">
                     Website toko kuliner Anda sudah langsung live di internet. Bagikan link ini ke pelanggan, bio Instagram, TikTok, WhatsApp, atau cetak di banner/kartu nama untuk menerima pesanan otomatis 24 jam.
+                  </p>
+                  <!-- Deskripsi saat Belum Deploy -->
+                  <p x-show="currentStoreStatus !== 'published'" class="text-xs text-slate-300 mt-1 leading-relaxed">
+                    Website toko kuliner Anda saat ini berstatus draf offline dan belum bisa diakses pelanggan umum. Klik tombol <strong class="text-amber-400 font-semibold">Deploy Toko</strong> di bawah untuk mempublikasikannya secara online.
                   </p>
                 </div>
 
-                <!-- Box Tampilan URL Publik Toko -->
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-1">
-                  <div class="flex-1 bg-slate-950/80 border border-slate-700/80 rounded-2xl px-4 py-2.5 text-xs font-mono text-amber-300 truncate select-all flex items-center gap-2.5 shadow-inner">
-                    <i class="fa-solid fa-link text-slate-400 text-xs"></i>
-                    <span class="truncate" x-text="storePublicUrl"></span>
-                  </div>
-                  <div class="flex items-center gap-2 flex-shrink-0">
-                    <button type="button" @click="copyStoreUrl()" class="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-semibold transition-all flex items-center justify-center gap-1.5 shadow-md active:scale-95">
-                      <i class="fa-regular fa-copy"></i>
-                      <span>Salin Link</span>
+                <!-- MODEL 1: KETIKA BELUM DEPLOY (Link Belum Muncul, Ada Tombol Deploy) -->
+                <div x-show="currentStoreStatus !== 'published'" class="pt-2">
+                  <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <button type="button" @click="publishStoreWebsite()" :disabled="loading"
+                      class="px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/40 active:scale-95 disabled:opacity-60">
+                      <i class="fa-solid fa-rocket text-sm" x-show="!loading"></i>
+                      <i class="fa-solid fa-circle-notch fa-spin text-sm" x-show="loading"></i>
+                      <span x-text="loading ? 'Memproses Deploy Toko...' : 'Deploy Toko Sekarang'"></span>
                     </button>
-                    <a :href="storePublicUrl" target="_blank" class="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-slate-800/90 hover:bg-slate-700 text-white text-xs font-semibold transition-all flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
-                      <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
-                      <span>Kunjungi</span>
-                    </a>
+                    <span class="text-[11px] text-slate-400 italic">
+                      *Tautan website publik akan otomatis muncul setelah Anda klik Deploy Toko.
+                    </span>
+                  </div>
+                </div>
+
+                <!-- MODEL 2: KETIKA SUDAH DEPLOY (Link Muncul, Ada Tombol Salin, Kunjungi, dan Un-deploy) -->
+                <div x-show="currentStoreStatus === 'published'" class="space-y-2.5 pt-1">
+                  <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                    <div class="flex-1 bg-slate-950/80 border border-slate-700/80 rounded-2xl px-4 py-2.5 text-xs font-mono text-amber-300 truncate select-all flex items-center gap-2.5 shadow-inner">
+                      <i class="fa-solid fa-link text-slate-400 text-xs"></i>
+                      <span class="truncate" x-text="storePublicUrl"></span>
+                    </div>
+                    <div class="flex items-center gap-2 flex-shrink-0 flex-wrap sm:flex-nowrap">
+                      <button type="button" @click="copyStoreUrl()" class="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-semibold transition-all flex items-center justify-center gap-1.5 shadow-md active:scale-95">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Salin Link</span>
+                      </button>
+                      <a :href="storePublicUrl" target="_blank" class="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-slate-800/90 hover:bg-slate-700 text-white text-xs font-semibold transition-all flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
+                        <span>Kunjungi</span>
+                      </a>
+                      <button type="button" @click="unpublishStoreWebsite()" :disabled="loading" title="Tarik publikasi / Sembunyikan toko dari umum"
+                        class="flex-1 sm:flex-none px-3.5 py-2.5 rounded-2xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 border border-rose-500/30 text-xs font-semibold transition-all flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-60">
+                        <i class="fa-solid fa-power-off text-xs"></i>
+                        <span>Un-deploy</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <!-- Quick Action & Deployment Protection Engine Info -->
               <div class="flex flex-col sm:flex-row lg:flex-col gap-3 justify-center border-t lg:border-t-0 lg:border-l border-slate-800 pt-5 lg:pt-0 lg:pl-6 min-w-[240px]">
-                <button type="button" @click="shareStoreToWhatsApp()" class="w-full px-4 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/40 active:scale-95">
+                <button type="button" @click="shareStoreToWhatsApp()" :disabled="currentStoreStatus !== 'published'"
+                  :class="currentStoreStatus === 'published' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-lg shadow-emerald-950/40 active:scale-95 cursor-pointer' : 'bg-slate-800 text-slate-500 border border-slate-700/60 cursor-not-allowed'"
+                  class="w-full px-4 py-3 rounded-2xl text-xs font-semibold transition-all flex items-center justify-center gap-2">
                   <i class="fa-brands fa-whatsapp text-sm"></i>
-                  <span>Share Link ke WhatsApp</span>
+                  <span x-text="currentStoreStatus === 'published' ? 'Share Link ke WhatsApp' : 'Deploy Toko untuk Share WA'"></span>
                 </button>
 
                 <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800 text-[11px] text-slate-300 space-y-1.5">
