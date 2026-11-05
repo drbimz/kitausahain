@@ -1425,7 +1425,7 @@
       </aside>
 
       <!-- Dashboard Main Area -->
-      <div class="flex-1 space-y-6 min-w-0">
+      <div class="flex-1 space-y-6 min-w-0 w-full overflow-hidden">
 
         <!-- TAB 1: OVERVIEW -->
         <div x-show="dashboardTab === 'overview'" class="space-y-6">
@@ -1464,16 +1464,7 @@
                 </div>
               </div>
 
-              <!-- Deskripsi Sesuai Status -->
-              <p x-show="currentStoreStatus === 'published'" class="text-xs text-slate-300 leading-relaxed max-w-2xl">
-                Website toko Anda sudah live di internet. Bagikan link ini ke pelanggan, bio media sosial, WhatsApp,
-                atau cetak di materi promosi untuk menerima pesanan otomatis.
-              </p>
-              <p x-show="currentStoreStatus !== 'published'" class="text-xs text-slate-300 leading-relaxed max-w-2xl">
-                Website toko Anda saat ini berstatus draf offline dan belum bisa dibuka oleh pelanggan. Klik tombol
-                <strong class="text-amber-400 font-semibold">Deploy Toko</strong> di bawah untuk mempublikasikannya
-                secara online.
-              </p>
+              
 
               <!-- KONDISI 1: BELUM DEPLOY (Link Belum Muncul, Tombol Deploy dengan In-App Popup) -->
               <div x-show="currentStoreStatus !== 'published'" class="pt-1">
@@ -1488,7 +1479,7 @@
               <div x-show="currentStoreStatus === 'published'" class="space-y-2 pt-1 max-w-3xl">
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <div
-                    class="flex-1 bg-slate-950/80 border border-slate-700/80 rounded-2xl px-4 py-2.5 text-xs font-mono text-amber-300 truncate select-all flex items-center gap-2.5 shadow-inner">
+                    class="flex-1 min-w-0 bg-slate-950/80 border border-slate-700/80 rounded-xl px-3 py-2 sm:py-2.5 text-xs font-mono text-amber-300 truncate select-all flex items-center gap-2 shadow-inner">
                     <i class="fa-solid fa-link text-slate-400 text-xs"></i>
                     <span class="truncate" x-text="storePublicUrl"></span>
                   </div>
@@ -1538,7 +1529,7 @@
               <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Total Pesanan Masuk</span>
               <h3 class="text-2xl font-semibold text-slate-900 dark:text-white mt-2"
                 x-text="orders.length + ' Pesanan'"></h3>
-              <p class="text-xs text-slate-500 mt-1">Tercatat di sistem</p>
+              
             </div>
 
             <div
@@ -1546,7 +1537,7 @@
               <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Katalog Menu Aktif</span>
               <h3 class="text-2xl font-semibold text-slate-900 dark:text-white mt-2" x-text="products.length + ' Menu'">
               </h3>
-              <p class="text-xs text-slate-500 mt-1">Siap dipesan pengunjung</p>
+              
             </div>
           </div>
 
@@ -1560,7 +1551,7 @@
             </div>
 
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs whitespace-nowrap">
+              <table class="w-full text-left text-xs whitespace-nowrap min-w-[500px]">
                 <thead>
                   <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 text-[11px] font-semibold">
                     <th class="pb-3 pr-3">Customer</th>
@@ -1600,15 +1591,7 @@
         <div x-show="dashboardTab === 'hpp_calculator'" class="space-y-6">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
-              <div class="flex items-center gap-2">
-                <span
-                  class="px-2.5 py-0.5 rounded-md bg-brand-terracotta/10 text-brand-terracotta text-[11px] font-semibold">Kalkulator
-                  Kuliner</span>
-                <span class="text-xs text-slate-400">• Bebas Atur Jenis Biaya</span>
-              </div>
-              <h2 class="text-xl font-semibold text-slate-900 dark:text-white mt-1">Hitung Modal Masakan (HPP)</h2>
-              <p class="text-xs text-slate-500 dark:text-slate-400">Rinci bahan, bumbu, kemasan, gas, hingga riset menu.
-                Dapatkan rincian modal dan preview 1 lembar catatan otomatis.</p>
+              <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Hitung Modal Masakan (HPP)</h2>
             </div>
 
             <!-- Quick Load from Product & Reset -->
@@ -2194,7 +2177,7 @@
                     </label>
                     <input type="text" x-model="settings.storeName" placeholder="Dapoer Asri" required
                       class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-medium">
-                    <p class="text-[11px] text-slate-400 mt-1">Nama brand atau usaha kuliner Anda.</p>
+                    
                   </div>
                 </div>
 
