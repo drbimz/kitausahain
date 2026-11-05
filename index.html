@@ -324,7 +324,7 @@
   </div>
 
   <!-- ================= NAVBAR TOKO & DASHBOARD ================= -->
-  <header x-show="!['auth', 'splash', 'not_found', 'unpublished'].includes(currentView)" x-cloak
+  <header x-show="!['auth', 'not_found', 'unpublished'].includes(currentView)" x-cloak
     class="sticky top-0 z-40 bg-white/95 dark:bg-[#0b0f17]/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-10 h-20 sm:h-24 flex items-center justify-between gap-4">
 
@@ -530,14 +530,6 @@
               </div>
             </div>
           </div>
-
-          <div class="pt-1 flex items-center gap-4 text-xs">
-            <button type="button" @click="currentView = 'splash'; window.scrollTo({top: 0, behavior: 'smooth'})"
-              class="text-slate-500 dark:text-slate-400 hover:text-brand-terracotta dark:hover:text-amber-400 font-medium inline-flex items-center gap-1.5 transition">
-              <i class="fa-solid fa-circle-info text-[11px]"></i>
-              <span>Pelajari Fitur Lengkap Platform</span>
-            </button>
-          </div>
         </div>
 
         <!-- Right Column (Main Auth Card - Full Focus on Mobile & Desktop) -->
@@ -740,15 +732,6 @@
 
             </div>
           </div>
-
-          <!-- Mobile Compact Info Link Below Card -->
-          <div class="lg:hidden mt-5 flex items-center justify-center gap-4 text-xs text-slate-500 dark:text-slate-400">
-            <button type="button" @click="currentView = 'splash'; window.scrollTo({top: 0, behavior: 'smooth'})"
-              class="hover:text-brand-terracotta dark:hover:text-amber-400 font-medium inline-flex items-center gap-1.5 transition">
-              <i class="fa-solid fa-circle-info text-[11px]"></i>
-              <span>Tentang Platform Kita Usahain</span>
-            </button>
-          </div>
         </div>
 
       </div>
@@ -756,165 +739,6 @@
 
     <!-- Bottom Footer Platform Auth -->
     <div class="py-4 px-4 border-t border-slate-200/60 dark:border-slate-800/60 text-center text-[11px] text-slate-400 relative z-10">
-      <p>© 2026 Kita Usahain • Platform Website Builder UMKM Indonesia</p>
-    </div>
-  </main>
-
-  <!-- ================= MULTI-TENANT INFO / SPLASH PORTAL ================= -->
-  <main x-show="currentView === 'splash'" x-cloak x-transition:enter="transition ease-out duration-300"
-    class="min-h-screen flex flex-col justify-between relative overflow-hidden bg-[#FAF6F0] dark:bg-[#0b0f17] text-slate-800 dark:text-slate-100 transition-colors duration-300">
-
-    <!-- Ambient Radial Glow (Hangat di Terang, Bara Charcoal di Gelap) -->
-    <div
-      class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_15%,rgba(186,74,36,0.08)_0%,transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_15%,rgba(217,91,48,0.14)_0%,transparent_65%)] transition-all duration-300">
-    </div>
-
-    <!-- Top Bar Portal Splash -->
-    <div class="max-w-7xl mx-auto px-6 sm:px-10 py-6 w-full flex items-center justify-between relative z-10">
-      <div class="flex items-center space-x-3 select-none">
-        <div
-          class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-terracotta to-amber-500 text-white flex items-center justify-center font-semibold text-base shadow-sm">
-          <i class="fa-solid fa-store"></i>
-        </div>
-        <div>
-          <div class="flex items-center gap-1.5">
-            <span class="font-semibold text-lg text-slate-900 dark:text-white block leading-tight tracking-tight">Kita
-              Usahain</span>
-            <span
-              class="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-brand-terracotta/15 text-brand-terracotta">Platform</span>
-          </div>
-          <span class="text-[11px] text-slate-500 dark:text-slate-400">Website Builder & Pre-Order UMKM</span>
-        </div>
-      </div>
-
-      <div class="flex items-center space-x-2.5">
-        <template x-if="!isLoggedIn">
-          <button @click="goToPlatformAuth('login')"
-            class="h-9 px-3.5 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-warm-sm">
-            <i class="fa-solid fa-arrow-right-to-bracket text-[11px]"></i>
-            <span>Masuk Toko</span>
-          </button>
-        </template>
-
-        <!-- Tombol Cepat jika sudah Login -->
-        <template x-if="isLoggedIn">
-          <div class="flex items-center space-x-2">
-            <button @click="currentView = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})"
-              class="h-9 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-[#131b28] text-slate-700 dark:text-slate-200 text-xs font-semibold hover:bg-slate-100 transition flex items-center gap-1.5 shadow-sm">
-              <i class="fa-solid fa-store text-amber-500 text-[11px]"></i>
-              <span class="hidden sm:inline">Website Toko</span>
-            </button>
-            <button @click="currentView = 'dashboard'; window.scrollTo({top: 0, behavior: 'smooth'})"
-              class="h-9 px-3.5 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-warm-sm">
-              <i class="fa-solid fa-chart-pie text-[11px]"></i>
-              <span>Dashboard Toko</span>
-            </button>
-          </div>
-        </template>
-
-        <button @click="toggleDarkMode()" title="Ganti Tema"
-          class="w-10 h-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#131b28] text-slate-700 dark:text-amber-400 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-[#1a2436] shadow-sm transition">
-          <i class="fa-solid text-xs" :class="darkMode ? 'fa-sun text-amber-400' : 'fa-moon'"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Center Hero Splash Box -->
-    <div class="max-w-4xl mx-auto px-6 sm:px-12 py-16 sm:py-24 text-center my-auto space-y-10 relative z-10 w-full">
-
-      <div
-        class="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-medium bg-brand-terracotta/10 text-brand-terracotta border border-brand-terracotta/20 shadow-sm tracking-wide">
-        <i class="fa-solid fa-sparkles text-xs"></i>
-        <span>Sistem Website & Pre-Order UMKM Siap Pakai</span>
-      </div>
-
-      <h1
-        class="text-3xl sm:text-5xl lg:text-6xl font-semibold text-slate-900 dark:text-white leading-[1.22] tracking-tight pb-1">
-        Miliki Website Toko Kuliner Sendiri Dalam Hitungan Detik.
-      </h1>
-
-      <p
-        class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed sm:leading-loose font-normal">
-        Kelola katalog menu, sistem Pre-Order harian, dan terima pesanan langsung ke WhatsApp Anda tanpa biaya potongan
-        aplikasi. Setiap toko memiliki link website sendiri yang siap dibagikan ke pelanggan.
-      </p>
-
-      <!-- Pilihan Utama Splash: Tergantung Status Login -->
-      <template x-if="!isLoggedIn">
-        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
-          <button @click="goToPlatformAuth('register')"
-            class="w-full sm:w-auto min-w-[150px] h-12 sm:h-13 px-8 rounded-2xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-medium text-sm shadow-warm-md hover:shadow-warm-lg transition flex items-center justify-center space-x-2 whitespace-nowrap">
-            <i class="fa-solid fa-store text-sm"></i>
-            <span>Daftar Toko Baru</span>
-          </button>
-
-          <button @click="goToPlatformAuth('login')"
-            class="w-full sm:w-auto min-w-[150px] h-12 sm:h-13 px-8 rounded-2xl bg-white dark:bg-[#131b28] hover:bg-slate-50 dark:hover:bg-[#1a2436] text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700/80 font-medium text-sm shadow-sm hover:shadow transition flex items-center justify-center space-x-2 whitespace-nowrap">
-            <i class="fa-solid fa-arrow-right-to-bracket text-brand-terracotta"></i>
-            <span>Login Toko</span>
-          </button>
-        </div>
-      </template>
-
-      <template x-if="isLoggedIn">
-        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-lg mx-auto">
-          <button @click="currentView = 'dashboard'; window.scrollTo({top: 0, behavior: 'smooth'})"
-            class="w-full sm:w-auto px-6 h-12 rounded-2xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-medium text-xs sm:text-sm shadow-warm-md transition flex items-center justify-center space-x-2 whitespace-nowrap">
-            <i class="fa-solid fa-chart-pie"></i>
-            <span>Ke Dashboard (<span x-text="settings.storeName || 'Toko Saya'"></span>)</span>
-          </button>
-
-          <button @click="currentView = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})"
-            class="w-full sm:w-auto px-6 h-12 rounded-2xl bg-white dark:bg-[#131b28] hover:bg-slate-50 dark:hover:bg-[#1a2436] text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 font-medium text-xs sm:text-sm shadow-sm transition flex items-center justify-center space-x-2 whitespace-nowrap">
-            <i class="fa-solid fa-store text-amber-500"></i>
-            <span>Lihat Website Toko Saya</span>
-          </button>
-        </div>
-      </template>
-
-      <!-- 3 Pilar Keunggulan Platform -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 pt-12 sm:pt-16 text-left">
-        <div
-          class="p-7 rounded-3xl bg-white/95 dark:bg-[#131b28] backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-warm-sm dark:shadow-[0_4px_24px_rgba(0,0,0,0.35)] space-y-3 transition-colors duration-300">
-          <div
-            class="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 dark:border dark:border-emerald-800/50 flex items-center justify-center text-sm mb-4">
-            <i class="fa-solid fa-share-nodes"></i>
-          </div>
-          <h4 class="font-semibold text-sm text-slate-900 dark:text-white mb-1.5 tracking-tight">Link Toko Mandiri</h4>
-          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">Setiap toko memiliki link
-            unik yang siap Anda cantumkan di bio Instagram & status WhatsApp.</p>
-        </div>
-
-        <div
-          class="p-7 rounded-3xl bg-white/95 dark:bg-[#131b28] backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-warm-sm dark:shadow-[0_4px_24px_rgba(0,0,0,0.35)] space-y-3 transition-colors duration-300">
-          <div
-            class="w-10 h-10 rounded-2xl bg-orange-50 dark:bg-orange-950/60 text-brand-terracotta dark:text-orange-400 dark:border dark:border-orange-800/50 flex items-center justify-center text-base mb-4">
-            <i class="fa-brands fa-whatsapp"></i>
-          </div>
-          <h4 class="font-semibold text-sm text-slate-900 dark:text-white mb-1.5 tracking-tight">Pesan Cepat WhatsApp
-          </h4>
-          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">Pesanan pembeli otomatis
-            terformat rapi dan dikirim langsung ke WhatsApp toko Anda.</p>
-        </div>
-
-        <div
-          class="p-7 rounded-3xl bg-white/95 dark:bg-[#131b28] backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 shadow-warm-sm dark:shadow-[0_4px_24px_rgba(0,0,0,0.35)] space-y-3 transition-colors duration-300">
-          <div
-            class="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 dark:border dark:border-amber-800/50 flex items-center justify-center text-sm mb-4">
-            <i class="fa-solid fa-shield-halved"></i>
-          </div>
-          <h4 class="font-semibold text-sm text-slate-900 dark:text-white mb-1.5 tracking-tight">Data Terisolasi 100%
-          </h4>
-          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">Katalog, daftar pesanan, dan
-            keuangan toko Anda privat dan tidak bercampur dengan orang lain.</p>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Bottom Footer Splash -->
-    <div
-      class="py-5 border-t border-slate-200/60 dark:border-slate-800/60 text-center text-[11px] text-slate-400 relative z-10">
       <p>© 2026 Kita Usahain • Platform Website Builder UMKM Indonesia</p>
     </div>
   </main>
@@ -972,7 +796,7 @@
 
   <!-- ================= MULTI-VIEW SPA: BERANDA (HOME) ================= -->
   <!-- FLOATING OWNER CONTROL BAR (HANYA MUNCUL JIKA PEMILIK TOKO SEDANG LOGIN) -->
-  <div x-show="isLoggedIn && !['dashboard', 'auth', 'splash', 'not_found', 'unpublished'].includes(currentView)" x-cloak
+  <div x-show="isLoggedIn && !['dashboard', 'auth', 'not_found', 'unpublished'].includes(currentView)" x-cloak
     class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white text-xs py-2 px-4 border-b border-amber-500/30 flex items-center justify-between gap-3 shadow-md z-30 relative">
     <div class="flex items-center gap-2 truncate">
       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -1484,7 +1308,7 @@
   </main>
 
   <!-- ================= FOOTER BERSAMA (SHARED) ================= -->
-  <footer x-show="!['dashboard', 'auth', 'splash', 'not_found', 'unpublished'].includes(currentView)" x-cloak
+  <footer x-show="!['dashboard', 'auth', 'not_found', 'unpublished'].includes(currentView)" x-cloak
     class="py-14 border-t border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0c121e] text-xs text-slate-500 dark:text-slate-400">
     <div class="max-w-7xl mx-auto px-6 sm:px-10">
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 pb-10 border-b border-slate-200 dark:border-slate-800">
@@ -4576,14 +4400,16 @@
           this.currentUser = {};
           this.gasToken = '';
           this.orders = [];
-          const hasTenant = !!this.detectTenantSlug();
-          this.currentView = hasTenant ? 'home' : 'auth';
-          if (!hasTenant) {
-            this.authTab = 'login';
-            document.title = 'Kita Usahain - Masuk / Daftar Toko UMKM';
-          }
           sessionStorage.removeItem(GAS_TOKEN_KEY);
           sessionStorage.removeItem(DEMO_LOGIN_KEY);
+          try {
+            window.history.pushState({}, '', '/');
+          } catch (e) { }
+          this.currentView = 'auth';
+          this.authTab = 'login';
+          this.loginForm = { username: '', password: '' };
+          document.title = 'Kita Usahain - Masuk / Daftar Toko UMKM';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         },
 
         async logout(silent = false) {
