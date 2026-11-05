@@ -390,15 +390,14 @@
         <!-- Admin Store Owner Controls (Hanya tampil jika pemilik toko sah sedang login) -->
         <template x-if="isStoreOwner">
           <div class="flex items-center space-x-2">
-            <!-- Tombol Dashboard Admin hanya muncul ketika pemilik toko sedang melihat landing page tokonya -->
-            <template x-if="currentView !== 'dashboard'">
-              <button
-                @click="currentView = 'dashboard'; window.scrollTo({top: 0, behavior: 'smooth'})"
-                class="h-10 px-3.5 rounded-xl border border-brand-terracotta/30 dark:border-amber-500/30 bg-amber-500/10 dark:bg-amber-500/15 text-brand-terracotta dark:text-amber-400 text-xs font-semibold flex items-center space-x-2 shadow-sm transition">
-                <i class="fa-solid fa-chart-pie"></i>
-                <span class="hidden sm:inline">Dashboard Admin</span>
-              </button>
-            </template>
+            <!-- Tombol Navigasi antara Dashboard & Landing Page Toko -->
+            <button
+              @click="currentView = (currentView === 'dashboard' ? 'home' : 'dashboard'); window.scrollTo({top: 0, behavior: 'smooth'})"
+              class="h-10 px-3.5 rounded-xl border border-brand-terracotta/30 dark:border-amber-500/30 bg-amber-500/10 dark:bg-amber-500/15 text-brand-terracotta dark:text-amber-400 text-xs font-semibold flex items-center space-x-2 shadow-sm transition">
+              <i class="fa-solid" :class="currentView === 'dashboard' ? 'fa-store' : 'fa-chart-pie'"></i>
+              <span class="hidden sm:inline"
+                x-text="currentView === 'dashboard' ? 'Lihat Website Toko' : 'Dashboard Admin'"></span>
+            </button>
 
             <!-- Logout Toko -->
             <button @click="logout()" title="Logout Akun"
