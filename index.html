@@ -3077,6 +3077,13 @@
             this.scrollPercent = max > 0 ? Math.min(100, Math.max(0, (st / max) * 100)) : 0;
           }, { passive: true });
 
+          // Protection Guard: Pastikan pengunjung umum / publik sama sekali tidak bisa masuk ke dashboard
+          this.$watch('currentView', (val) => {
+            if (val === 'dashboard' && !this.isStoreOwner) {
+              this.currentView = 'home';
+            }
+          });
+
           // ================= TENANT RESOLUTION ENGINE (SUBDOMAIN & QUERY FALLBACK) =================
           const detectedSlug = this.detectTenantSlug();
 
