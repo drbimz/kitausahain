@@ -390,14 +390,15 @@
         <!-- Admin Store Owner Controls (Hanya tampil jika pemilik toko sah sedang login) -->
         <template x-if="isStoreOwner">
           <div class="flex items-center space-x-2">
-            <!-- Navigasi Dashboard vs Landing Page Toko -->
-            <button
-              @click="currentView = (currentView === 'dashboard' ? 'home' : 'dashboard'); window.scrollTo({top: 0, behavior: 'smooth'})"
-              class="h-10 px-3.5 rounded-xl border border-brand-terracotta/30 dark:border-amber-500/30 bg-amber-500/10 dark:bg-amber-500/15 text-brand-terracotta dark:text-amber-400 text-xs font-semibold flex items-center space-x-2 shadow-sm transition">
-              <i class="fa-solid" :class="currentView === 'dashboard' ? 'fa-store' : 'fa-chart-pie'"></i>
-              <span class="hidden sm:inline"
-                x-text="currentView === 'dashboard' ? 'Lihat Website Toko' : 'Dashboard Admin'"></span>
-            </button>
+            <!-- Tombol Dashboard Admin hanya muncul ketika pemilik toko sedang melihat landing page tokonya -->
+            <template x-if="currentView !== 'dashboard'">
+              <button
+                @click="currentView = 'dashboard'; window.scrollTo({top: 0, behavior: 'smooth'})"
+                class="h-10 px-3.5 rounded-xl border border-brand-terracotta/30 dark:border-amber-500/30 bg-amber-500/10 dark:bg-amber-500/15 text-brand-terracotta dark:text-amber-400 text-xs font-semibold flex items-center space-x-2 shadow-sm transition">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span class="hidden sm:inline">Dashboard Admin</span>
+              </button>
+            </template>
 
             <!-- Logout Toko -->
             <button @click="logout()" title="Logout Akun"
@@ -448,311 +449,235 @@
   </header>
 
   <!-- ================= HALAMAN UTAMA PLATFORM: LOGIN / DAFTAR TOKO (ROOT DOMAIN) ================= -->
-  <main x-show="currentView === 'auth'" x-cloak x-transition:enter="transition ease-out duration-300"
-    class="min-h-screen flex flex-col justify-between relative overflow-hidden bg-[#FAF6F0] dark:bg-[#070b13] text-slate-800 dark:text-slate-100 transition-colors duration-300 selection:bg-brand-terracotta selection:text-white">
+  <main x-show="currentView === 'auth'" x-cloak x-transition:enter="transition ease-out duration-200"
+    class="min-h-screen flex flex-col justify-between bg-[#FDFBF7] dark:bg-[#0B0F17] text-slate-800 dark:text-slate-100 font-sans transition-colors duration-200">
 
-    <!-- Ambient Mesh Gradients & Subtle Grid Pattern -->
-    <div class="absolute inset-0 pointer-events-none opacity-40 dark:opacity-20 bg-[radial-gradient(#BA4A24_1px,transparent_1px)] [background-size:24px_24px]"></div>
-    <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-terracotta/15 dark:bg-orange-500/15 rounded-full blur-[100px] pointer-events-none"></div>
-    <div class="absolute top-1/2 -right-32 w-96 h-96 bg-emerald-500/15 dark:bg-emerald-600/10 rounded-full blur-[100px] pointer-events-none"></div>
-    <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-amber-500/15 dark:bg-amber-600/10 rounded-full blur-[100px] pointer-events-none"></div>
-
-    <!-- Top Navigation Bar Platform -->
-    <header class="max-w-7xl mx-auto px-4 sm:px-8 pt-6 pb-4 w-full flex items-center justify-between relative z-10 gap-4">
-      <div class="flex items-center space-x-3 select-none min-w-0">
-        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-terracotta via-amber-600 to-orange-500 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-brand-terracotta/25 flex-shrink-0">
+    <!-- Header Bersih & Profesional -->
+    <header class="max-w-6xl mx-auto px-6 py-5 w-full flex items-center justify-between">
+      <div class="flex items-center space-x-3 select-none">
+        <div class="w-9 h-9 rounded-xl bg-brand-terracotta text-white flex items-center justify-center font-semibold text-sm shadow-sm flex-shrink-0">
           <i class="fa-solid fa-store"></i>
         </div>
-        <div class="min-w-0">
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-lg sm:text-xl text-slate-900 dark:text-white leading-tight tracking-tight whitespace-nowrap">Kita Usahain</span>
-            <span class="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-terracotta/10 dark:bg-orange-500/15 text-brand-terracotta dark:text-orange-400 border border-brand-terracotta/20 dark:border-orange-500/30 flex-shrink-0">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              Platform UMKM
-            </span>
-          </div>
-          <span class="text-[11px] text-slate-500 dark:text-slate-400 block leading-tight font-medium">Website Builder & Kasir Pre-Order Kuliner</span>
+        <div>
+          <span class="font-semibold text-base sm:text-lg text-slate-900 dark:text-white leading-none tracking-tight block">Kita Usahain</span>
+          <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5 font-normal">Platform Usaha Kuliner Mandiri</span>
         </div>
       </div>
 
-      <div class="flex items-center space-x-2.5 flex-shrink-0">
-        <button type="button" @click="toggleDarkMode()" title="Ganti Tema Terang / Gelap"
-          class="w-10 h-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#111827]/80 backdrop-blur-md text-slate-700 dark:text-amber-400 flex items-center justify-center hover:bg-white dark:hover:bg-[#1a2436] shadow-sm transition">
-          <i class="fa-solid text-xs" :class="darkMode ? 'fa-sun text-amber-400' : 'fa-moon'"></i>
-        </button>
-      </div>
+      <button type="button" @click="toggleDarkMode()" title="Ganti Mode Terang / Gelap"
+        class="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition">
+        <i class="fa-solid text-xs" :class="darkMode ? 'fa-sun text-amber-400' : 'fa-moon'"></i>
+      </button>
     </header>
 
-    <!-- Center Hero & Auth Container -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-12 my-auto w-full relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+    <!-- Konten Utama: 2 Kolom Bersih & Rapi -->
+    <div class="max-w-6xl mx-auto px-6 py-8 sm:py-16 my-auto w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
 
-        <!-- Left Column: Hero & Product Showcase -->
-        <div class="hidden lg:block lg:col-span-7 space-y-8 pr-2">
-          <!-- Floating Pill Tagline -->
-          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-brand-terracotta/10 via-amber-500/10 to-emerald-500/10 dark:from-orange-500/15 dark:to-emerald-500/15 text-brand-terracotta dark:text-orange-400 border border-brand-terracotta/20 dark:border-orange-500/30 shadow-sm backdrop-blur-sm">
-            <i class="fa-solid fa-sparkles text-amber-500 text-xs"></i>
-            <span>Platform Website Mandiri #1 Khusus Kuliner & Catering</span>
-          </div>
+        <!-- Kolom Kiri: Penjelasan Produk (Human-Written, Tanpa Font Gradasi, Tanpa Badge AI) -->
+        <div class="hidden lg:block lg:col-span-7 space-y-6">
+          <h1 class="text-3xl xl:text-4xl font-semibold text-slate-900 dark:text-white leading-snug tracking-tight">
+            Platform Website Toko & Pre-Order untuk Usaha Kuliner Mandiri.
+          </h1>
 
-          <!-- Hero Headline -->
-          <div class="space-y-4">
-            <h1 class="text-4xl xl:text-5xl font-bold text-slate-900 dark:text-white leading-[1.18] tracking-tight">
-              Bikin Website Toko Kuliner Sendiri.
-              <span class="block mt-1 bg-gradient-to-r from-brand-terracotta via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-                Mewah, Praktis, & 100% Bebas Komisi.
-              </span>
-            </h1>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl font-normal">
+            Bantu usaha kuliner Anda menerima pesanan langsung lewat WhatsApp tanpa potongan komisi. Dilengkapi katalog menu online mandiri dan pencatatan kas penjualan yang praktis.
+          </p>
 
-            <p class="text-sm xl:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl">
-              Tinggalkan cara jualan manual yang melelahkan. Dapatkan website katalog resmi dengan tautan nama tokomu sendiri, terima pesanan Pre-Order WhatsApp otomatis, dan kelola kas usaha dalam 1 dashboard cerdas.
-            </p>
-          </div>
-
-          <!-- 3 Feature Highlight Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-            <div class="p-4 rounded-3xl bg-white/70 dark:bg-[#111827]/70 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 shadow-sm hover:border-brand-terracotta/40 transition-all duration-300 group">
-              <div class="w-10 h-10 rounded-2xl bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center text-base mb-3 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-link"></i>
-              </div>
-              <h4 class="text-xs font-bold text-slate-900 dark:text-white mb-1">Link Toko Mandiri</h4>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                Tautan bersih <strong class="text-slate-800 dark:text-slate-200">/namatoko</strong> tanpa potongan fee aplikasi per transaksi.
-              </p>
+          <div class="space-y-3.5 pt-2 max-w-lg text-sm text-slate-700 dark:text-slate-300 font-normal">
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-check text-brand-terracotta mt-1 flex-shrink-0 text-xs"></i>
+              <span>Website mandiri menggunakan alamat nama toko Anda sendiri</span>
             </div>
-
-            <div class="p-4 rounded-3xl bg-white/70 dark:bg-[#111827]/70 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 shadow-sm hover:border-emerald-500/40 transition-all duration-300 group">
-              <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-base mb-3 group-hover:scale-110 transition-transform">
-                <i class="fa-brands fa-whatsapp"></i>
-              </div>
-              <h4 class="text-xs font-bold text-slate-900 dark:text-white mb-1">Order WhatsApp Rapi</h4>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                Format pesanan terstruktur otomatis masuk ke chat WhatsApp Anda tanpa perlu catat ulang.
-              </p>
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-check text-brand-terracotta mt-1 flex-shrink-0 text-xs"></i>
+              <span>Pesanan pelanggan langsung terkirim rapi ke nomor WhatsApp Anda</span>
             </div>
-
-            <div class="p-4 rounded-3xl bg-white/70 dark:bg-[#111827]/70 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 shadow-sm hover:border-orange-500/40 transition-all duration-300 group">
-              <div class="w-10 h-10 rounded-2xl bg-orange-500/15 text-brand-terracotta dark:text-orange-400 flex items-center justify-center text-base mb-3 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-calculator"></i>
-              </div>
-              <h4 class="text-xs font-bold text-slate-900 dark:text-white mb-1">Kalkulator HPP & Laba</h4>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                Ketahui modal bahan baku per porsi dan rekap laba bersih riil setiap ada pesanan baru.
-              </p>
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-check text-brand-terracotta mt-1 flex-shrink-0 text-xs"></i>
+              <span>Hitung modal bahan (HPP) per porsi dan pantau laba bersih secara otomatis</span>
             </div>
-          </div>
-
-          <!-- Trust Badges -->
-          <div class="pt-2 flex items-center gap-6 text-xs text-slate-500 dark:text-slate-400 font-medium">
-            <span class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500"></i> 100% Tanpa Koding</span>
-            <span class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500"></i> Setup 1 Menit</span>
-            <span class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500"></i> Data Cloud Terproteksi</span>
           </div>
         </div>
 
-        <!-- Right Column: Premium Auth Card -->
+        <!-- Kolom Kanan: Card Form Login & Daftar (Sederhana, Bersih, Nyaman Digunakan) -->
         <div class="lg:col-span-5 w-full max-w-md mx-auto lg:ml-auto lg:mr-0">
-          <div class="bg-white/90 dark:bg-[#0c1322]/90 backdrop-blur-xl w-full rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.12)] dark:shadow-[0_25px_70px_rgba(0,0,0,0.6)] border border-slate-200/90 dark:border-slate-800 overflow-hidden relative">
+          <div class="bg-white dark:bg-[#121926] w-full rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
 
-            <!-- Ambient Glow Top Bar -->
-            <div class="h-1.5 w-full transition-colors duration-500"
-              :class="authTab === 'register' ? 'bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500' : 'bg-gradient-to-r from-amber-500 via-brand-terracotta to-orange-500'"></div>
+            <!-- Switcher Tab: Masuk vs Daftar Toko -->
+            <div x-show="authTab !== 'forgot'" class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0e141f]">
+              <button type="button" @click="switchAuthTab('login')"
+                :class="authTab === 'login' ? 'border-b-2 border-brand-terracotta text-brand-terracotta dark:text-orange-400 bg-white dark:bg-[#121926] font-semibold' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium'"
+                class="flex-1 py-3 text-xs transition text-center">
+                Masuk Toko
+              </button>
+              <button type="button" @click="switchAuthTab('register')"
+                :class="authTab === 'register' ? 'border-b-2 border-brand-terracotta text-brand-terracotta dark:text-orange-400 bg-white dark:bg-[#121926] font-semibold' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium'"
+                class="flex-1 py-3 text-xs transition text-center">
+                Daftar Toko Baru
+              </button>
+            </div>
 
-            <div class="p-6 sm:p-8 space-y-6">
+            <div class="p-6 sm:p-7 space-y-5">
 
-              <!-- Segmented Switcher Tab (Masuk vs Daftar) -->
-              <div x-show="authTab !== 'forgot'" class="grid grid-cols-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-[#141d30] border border-slate-200/70 dark:border-slate-800">
-                <button type="button" @click="switchAuthTab('login')"
-                  :class="authTab === 'login' ? 'bg-white dark:bg-[#0c1322] text-brand-terracotta dark:text-amber-400 shadow-sm font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium'"
-                  class="h-10 rounded-xl text-xs transition flex items-center justify-center gap-1.5">
-                  <i class="fa-solid fa-arrow-right-to-bracket text-[11px]"></i>
-                  <span>Masuk Toko</span>
-                </button>
-                <button type="button" @click="switchAuthTab('register')"
-                  :class="authTab === 'register' ? 'bg-white dark:bg-[#0c1322] text-emerald-700 dark:text-emerald-400 shadow-sm font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium'"
-                  class="h-10 rounded-xl text-xs transition flex items-center justify-center gap-1.5">
-                  <i class="fa-solid fa-store text-[11px]"></i>
-                  <span>Daftar Baru</span>
-                </button>
-              </div>
-
-              <!-- ================= TAB 1: FORM LOGIN PLATFORM ================= -->
-              <div x-show="authTab === 'login'" class="space-y-5">
+              <!-- ================= TAB 1: FORM LOGIN ================= -->
+              <div x-show="authTab === 'login'" class="space-y-4">
                 <div>
-                  <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Masuk ke Toko Saya</h2>
-                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                    Akses dashboard pesanan, katalog menu, dan laporan kas kuliner Anda.
+                  <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Masuk ke Toko</h2>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Silakan masukkan email atau username toko Anda untuk melanjutkan.
                   </p>
                 </div>
 
-                <form @submit.prevent="login()" class="space-y-4">
+                <form @submit.prevent="login()" class="space-y-4 pt-1">
                   <div>
-                    <label for="page-login-username" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <i class="fa-regular fa-envelope text-brand-terracotta"></i>
-                      <span>Email Toko / Username</span>
+                    <label for="page-login-username" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                      Email Toko / Username
                     </label>
                     <input type="text" id="page-login-username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false"
                       x-model="loginForm.username" placeholder="nama@email.com atau ummi" required
-                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-2 focus:ring-brand-terracotta/20 transition-all font-medium">
+                      class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                   </div>
 
                   <div>
-                    <div class="flex justify-between items-center mb-1.5 gap-2">
-                      <label for="page-login-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                        <i class="fa-solid fa-lock text-brand-terracotta"></i>
-                        <span>Password</span>
+                    <div class="flex justify-between items-center mb-1.5">
+                      <label for="page-login-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                        Password
                       </label>
                       <button type="button" @click="switchAuthTab('forgot')"
-                        class="text-xs text-brand-terracotta hover:text-brand-terracotta-dark dark:text-orange-400 dark:hover:text-orange-300 hover:underline font-semibold py-0.5 transition">
+                        class="text-xs text-brand-terracotta hover:underline font-medium">
                         Lupa password?
                       </button>
                     </div>
                     <div class="relative">
                       <input :type="showLoginPassword ? 'text' : 'password'" id="page-login-password" name="password" autocomplete="current-password"
                         x-model="loginForm.password" placeholder="Masukkan password Anda" required
-                        class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl pl-4 pr-12 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-2 focus:ring-brand-terracotta/20 transition-all font-medium">
+                        class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-10 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                       <button type="button" @click="showLoginPassword = !showLoginPassword"
-                        class="absolute inset-y-0 right-1.5 w-10 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition rounded-xl"
-                        :aria-label="showLoginPassword ? 'Sembunyikan password' : 'Lihat password'" title="Lihat/Sembunyikan password">
-                        <i :class="showLoginPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-sm"></i>
+                        class="absolute inset-y-0 right-1 w-9 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                        title="Lihat/Sembunyikan password">
+                        <i :class="showLoginPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
                       </button>
                     </div>
                   </div>
 
-                  <div x-show="loginError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-start gap-2.5 text-xs text-rose-600 dark:text-rose-400 font-medium">
-                    <i class="fa-solid fa-triangle-exclamation mt-0.5 flex-shrink-0"></i>
+                  <div x-show="loginError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-xs text-rose-600 dark:text-rose-400 font-medium">
                     <span x-text="loginError"></span>
                   </div>
 
                   <button type="submit" id="page-login-submit" :disabled="loading"
-                    class="w-full h-12 rounded-2xl bg-gradient-to-r from-amber-600 via-brand-terracotta to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold transition-all duration-200 text-sm shadow-lg shadow-orange-950/25 hover:shadow-orange-900/40 disabled:opacity-60 flex items-center justify-center space-x-2 active:scale-[0.99]">
-                    <i class="fa-solid fa-arrow-right-to-bracket text-xs" x-show="!loading"></i>
-                    <span x-show="!loading">Masuk ke Dashboard Toko</span>
-                    <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Memverifikasi Akun...</span></span>
+                    class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold text-xs sm:text-sm transition flex items-center justify-center space-x-2 disabled:opacity-60">
+                    <span x-show="!loading">Masuk ke Dashboard</span>
+                    <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Memverifikasi...</span></span>
                   </button>
                 </form>
               </div>
 
-              <!-- ================= TAB 2: FORM DAFTAR TOKO BARU ================= -->
-              <div x-show="authTab === 'register'" x-cloak class="space-y-5">
+              <!-- ================= TAB 2: FORM DAFTAR TOKO ================= -->
+              <div x-show="authTab === 'register'" x-cloak class="space-y-4">
                 <div>
-                  <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Daftar Toko Baru</h2>
-                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                    Buat website toko kuliner mandiri lengkap dengan katalog pemesanan online Anda.
+                  <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Daftar Toko Baru</h2>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Buat website toko mandiri untuk usaha kuliner Anda.
                   </p>
                 </div>
 
-                <form @submit.prevent="registerNewStore()" class="space-y-3.5">
+                <form @submit.prevent="registerNewStore()" class="space-y-3.5 pt-1">
                   <div>
-                    <label for="page-reg-owner" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <i class="fa-solid fa-user-tie text-emerald-600 dark:text-emerald-400"></i>
-                      <span>Nama Pemilik Toko</span>
+                    <label for="page-reg-owner" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      Nama Pemilik Toko
                     </label>
                     <input type="text" id="page-reg-owner" autocomplete="name" x-model="registerForm.ownerName" placeholder="Contoh: Ibu Sarah / Pak Budi" required
-                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all font-medium">
+                      class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                   </div>
 
                   <div>
-                    <label for="page-reg-store" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <i class="fa-solid fa-store text-emerald-600 dark:text-emerald-400"></i>
-                      <span>Nama Toko Kuliner Anda</span>
+                    <label for="page-reg-store" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      Nama Toko Kuliner
                     </label>
                     <input type="text" id="page-reg-store" autocomplete="organization" x-model="registerForm.storeName" placeholder="Contoh: Dapur Berkah Bu Siti" required
-                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all font-medium">
+                      class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                   </div>
 
                   <div>
-                    <label for="page-reg-wa" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <i class="fa-brands fa-whatsapp text-emerald-600 dark:text-emerald-400"></i>
-                      <span>Nomor WhatsApp Pemesanan</span>
+                    <label for="page-reg-wa" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      Nomor WhatsApp Pemesanan
                     </label>
                     <input type="tel" id="page-reg-wa" inputmode="tel" autocomplete="tel" x-model="registerForm.waNumber" placeholder="Contoh: 628123456789" required
-                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 font-mono focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all font-medium">
+                      class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 font-mono focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition">
                   </div>
 
                   <div>
-                    <label for="page-reg-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <i class="fa-regular fa-envelope text-emerald-600 dark:text-emerald-400"></i>
-                      <span>Email Pemilik Toko</span>
+                    <label for="page-reg-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      Email Toko
                     </label>
-                    <input type="email" id="page-reg-email" autocomplete="email" x-model="registerForm.email" placeholder="owner@tokosaya.com" required
-                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all font-medium">
+                    <input type="email" id="page-reg-email" autocomplete="email" x-model="registerForm.email" placeholder="nama@email.com" required
+                      class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                   </div>
 
                   <div>
-                    <label for="page-reg-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <i class="fa-solid fa-lock text-emerald-600 dark:text-emerald-400"></i>
-                      <span>Buat Password</span>
+                    <label for="page-reg-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                      Password (Minimal 6 Karakter)
                     </label>
                     <div class="relative">
-                      <input :type="showRegisterPassword ? 'text' : 'password'" id="page-reg-password" autocomplete="new-password" x-model="registerForm.password" placeholder="Minimal 6 karakter" required minlength="6"
-                        class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl pl-4 pr-12 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all font-medium">
+                      <input :type="showRegisterPassword ? 'text' : 'password'" id="page-reg-password" autocomplete="new-password" x-model="registerForm.password" placeholder="Buat password aman" required minlength="6"
+                        class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-10 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                       <button type="button" @click="showRegisterPassword = !showRegisterPassword"
-                        class="absolute inset-y-0 right-1.5 w-10 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition rounded-xl"
-                        :aria-label="showRegisterPassword ? 'Sembunyikan password' : 'Lihat password'" title="Lihat/Sembunyikan password">
-                        <i :class="showRegisterPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-sm"></i>
+                        class="absolute inset-y-0 right-1 w-9 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                        title="Lihat/Sembunyikan password">
+                        <i :class="showRegisterPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
                       </button>
                     </div>
                   </div>
 
-                  <div x-show="loginError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-start gap-2.5 text-xs text-rose-600 dark:text-rose-400 font-medium">
-                    <i class="fa-solid fa-triangle-exclamation mt-0.5 flex-shrink-0"></i>
+                  <div x-show="loginError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-xs text-rose-600 dark:text-rose-400 font-medium">
                     <span x-text="loginError"></span>
                   </div>
 
                   <button type="submit" :disabled="loading"
-                    class="w-full h-12 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-green-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold transition-all duration-200 text-sm shadow-lg shadow-emerald-950/25 hover:shadow-emerald-900/40 disabled:opacity-60 flex items-center justify-center space-x-2 active:scale-[0.99]">
-                    <i class="fa-solid fa-rocket text-xs" x-show="!loading"></i>
-                    <span x-show="!loading">Daftar & Buat Toko Saya</span>
+                    class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold text-xs sm:text-sm transition flex items-center justify-center space-x-2 disabled:opacity-60">
+                    <span x-show="!loading">Buat Website Toko</span>
                     <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Membuat Toko...</span></span>
                   </button>
                 </form>
               </div>
 
               <!-- ================= TAB 3: LUPA PASSWORD ================= -->
-              <div x-show="authTab === 'forgot'" x-cloak class="space-y-5">
+              <div x-show="authTab === 'forgot'" x-cloak class="space-y-4">
                 <div>
-                  <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[11px] font-semibold mb-2">
-                    <i class="fa-solid fa-key text-[10px]"></i>
-                    <span>Pemulihan Akun Toko</span>
-                  </div>
-                  <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Lupa Password Toko</h2>
-                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                    Masukkan email toko Anda yang terdaftar untuk menerima tautan pengaturan ulang password.
+                  <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Lupa Password</h2>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Masukkan email toko Anda untuk menerima tautan reset password.
                   </p>
                 </div>
 
-                <form @submit.prevent="sendPasswordResetEmail()" class="space-y-4">
+                <form @submit.prevent="sendPasswordResetEmail()" class="space-y-4 pt-1">
                   <div>
-                    <label for="page-forgot-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
-                      <i class="fa-regular fa-envelope text-amber-500"></i>
-                      <span>Email Terdaftar</span>
+                    <label for="page-forgot-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                      Email Terdaftar
                     </label>
                     <input type="email" id="page-forgot-email" autocomplete="email" x-model="forgotPasswordEmail" placeholder="nama@email.com" required
-                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all font-medium">
+                      class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                   </div>
 
-                  <div x-show="forgotPasswordError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-start gap-2.5 text-xs text-rose-600 dark:text-rose-400 font-medium">
-                    <i class="fa-solid fa-triangle-exclamation mt-0.5 flex-shrink-0"></i>
+                  <div x-show="forgotPasswordError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-xs text-rose-600 dark:text-rose-400 font-medium">
                     <span x-text="forgotPasswordError"></span>
                   </div>
 
-                  <div x-show="forgotPasswordSuccess" x-cloak class="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-700 dark:text-emerald-300 font-medium leading-relaxed flex items-start gap-2.5">
-                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 flex-shrink-0"></i>
+                  <div x-show="forgotPasswordSuccess" x-cloak class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-700 dark:text-emerald-300 font-medium leading-relaxed">
                     <span x-text="forgotPasswordSuccess"></span>
                   </div>
 
                   <button type="submit" :disabled="loading"
-                    class="w-full h-12 rounded-2xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold transition-all duration-200 text-sm shadow-lg shadow-amber-950/25 disabled:opacity-60 flex items-center justify-center space-x-2 active:scale-[0.99]">
-                    <i class="fa-solid fa-paper-plane text-xs" x-show="!loading"></i>
+                    class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold text-xs sm:text-sm transition flex items-center justify-center space-x-2 disabled:opacity-60">
                     <span x-show="!loading">Kirim Link Reset Password</span>
                     <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Mengirim Email...</span></span>
                   </button>
                 </form>
 
-                <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 text-center text-xs text-slate-500 dark:text-slate-400">
-                  Ingat password akun toko Anda?
-                  <button type="button" @click="switchAuthTab('login')" class="text-brand-terracotta hover:underline font-semibold ml-1 dark:text-amber-400">
+                <div class="pt-2 text-center text-xs text-slate-500 dark:text-slate-400">
+                  Ingat password toko Anda?
+                  <button type="button" @click="switchAuthTab('login')" class="text-brand-terracotta hover:underline font-semibold ml-1">
                     Kembali ke Login
                   </button>
                 </div>
@@ -765,13 +690,13 @@
       </div>
     </div>
 
-    <!-- Bottom Footer Platform -->
-    <footer class="max-w-7xl mx-auto px-4 sm:px-8 py-5 w-full flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 relative z-10 gap-2 border-t border-slate-200/50 dark:border-slate-800/50">
-      <p>© 2026 Kita Usahain. Platform Website & Kasir Pre-Order Mandiri untuk UMKM Kuliner Indonesia.</p>
-      <div class="flex items-center space-x-4">
-        <span>100% Bebas Komisi</span>
+    <!-- Footer Sederhana & Tenang -->
+    <footer class="max-w-6xl mx-auto px-6 py-5 w-full flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 gap-2">
+      <p>© 2026 Kita Usahain. Platform Usaha Kuliner Mandiri.</p>
+      <div class="flex items-center space-x-3">
+        <span>Katalog Menu Mandiri</span>
         <span>•</span>
-        <span>Pre-Order WhatsApp</span>
+        <span>Pesanan WhatsApp</span>
       </div>
     </footer>
   </main>
@@ -1455,11 +1380,7 @@
           </button>
 
           <div class="pt-4 border-t border-slate-200 dark:border-slate-800 mt-3 space-y-1">
-            <!-- 1. Tombol Buka Landing Page Akun Toko -->
-            <button @click="currentView = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})"
-              class="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-brand-terracotta hover:bg-orange-50 dark:hover:bg-orange-950/20 text-xs font-semibold transition">
-              <i class="fa-solid fa-store w-4 text-amber-500"></i><span>Lihat Website Toko</span>
-            </button>
+            
 
             <!-- 3. Tombol Logout -->
             <button @click="logout()"
