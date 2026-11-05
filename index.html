@@ -1666,8 +1666,7 @@
                       <i class="fa-solid fa-list-check text-brand-terracotta"></i>
                       <span>2. Rincian Biaya & Pilihan Jenisnya</span>
                     </h3>
-                    <p class="text-[11px] text-slate-500">Pilih jenis biaya sesuai kebutuhan (bahan, bumbu, kemasan,
-                      gas, trial, dll.)</p>
+                    
                   </div>
                   <button @click="addCostItem()"
                     class="px-3 py-1.5 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
@@ -2391,28 +2390,39 @@
             </form>
           </div>
 
-          <!-- Ganti Password Admin -->
-          <div x-show="backendMode !== 'local'"
-            class="bg-white dark:bg-[#161f30] p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-3xl shadow-sm">
-            <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-1"><i
-                class="fa-solid fa-key text-brand-terracotta mr-1"></i> Ganti Password Admin</h3>
-            <p class="text-[11px] text-slate-400 mb-4">Minimal 8 karakter. Segera ganti jika masih memakai password
-              bawaan.</p>
-            <form @submit.prevent="changePassword()" class="space-y-3">
-              <div class="relative" x-show="backendMode === 'gas'">
-                <input :type="showOldPassword ? 'text' : 'password'" id="pw-old" x-model="passwordForm.oldPassword"
-                  :required="backendMode === 'gas'" autocomplete="current-password" placeholder="Password lama"
-                  class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-11 py-2.5 text-xs sm:text-sm">
-                <button type="button" @click="showOldPassword = !showOldPassword"
-                  class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition"
-                  title="Lihat/Sembunyikan password">
-                  <i :class="showOldPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
-                </button>
+          <!-- Manajemen Akun Toko: Ubah Username & Password -->
+          <div class="bg-white dark:bg-[#161f30] p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-3xl shadow-sm space-y-6">
+            <h3 class="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+              <i class="fa-solid fa-user-shield text-brand-terracotta"></i>
+              <span>Keamanan Akun & Kredensial Toko</span>
+            </h3>
+
+            <!-- 1. Ubah Username / Email Login -->
+            <form @submit.prevent="updateUsername()" class="space-y-3 pb-6 border-b border-slate-100 dark:border-slate-800">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
+                <span class="font-semibold text-slate-700 dark:text-slate-300">Username / Email Login Aktif</span>
+                <span class="font-mono text-brand-olive font-semibold bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-lg border border-emerald-200 dark:border-emerald-800"
+                  x-text="(currentUser && currentUser.username) || (currentUser && currentUser.email) || 'Belum diatur'"></span>
               </div>
 
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Username / Email Baru</label>
+                <div class="flex gap-2">
+                  <input type="email" x-model="usernameForm.newUsername" required placeholder="emailbaru@toko.com"
+                    class="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-sans">
+                  <button type="submit" :disabled="loading"
+                    class="h-10 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-semibold transition text-xs whitespace-nowrap">
+                    Simpan Username
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <!-- 2. Ubah Password -->
+            <form @submit.prevent="changePassword()" class="space-y-3">
               <div class="relative">
                 <input :type="showNewPassword ? 'text' : 'password'" id="pw-new" x-model="passwordForm.newPassword"
-                  minlength="8" required autocomplete="new-password" placeholder="Password baru"
+                  minlength="8" required autocomplete="new-password" placeholder="Password baru (minimal 8 karakter)"
                   class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-11 py-2.5 text-xs sm:text-sm">
                 <button type="button" @click="showNewPassword = !showNewPassword"
                   class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition"
@@ -2433,22 +2443,24 @@
                 </button>
               </div>
 
-              <button type="submit" id="pw-submit"
-                class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold transition text-xs sm:text-sm shadow-sm">Simpan
-                Password Baru</button>
+              <button type="submit" id="pw-submit" :disabled="loading"
+                class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold transition text-xs sm:text-sm shadow-sm">
+                Simpan Password Baru
+              </button>
             </form>
           </div>
         </div>
 
-        <!-- TAB: LAPORAN -->
+        <!-- TAB: LAPORAN KAS & UNTUNG -->
         <div x-show="dashboardTab === 'reports'" class="space-y-5">
-          <div class="flex justify-between items-center no-print">
-            <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Laporan Keuangan Pre-Order</h2>
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 no-print">
+            <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Laporan Kas & Untung</h2>
 
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 flex-wrap">
               <select x-model="reportPeriod"
-                class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-medium">
+                class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-sm">
                 <option value="all">Semua Waktu</option>
+                <option value="today">Hari Ini</option>
                 <option value="this_month">Bulan Ini</option>
                 <option value="this_year">Tahun Ini</option>
               </select>
@@ -2462,65 +2474,92 @@
           </div>
 
           <div id="printArea"
-            class="bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-5 shadow-sm">
+            class="bg-white dark:bg-[#161f30] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-6 shadow-sm">
             <div class="text-center border-b border-slate-200 dark:border-slate-800 pb-4">
               <h3 class="text-xl font-semibold text-slate-900 dark:text-white"
                 x-text="settings.storeName || 'Dapoer Asri'"></h3>
-              <p class="text-xs text-slate-500" x-text="settings.storeSubtitle || 'Ummiku Sayang'"></p>
-              <p class="text-xs font-semibold text-brand-terracotta mt-1">Laporan Rekapitulasi Pre-Order</p>
+              <p class="text-xs font-semibold text-brand-terracotta mt-1">Laporan Arus Kas & Laba Bersih</p>
               <p class="text-[11px] text-slate-400 mt-0.5"
                 x-text="'Dicetak: ' + new Date().toLocaleDateString('id-ID')"></p>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
               <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                <span class="text-[10px] text-slate-500 font-semibold uppercase">Total Pesanan</span>
-                <p class="text-base font-semibold text-slate-900 dark:text-white mt-1"
-                  x-text="reportCountedOrders.length + ' Order'"></p>
+                <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Kas Masuk (Omset)</span>
+                <p class="text-base font-semibold text-brand-terracotta mt-1" x-text="formatRupiah(reportTotalOmset)"></p>
               </div>
               <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                <span class="text-[10px] text-slate-500 font-semibold uppercase">Total Omset</span>
-                <p class="text-base font-semibold text-brand-terracotta mt-1" x-text="formatRupiah(reportTotalOmset)">
-                </p>
-              </div>
-              <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                <span class="text-[10px] text-slate-500 font-semibold uppercase">Total Modal (HPP)</span>
+                <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Kas Keluar (Modal HPP)</span>
                 <p class="text-base font-semibold text-slate-700 dark:text-slate-300 mt-1"
                   x-text="formatRupiah(reportTotalHpp)"></p>
               </div>
+              <div class="p-4 bg-emerald-50/60 dark:bg-emerald-950/30 rounded-xl border border-emerald-200 dark:border-emerald-800/60">
+                <span class="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold uppercase tracking-wider">Untung / Laba Bersih</span>
+                <p class="text-base font-bold text-emerald-600 dark:text-emerald-400 mt-1" x-text="formatRupiah(reportTotalProfit)"></p>
+              </div>
               <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                <span class="text-[10px] text-slate-500 font-semibold uppercase">Laba Bersih</span>
-                <p class="text-base font-semibold text-emerald-600 mt-1" x-text="formatRupiah(reportTotalProfit)"></p>
+                <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Total Transaksi</span>
+                <p class="text-base font-semibold text-slate-900 dark:text-white mt-1"
+                  x-text="reportCountedOrders.length + ' Pesanan'"></p>
               </div>
             </div>
 
-            <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs">
+            <!-- TABEL TRANSAKSI KAS JIKA ADA DATA -->
+            <div class="overflow-x-auto" x-show="filteredReportOrders.length > 0">
+              <table class="w-full text-left text-xs whitespace-nowrap">
                 <thead>
                   <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 text-[11px] font-semibold">
-                    <th class="pb-2">Tanggal</th>
-                    <th class="pb-2">Customer</th>
-                    <th class="pb-2">Menu</th>
-                    <th class="pb-2 text-center">Qty</th>
-                    <th class="pb-2 text-right">Total</th>
-                    <th class="pb-2 text-right">Status</th>
+                    <th class="pb-2.5">Tanggal</th>
+                    <th class="pb-2.5">Customer</th>
+                    <th class="pb-2.5">Menu</th>
+                    <th class="pb-2.5 text-center">Qty</th>
+                    <th class="pb-2.5 text-right">Kas Masuk (Omset)</th>
+                    <th class="pb-2.5 text-right">Estimasi Modal</th>
+                    <th class="pb-2.5 text-right">Laba Bersih</th>
+                    <th class="pb-2.5 text-right">Status</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                   <template x-for="item in filteredReportOrders" :key="item.id">
                     <tr>
-                      <td class="py-2.5" x-text="item.date"></td>
+                      <td class="py-2.5 font-medium" x-text="item.date"></td>
                       <td class="py-2.5 font-semibold text-slate-900 dark:text-white" x-text="item.customerName"></td>
                       <td class="py-2.5 text-slate-600 dark:text-slate-400" x-text="item.productName"></td>
                       <td class="py-2.5 text-center font-semibold" x-text="item.qty"></td>
                       <td class="py-2.5 text-right font-semibold text-brand-terracotta"
                         x-text="formatRupiah(item.totalPrice)"></td>
-                      <td class="py-2.5 text-right" x-text="item.status || 'Pre-Order'"></td>
+                      <td class="py-2.5 text-right text-slate-500" x-text="formatRupiah(orderHpp(item))"></td>
+                      <td class="py-2.5 text-right font-semibold text-emerald-600"
+                        x-text="formatRupiah(item.totalPrice - orderHpp(item))"></td>
+                      <td class="py-2.5 text-right">
+                        <span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold"
+                          :class="item.status === 'Selesai' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : (item.status === 'Dibatalkan' ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300' : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300')"
+                          x-text="item.status || 'Pre-Order'"></span>
+                      </td>
                     </tr>
                   </template>
                 </tbody>
               </table>
             </div>
+
+            <!-- EMPTY STATE: JIKA BELUM ADA PESANAN PADA PERIODE INI -->
+            <div x-show="filteredReportOrders.length === 0" class="py-12 px-4 text-center space-y-3">
+              <div class="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+              </div>
+              <h4 class="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">Belum Ada Transaksi Kas & Untung</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+                Setiap pesanan yang dicatat akan otomatis dihitung arus kas masuk, modal HPP, dan keuntungan bersihnya di halaman ini.
+              </p>
+              <div class="pt-2 no-print">
+                <button @click="dashboardTab = 'cashier'"
+                  class="px-4 py-2 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white text-xs font-semibold transition inline-flex items-center gap-1.5 shadow-sm">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  <span>Catat Pesanan Masuk</span>
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -3123,6 +3162,7 @@
         registerForm: { ownerName: '', storeName: '', waNumber: '628', email: '', password: '' },
         loginError: '',
         passwordForm: { oldPassword: '', newPassword: '', confirmPassword: '' },
+        usernameForm: { newUsername: '' },
 
         searchQuery: '',
 
@@ -4393,12 +4433,43 @@
           if (!silent) this.showToast('Telah logout');
         },
 
+        async updateUsername() {
+          const newEmail = String(this.usernameForm.newUsername || '').trim();
+          if (!newEmail || !newEmail.includes('@')) {
+            return this.showToast('Masukkan alamat email valid (contoh: nama@domain.com)', 'error');
+          }
+          if (this.currentUser && (this.currentUser.username === newEmail || this.currentUser.email === newEmail)) {
+            return this.showToast('Username/Email baru sama dengan yang lama', 'error');
+          }
+
+          this.loading = true;
+          this.loadingText = 'Memperbarui username/email...';
+          try {
+            if (this.backendMode === 'supabase') {
+              const { data, error } = await this.supabaseClient.auth.updateUser({ email: newEmail });
+              if (error) throw error;
+              if (this.currentUser) this.currentUser.username = newEmail;
+              this.usernameForm.newUsername = '';
+              this.showToast('Username/Email berhasil diubah!');
+            } else {
+              if (this.currentUser) this.currentUser.username = newEmail;
+              this.usernameForm.newUsername = '';
+              this.showToast('Username toko berhasil diperbarui!');
+            }
+          } catch (e) {
+            this.showToast('Gagal mengubah username: ' + errMsg(e), 'error');
+          } finally {
+            this.loading = false;
+          }
+        },
+
         async changePassword() {
           const f = this.passwordForm;
-          if (f.newPassword.length < 6) return this.showToast('Password baru minimal 6 karakter', 'error');
+          if (!f.newPassword || f.newPassword.length < 8) return this.showToast('Password baru minimal 8 karakter', 'error');
           if (f.newPassword !== f.confirmPassword) return this.showToast('Konfirmasi password tidak sama', 'error');
 
           this.loading = true;
+          this.loadingText = 'Menyimpan password baru...';
           try {
             if (this.backendMode === 'supabase') {
               const { error } = await this.supabaseClient.auth.updateUser({ password: f.newPassword });
@@ -4406,10 +4477,17 @@
             } else if (this.backendMode === 'gas') {
               await this.gas('changePassword', this.gasToken, f.oldPassword, f.newPassword);
             } else {
-              throw new Error('Ganti password tidak tersedia di mode demo lokal');
+              try {
+                const accounts = JSON.parse(localStorage.getItem(LOCAL_ACCOUNTS_KEY) || '[]');
+                const idx = accounts.findIndex(a => a.email === (this.currentUser && this.currentUser.username));
+                if (idx !== -1) {
+                  accounts[idx].password = f.newPassword;
+                  localStorage.setItem(LOCAL_ACCOUNTS_KEY, JSON.stringify(accounts));
+                }
+              } catch (e) {}
             }
             this.passwordForm = { oldPassword: '', newPassword: '', confirmPassword: '' };
-            this.showToast('Password berhasil diganti');
+            this.showToast('Password toko berhasil diperbarui!');
           } catch (e) {
             this.showToast('Gagal ganti password: ' + errMsg(e), 'error');
           } finally {
@@ -4709,10 +4787,15 @@
 
         get filteredReportOrders() {
           const now = new Date();
-          return this.orders.filter(order => {
+          const todayStr = todayLocal();
+          return (this.orders || []).filter(order => {
+            if (!order) return false;
             if (this.reportPeriod === 'all') return true;
+            if (this.reportPeriod === 'today') {
+              return String(order.date || '').slice(0, 10) === todayStr;
+            }
             const d = parseLocalDate(order.date);
-            if (!d) return false;
+            if (!d) return true; // Jangan hilangkan order jika format tanggal khusus
             if (this.reportPeriod === 'this_month') {
               return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
             }
@@ -4737,6 +4820,11 @@
 
         get reportTotalProfit() {
           return this.reportTotalOmset - this.reportTotalHpp;
+        },
+
+        get reportProfitMargin() {
+          if (!this.reportTotalOmset || this.reportTotalOmset <= 0) return 0;
+          return Math.round((this.reportTotalProfit / this.reportTotalOmset) * 100);
         }
       }
     }
