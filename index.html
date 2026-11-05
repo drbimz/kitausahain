@@ -314,8 +314,8 @@
   </div>
 
   <!-- LOADING SPINNER -->
-  <div x-show="loading && !showLoginModal && !showRegisterModal && !showForgotPasswordModal && currentView !== 'auth'" x-cloak
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
+  <div x-show="loading && !showLoginModal && !showRegisterModal && !showForgotPasswordModal && currentView !== 'auth'"
+    x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
     <div
       class="bg-white dark:bg-[#161f30] border border-slate-200 dark:border-slate-800 px-6 py-4 rounded-2xl shadow-xl flex items-center space-x-3.5">
       <i class="fa-solid fa-circle-notch fa-spin text-brand-olive dark:text-slate-200 text-sm"></i>
@@ -441,10 +441,7 @@
       </button>
     </div>
 
-    <!-- Indikator Scroll Halus yang Menyatu Langsung Dengan Desain Header -->
-    <div
-      class="absolute bottom-0 left-0 h-[2.5px] bg-gradient-to-r from-brand-terracotta via-amber-500 to-brand-olive transition-all duration-75 ease-out z-50 pointer-events-none"
-      :style="`width: ${scrollPercent}%`"></div>
+    
   </header>
 
   <!-- ================= HALAMAN UTAMA PLATFORM: LOGIN / DAFTAR TOKO (ROOT DOMAIN) ================= -->
@@ -454,12 +451,16 @@
     <!-- Header Bersih & Profesional -->
     <header class="max-w-6xl mx-auto px-6 py-5 w-full flex items-center justify-between">
       <div class="flex items-center space-x-3 select-none">
-        <div class="w-9 h-9 rounded-xl bg-brand-terracotta text-white flex items-center justify-center font-semibold text-sm shadow-sm flex-shrink-0">
+        <div
+          class="w-9 h-9 rounded-xl bg-brand-terracotta text-white flex items-center justify-center font-semibold text-sm shadow-sm flex-shrink-0">
           <i class="fa-solid fa-store"></i>
         </div>
         <div>
-          <span class="font-semibold text-base sm:text-lg text-slate-900 dark:text-white leading-none tracking-tight block">Kita Usahain</span>
-          <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5 font-normal">Platform Usaha Kuliner Mandiri</span>
+          <span
+            class="font-semibold text-base sm:text-lg text-slate-900 dark:text-white leading-none tracking-tight block">Kita
+            Usahain</span>
+          <span class="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5 font-normal">Platform Usaha Kuliner
+            Mandiri</span>
         </div>
       </div>
 
@@ -480,7 +481,8 @@
           </h1>
 
           <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl font-normal">
-            Bantu usaha kuliner Anda menerima pesanan langsung lewat WhatsApp tanpa potongan komisi. Dilengkapi katalog menu online mandiri dan pencatatan kas penjualan yang praktis.
+            Bantu usaha kuliner Anda menerima pesanan langsung lewat WhatsApp tanpa potongan komisi. Dilengkapi katalog
+            menu online mandiri dan pencatatan kas penjualan yang praktis.
           </p>
 
           <div class="space-y-3.5 pt-2 max-w-lg text-sm text-slate-700 dark:text-slate-300 font-normal">
@@ -501,10 +503,12 @@
 
         <!-- Kolom Kanan: Card Form Login & Daftar (Sederhana, Bersih, Nyaman Digunakan) -->
         <div class="lg:col-span-5 w-full max-w-md mx-auto lg:ml-auto lg:mr-0">
-          <div class="bg-white dark:bg-[#121926] w-full rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+          <div
+            class="bg-white dark:bg-[#121926] w-full rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
 
             <!-- Switcher Tab: Masuk vs Daftar Toko -->
-            <div x-show="authTab !== 'forgot'" class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0e141f]">
+            <div x-show="authTab !== 'forgot'"
+              class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0e141f]">
               <button type="button" @click="switchAuthTab('login')"
                 :class="authTab === 'login' ? 'border-b-2 border-brand-terracotta text-brand-terracotta dark:text-orange-400 bg-white dark:bg-[#121926] font-semibold' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium'"
                 class="flex-1 py-3 text-xs transition text-center">
@@ -530,17 +534,20 @@
 
                 <form @submit.prevent="login()" class="space-y-4 pt-1">
                   <div>
-                    <label for="page-login-username" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                    <label for="page-login-username"
+                      class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                       Email Toko / Username
                     </label>
-                    <input type="text" id="page-login-username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false"
-                      x-model="loginForm.username" placeholder="nama@email.com atau ummi" required
+                    <input type="text" id="page-login-username" name="username" autocomplete="username"
+                      autocapitalize="none" spellcheck="false" x-model="loginForm.username" placeholder="nama@email.com"
+                      required
                       class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                   </div>
 
                   <div>
                     <div class="flex justify-between items-center mb-1.5">
-                      <label for="page-login-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      <label for="page-login-password"
+                        class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                         Password
                       </label>
                       <button type="button" @click="switchAuthTab('forgot')"
@@ -549,8 +556,9 @@
                       </button>
                     </div>
                     <div class="relative">
-                      <input :type="showLoginPassword ? 'text' : 'password'" id="page-login-password" name="password" autocomplete="current-password"
-                        x-model="loginForm.password" placeholder="Masukkan password Anda" required
+                      <input :type="showLoginPassword ? 'text' : 'password'" id="page-login-password" name="password"
+                        autocomplete="current-password" x-model="loginForm.password"
+                        placeholder="Masukkan password Anda" required
                         class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-10 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                       <button type="button" @click="showLoginPassword = !showLoginPassword"
                         class="absolute inset-y-0 right-1 w-9 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
@@ -560,14 +568,16 @@
                     </div>
                   </div>
 
-                  <div x-show="loginError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-xs text-rose-600 dark:text-rose-400 font-medium">
+                  <div x-show="loginError" x-cloak
+                    class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-xs text-rose-600 dark:text-rose-400 font-medium">
                     <span x-text="loginError"></span>
                   </div>
 
                   <button type="submit" id="page-login-submit" :disabled="loading"
                     class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold text-xs sm:text-sm transition flex items-center justify-center space-x-2 disabled:opacity-60">
                     <span x-show="!loading">Masuk ke Dashboard</span>
-                    <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Memverifikasi...</span></span>
+                    <span x-show="loading" class="flex items-center gap-2"><i
+                        class="fa-solid fa-circle-notch fa-spin"></i><span>Memverifikasi...</span></span>
                   </button>
                 </form>
               </div>
@@ -583,60 +593,74 @@
 
                 <form @submit.prevent="registerNewStore()" class="space-y-3.5 pt-1">
                   <div>
-                    <label for="page-reg-owner" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    <label for="page-reg-owner"
+                      class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       Nama Pemilik Toko
                     </label>
-                    <input type="text" id="page-reg-owner" autocomplete="name" x-model="registerForm.ownerName" placeholder="Contoh: Ibu Sarah / Pak Budi" required
+                    <input type="text" id="page-reg-owner" autocomplete="name" x-model="registerForm.ownerName"
+                      placeholder="Contoh: Ibu Sarah / Pak Budi" required
                       class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                   </div>
 
                   <div>
-                    <label for="page-reg-store" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    <label for="page-reg-store"
+                      class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       Nama Toko Kuliner
                     </label>
-                    <input type="text" id="page-reg-store" autocomplete="organization" x-model="registerForm.storeName" placeholder="Contoh: Dapur Berkah Bu Siti" required
+                    <input type="text" id="page-reg-store" autocomplete="organization" x-model="registerForm.storeName"
+                      placeholder="Contoh: Dapur Berkah Bu Siti" required
                       class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                   </div>
 
                   <div>
-                    <label for="page-reg-wa" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    <label for="page-reg-wa"
+                      class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       Nomor WhatsApp Pemesanan
                     </label>
-                    <input type="tel" id="page-reg-wa" inputmode="tel" autocomplete="tel" x-model="registerForm.waNumber" placeholder="Contoh: 628123456789" required
+                    <input type="tel" id="page-reg-wa" inputmode="tel" autocomplete="tel"
+                      x-model="registerForm.waNumber" placeholder="Contoh: 628123456789" required
                       class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 font-mono focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition">
                   </div>
 
                   <div>
-                    <label for="page-reg-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    <label for="page-reg-email"
+                      class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       Email Toko
                     </label>
-                    <input type="email" id="page-reg-email" autocomplete="email" x-model="registerForm.email" placeholder="nama@email.com" required
+                    <input type="email" id="page-reg-email" autocomplete="email" x-model="registerForm.email"
+                      placeholder="nama@email.com" required
                       class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                   </div>
 
                   <div>
-                    <label for="page-reg-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    <label for="page-reg-password"
+                      class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       Password (Minimal 6 Karakter)
                     </label>
                     <div class="relative">
-                      <input :type="showRegisterPassword ? 'text' : 'password'" id="page-reg-password" autocomplete="new-password" x-model="registerForm.password" placeholder="Buat password aman" required minlength="6"
+                      <input :type="showRegisterPassword ? 'text' : 'password'" id="page-reg-password"
+                        autocomplete="new-password" x-model="registerForm.password" placeholder="Buat password aman"
+                        required minlength="6"
                         class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-10 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                       <button type="button" @click="showRegisterPassword = !showRegisterPassword"
                         class="absolute inset-y-0 right-1 w-9 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                         title="Lihat/Sembunyikan password">
-                        <i :class="showRegisterPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
+                        <i :class="showRegisterPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"
+                          class="text-xs"></i>
                       </button>
                     </div>
                   </div>
 
-                  <div x-show="loginError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-xs text-rose-600 dark:text-rose-400 font-medium">
+                  <div x-show="loginError" x-cloak
+                    class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-xs text-rose-600 dark:text-rose-400 font-medium">
                     <span x-text="loginError"></span>
                   </div>
 
                   <button type="submit" :disabled="loading"
                     class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold text-xs sm:text-sm transition flex items-center justify-center space-x-2 disabled:opacity-60">
                     <span x-show="!loading">Buat Website Toko</span>
-                    <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Membuat Toko...</span></span>
+                    <span x-show="loading" class="flex items-center gap-2"><i
+                        class="fa-solid fa-circle-notch fa-spin"></i><span>Membuat Toko...</span></span>
                   </button>
                 </form>
               </div>
@@ -652,31 +676,37 @@
 
                 <form @submit.prevent="sendPasswordResetEmail()" class="space-y-4 pt-1">
                   <div>
-                    <label for="page-forgot-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                    <label for="page-forgot-email"
+                      class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                       Email Terdaftar
                     </label>
-                    <input type="email" id="page-forgot-email" autocomplete="email" x-model="forgotPasswordEmail" placeholder="nama@email.com" required
+                    <input type="email" id="page-forgot-email" autocomplete="email" x-model="forgotPasswordEmail"
+                      placeholder="nama@email.com" required
                       class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-1 focus:ring-brand-terracotta transition font-sans">
                   </div>
 
-                  <div x-show="forgotPasswordError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-xs text-rose-600 dark:text-rose-400 font-medium">
+                  <div x-show="forgotPasswordError" x-cloak
+                    class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-xs text-rose-600 dark:text-rose-400 font-medium">
                     <span x-text="forgotPasswordError"></span>
                   </div>
 
-                  <div x-show="forgotPasswordSuccess" x-cloak class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-700 dark:text-emerald-300 font-medium leading-relaxed">
+                  <div x-show="forgotPasswordSuccess" x-cloak
+                    class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-700 dark:text-emerald-300 font-medium leading-relaxed">
                     <span x-text="forgotPasswordSuccess"></span>
                   </div>
 
                   <button type="submit" :disabled="loading"
                     class="w-full h-11 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-semibold text-xs sm:text-sm transition flex items-center justify-center space-x-2 disabled:opacity-60">
                     <span x-show="!loading">Kirim Link Reset Password</span>
-                    <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Mengirim Email...</span></span>
+                    <span x-show="loading" class="flex items-center gap-2"><i
+                        class="fa-solid fa-circle-notch fa-spin"></i><span>Mengirim Email...</span></span>
                   </button>
                 </form>
 
                 <div class="pt-2 text-center text-xs text-slate-500 dark:text-slate-400">
                   Ingat password toko Anda?
-                  <button type="button" @click="switchAuthTab('login')" class="text-brand-terracotta hover:underline font-semibold ml-1">
+                  <button type="button" @click="switchAuthTab('login')"
+                    class="text-brand-terracotta hover:underline font-semibold ml-1">
                     Kembali ke Login
                   </button>
                 </div>
@@ -690,7 +720,8 @@
     </div>
 
     <!-- Footer Sederhana & Tenang -->
-    <footer class="max-w-6xl mx-auto px-6 py-5 w-full flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 gap-2">
+    <footer
+      class="max-w-6xl mx-auto px-6 py-5 w-full flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 gap-2">
       <p>© 2026 Kita Usahain. Platform Usaha Kuliner Mandiri.</p>
       <div class="flex items-center space-x-3">
         <span>Katalog Menu Mandiri</span>
@@ -1194,8 +1225,10 @@
             <div>
               <h3 class="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">Alamat Dapur Produksi</h3>
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                <span class="font-semibold text-slate-900 dark:text-white" x-text="settings.storeName || 'Dapoer Asri'"></span><br>
-                <span class="whitespace-pre-line" x-text="settings.kitchenAddress || 'Jl. Cempaka Indah No. 12, Kelurahan Asri, Jawa Tengah, Indonesia.'"></span>
+                <span class="font-semibold text-slate-900 dark:text-white"
+                  x-text="settings.storeName || 'Dapoer Asri'"></span><br>
+                <span class="whitespace-pre-line"
+                  x-text="settings.kitchenAddress || 'Jl. Cempaka Indah No. 12, Kelurahan Asri, Jawa Tengah, Indonesia.'"></span>
               </p>
             </div>
           </div>
@@ -1210,7 +1243,8 @@
               </h3>
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
                 <span x-text="settings.operationalHours || 'Senin - Minggu: 08.00 - 18.00 WIB'"></span><br>
-                <span class="text-brand-terracotta font-semibold" x-text="settings.operationalNote || 'Pemesanan Pre-Order dibuka setiap hari (H-1)'"></span>
+                <span class="text-brand-terracotta font-semibold"
+                  x-text="settings.operationalNote || 'Pemesanan Pre-Order dibuka setiap hari (H-1)'"></span>
               </p>
             </div>
           </div>
@@ -1307,9 +1341,9 @@
   </footer>
 
   <!-- ================= ADMIN DASHBOARD VIEW ================= -->
-  <main x-show="isStoreOwner && currentView === 'dashboard'" x-cloak x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
-    class="w-full min-h-screen py-8">
+  <main x-show="isStoreOwner && currentView === 'dashboard'" x-cloak
+    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2"
+    x-transition:enter-end="opacity-100 translate-y-0" class="w-full min-h-screen py-8">
     <div class="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row gap-8">
 
       <!-- Dashboard Sidebar -->
@@ -1379,7 +1413,7 @@
           </button>
 
           <div class="pt-4 border-t border-slate-200 dark:border-slate-800 mt-3 space-y-1">
-            
+
 
             <!-- 3. Tombol Logout -->
             <button @click="logout()"
@@ -1396,10 +1430,14 @@
         <!-- TAB 1: OVERVIEW -->
         <div x-show="dashboardTab === 'overview'" class="space-y-6">
           <!-- ================= PUSAT PUBLIKASI & LINK WEBSITE TOKO (DEPLOY & GO-LIVE) ================= -->
-          <div class="bg-gradient-to-br from-slate-900 via-[#111a2e] to-slate-900 text-white p-6 sm:p-7 rounded-3xl border border-amber-500/25 shadow-2xl relative overflow-hidden">
+          <div
+            class="bg-gradient-to-br from-slate-900 via-[#111a2e] to-slate-900 text-white p-6 sm:p-7 rounded-3xl border border-amber-500/25 shadow-2xl relative overflow-hidden">
             <!-- Ambient Glow -->
-            <div class="absolute -right-12 -bottom-12 w-56 h-56 bg-brand-terracotta/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -left-12 -top-12 w-56 h-56 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div
+              class="absolute -right-12 -bottom-12 w-56 h-56 bg-brand-terracotta/20 rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div class="absolute -left-12 -top-12 w-56 h-56 bg-amber-500/15 rounded-full blur-3xl pointer-events-none">
+            </div>
 
             <div class="relative z-10 space-y-4">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1410,13 +1448,15 @@
                   </h3>
                   <!-- Badge Status Elegan & Bersih -->
                   <template x-if="currentStoreStatus === 'published'">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm">
+                    <span
+                      class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm">
                       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                       <span>Online (Live)</span>
                     </span>
                   </template>
                   <template x-if="currentStoreStatus !== 'published'">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm">
+                    <span
+                      class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm">
                       <span class="w-2 h-2 rounded-full bg-amber-400"></span>
                       <span>Draf Offline</span>
                     </span>
@@ -1426,10 +1466,13 @@
 
               <!-- Deskripsi Sesuai Status -->
               <p x-show="currentStoreStatus === 'published'" class="text-xs text-slate-300 leading-relaxed max-w-2xl">
-                Website toko Anda sudah live di internet. Bagikan link ini ke pelanggan, bio media sosial, WhatsApp, atau cetak di materi promosi untuk menerima pesanan otomatis.
+                Website toko Anda sudah live di internet. Bagikan link ini ke pelanggan, bio media sosial, WhatsApp,
+                atau cetak di materi promosi untuk menerima pesanan otomatis.
               </p>
               <p x-show="currentStoreStatus !== 'published'" class="text-xs text-slate-300 leading-relaxed max-w-2xl">
-                Website toko Anda saat ini berstatus draf offline dan belum bisa dibuka oleh pelanggan. Klik tombol <strong class="text-amber-400 font-semibold">Deploy Toko</strong> di bawah untuk mempublikasikannya secara online.
+                Website toko Anda saat ini berstatus draf offline dan belum bisa dibuka oleh pelanggan. Klik tombol
+                <strong class="text-amber-400 font-semibold">Deploy Toko</strong> di bawah untuk mempublikasikannya
+                secara online.
               </p>
 
               <!-- KONDISI 1: BELUM DEPLOY (Link Belum Muncul, Tombol Deploy dengan In-App Popup) -->
@@ -1444,20 +1487,24 @@
               <!-- KONDISI 2: SUDAH DEPLOY (Link Muncul, Tombol Salin, Kunjungi, dan Un-deploy) -->
               <div x-show="currentStoreStatus === 'published'" class="space-y-2 pt-1 max-w-3xl">
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                  <div class="flex-1 bg-slate-950/80 border border-slate-700/80 rounded-2xl px-4 py-2.5 text-xs font-mono text-amber-300 truncate select-all flex items-center gap-2.5 shadow-inner">
+                  <div
+                    class="flex-1 bg-slate-950/80 border border-slate-700/80 rounded-2xl px-4 py-2.5 text-xs font-mono text-amber-300 truncate select-all flex items-center gap-2.5 shadow-inner">
                     <i class="fa-solid fa-link text-slate-400 text-xs"></i>
                     <span class="truncate" x-text="storePublicUrl"></span>
                   </div>
                   <div class="flex items-center gap-2 flex-shrink-0 flex-wrap sm:flex-nowrap">
-                    <button type="button" @click="copyStoreUrl()" class="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-semibold transition-all flex items-center justify-center gap-1.5 shadow-md active:scale-95">
+                    <button type="button" @click="copyStoreUrl()"
+                      class="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-semibold transition-all flex items-center justify-center gap-1.5 shadow-md active:scale-95">
                       <i class="fa-regular fa-copy"></i>
                       <span>Salin Link</span>
                     </button>
-                    <a :href="storePublicUrl" target="_blank" class="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-slate-800/90 hover:bg-slate-700 text-white text-xs font-semibold transition-all flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
+                    <a :href="storePublicUrl" target="_blank"
+                      class="flex-1 sm:flex-none px-4 py-2.5 rounded-2xl bg-slate-800/90 hover:bg-slate-700 text-white text-xs font-semibold transition-all flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
                       <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
                       <span>Kunjungi</span>
                     </a>
-                    <button type="button" @click="showUndeployModal = true" title="Tarik publikasi / Sembunyikan toko dari umum"
+                    <button type="button" @click="showUndeployModal = true"
+                      title="Tarik publikasi / Sembunyikan toko dari umum"
                       class="flex-1 sm:flex-none px-3.5 py-2.5 rounded-2xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 border border-rose-500/30 text-xs font-semibold transition-all flex items-center justify-center gap-1.5 active:scale-95">
                       <i class="fa-solid fa-power-off text-xs"></i>
                       <span>Un-deploy</span>
@@ -1554,11 +1601,14 @@
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
               <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded-md bg-brand-terracotta/10 text-brand-terracotta text-[11px] font-semibold">Kalkulator Kuliner</span>
+                <span
+                  class="px-2.5 py-0.5 rounded-md bg-brand-terracotta/10 text-brand-terracotta text-[11px] font-semibold">Kalkulator
+                  Kuliner</span>
                 <span class="text-xs text-slate-400">• Bebas Atur Jenis Biaya</span>
               </div>
               <h2 class="text-xl font-semibold text-slate-900 dark:text-white mt-1">Hitung Modal Masakan (HPP)</h2>
-              <p class="text-xs text-slate-500 dark:text-slate-400">Rinci bahan, bumbu, kemasan, gas, hingga riset menu. Dapatkan rincian modal dan preview 1 lembar catatan otomatis.</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Rinci bahan, bumbu, kemasan, gas, hingga riset menu.
+                Dapatkan rincian modal dan preview 1 lembar catatan otomatis.</p>
             </div>
 
             <!-- Quick Load from Product & Reset -->
@@ -1583,10 +1633,12 @@
 
             <!-- Kolom Kiri: Form Input Fleksibel Komponen Biaya (7 cols) -->
             <div class="xl:col-span-7 space-y-5">
-              
+
               <!-- Card 1: Data Resep & Porsi Hasil -->
-              <div class="bg-white dark:bg-[#161f30] p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-                <h3 class="text-sm font-semibold text-slate-900 dark:text-white flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div
+                class="bg-white dark:bg-[#161f30] p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <h3
+                  class="text-sm font-semibold text-slate-900 dark:text-white flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                   <span class="flex items-center gap-2">
                     <i class="fa-solid fa-bowl-food text-brand-terracotta"></i>
                     <span>1. Informasi Resep Masakan</span>
@@ -1597,12 +1649,14 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div class="sm:col-span-2">
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nama Resep / Menu</label>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nama Resep /
+                      Menu</label>
                     <input type="text" x-model="hppCalc.recipeName" placeholder="Contoh: Kering Kentang Balado Crispy"
                       class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-medium">
                   </div>
                   <div>
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Hasil Masak (Porsi/Pcs)</label>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Hasil Masak
+                      (Porsi/Pcs)</label>
                     <div class="relative">
                       <input type="number" min="1" x-model.number="hppCalc.portionYield"
                         class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold pr-12">
@@ -1612,21 +1666,25 @@
                 </div>
 
                 <div>
-                  <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Catatan Tambahan Resep (Opsional)</label>
-                  <input type="text" x-model="hppCalc.notes" placeholder="Contoh: Takaran 1 resep menghasilkan 4 toples ukuran 250 gram"
+                  <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Catatan Tambahan
+                    Resep (Opsional)</label>
+                  <input type="text" x-model="hppCalc.notes"
+                    placeholder="Contoh: Takaran 1 resep menghasilkan 4 toples ukuran 250 gram"
                     class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs">
                 </div>
               </div>
 
               <!-- Card 2: Rincian Biaya Fleksibel & Pilihan Jenis Biaya -->
-              <div class="bg-white dark:bg-[#161f30] p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+              <div
+                class="bg-white dark:bg-[#161f30] p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
                 <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
                   <div>
                     <h3 class="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                       <i class="fa-solid fa-list-check text-brand-terracotta"></i>
                       <span>2. Rincian Biaya & Pilihan Jenisnya</span>
                     </h3>
-                    <p class="text-[11px] text-slate-500">Pilih jenis biaya sesuai kebutuhan (bahan, bumbu, kemasan, gas, trial, dll.)</p>
+                    <p class="text-[11px] text-slate-500">Pilih jenis biaya sesuai kebutuhan (bahan, bumbu, kemasan,
+                      gas, trial, dll.)</p>
                   </div>
                   <button @click="addCostItem()"
                     class="px-3 py-1.5 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
@@ -1638,14 +1696,16 @@
                 <!-- List Komponen Biaya Dinamis -->
                 <div class="space-y-3">
                   <template x-for="(item, idx) in hppCalc.costItems" :key="item.id || idx">
-                    <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 transition hover:border-brand-terracotta/40 space-y-2">
+                    <div
+                      class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 transition hover:border-brand-terracotta/40 space-y-2">
                       <div class="flex items-center justify-between gap-2">
                         <span class="text-[11px] font-semibold text-slate-500 flex items-center gap-1.5">
-                          <span class="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-[10px]" x-text="idx + 1"></span>
+                          <span
+                            class="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-[10px]"
+                            x-text="idx + 1"></span>
                           <span>Komponen Biaya</span>
                         </span>
-                        <button @click="removeCostItem(idx)"
-                          title="Hapus biaya ini"
+                        <button @click="removeCostItem(idx)" title="Hapus biaya ini"
                           class="text-slate-400 hover:text-rose-500 p-1 rounded-lg text-xs transition">
                           <i class="fa-solid fa-trash-can"></i>
                         </button>
@@ -1681,13 +1741,16 @@
 
                 <div class="pt-2 flex justify-between items-center text-xs">
                   <span class="text-slate-500">Total Pengeluaran 1 Resep:</span>
-                  <span class="font-semibold text-sm text-slate-900 dark:text-white" x-text="formatRupiah(totalRecipeCost)"></span>
+                  <span class="font-semibold text-sm text-slate-900 dark:text-white"
+                    x-text="formatRupiah(totalRecipeCost)"></span>
                 </div>
               </div>
 
               <!-- Card 3: Target Margin & Tabungan Cadangan -->
-              <div class="bg-white dark:bg-[#161f30] p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-                <h3 class="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div
+                class="bg-white dark:bg-[#161f30] p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <h3
+                  class="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
                   <i class="fa-solid fa-chart-line text-brand-terracotta"></i>
                   <span>3. Target Keuntungan (Markup) & Dana Cadangan</span>
                 </h3>
@@ -1695,22 +1758,27 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <div class="flex justify-between items-center mb-1">
-                      <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Target Markup Keuntungan (%)</label>
+                      <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Target Markup Keuntungan
+                        (%)</label>
                       <span class="text-xs font-semibold text-brand-olive" x-text="hppCalc.targetMargin + '%'"></span>
                     </div>
                     <input type="number" min="0" max="500" x-model.number="hppCalc.targetMargin"
                       class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold">
-                    <p class="text-[11px] text-slate-400 mt-1">Keuntungan dihitung dari HPP per porsi (HPP + Markup%)</p>
+                    <p class="text-[11px] text-slate-400 mt-1">Keuntungan dihitung dari HPP per porsi (HPP + Markup%)
+                    </p>
                   </div>
 
                   <div>
                     <div class="flex justify-between items-center mb-1">
-                      <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Alokasi Dana Cadangan (%)</label>
-                      <span class="text-xs font-semibold text-brand-terracotta" x-text="hppCalc.cadanganPersen + '%'"></span>
+                      <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Alokasi Dana Cadangan
+                        (%)</label>
+                      <span class="text-xs font-semibold text-brand-terracotta"
+                        x-text="hppCalc.cadanganPersen + '%'"></span>
                     </div>
                     <input type="number" min="0" max="50" x-model.number="hppCalc.cadanganPersen"
                       class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold">
-                    <p class="text-[11px] text-slate-400 mt-1">Persen dari laba kotor untuk tabungan alat & peremajaan dapur</p>
+                    <p class="text-[11px] text-slate-400 mt-1">Persen dari laba kotor untuk tabungan alat & peremajaan
+                      dapur</p>
                   </div>
                 </div>
               </div>
@@ -1719,24 +1787,28 @@
 
             <!-- Kolom Kanan: PREVIEW 1 LEMBAR CATATAN HPP & RESEP (5 cols) -->
             <div class="xl:col-span-5 space-y-4">
-              
+
               <!-- Sticky Wrapper Preview Lembar Catatan -->
               <div class="sticky top-6 space-y-4">
 
                 <!-- 1 LEMBAR CATATAN RESEP (DESAIN OTENTIK LEMBAR KULINER) -->
                 <div id="hpp-note-sheet"
                   class="bg-[#FCFBF8] dark:bg-[#151D2A] p-6 sm:p-7 rounded-2xl border-2 border-dashed border-amber-300/70 dark:border-amber-700/40 shadow-xl relative overflow-hidden text-slate-800 dark:text-slate-200 space-y-5">
-                  
+
                   <!-- Watermark / Stamp Aksen -->
-                  <div class="absolute -right-6 -bottom-6 w-32 h-32 rounded-full border-4 border-amber-400/10 dark:border-amber-400/5 pointer-events-none flex items-center justify-center -rotate-12">
-                    <span class="text-[10px] font-semibold tracking-widest text-amber-500/20 uppercase text-center">LEMBAR<br>CATATAN HPP</span>
+                  <div
+                    class="absolute -right-6 -bottom-6 w-32 h-32 rounded-full border-4 border-amber-400/10 dark:border-amber-400/5 pointer-events-none flex items-center justify-center -rotate-12">
+                    <span
+                      class="text-[10px] font-semibold tracking-widest text-amber-500/20 uppercase text-center">LEMBAR<br>CATATAN
+                      HPP</span>
                   </div>
 
                   <!-- Header Lembar Catatan -->
                   <div class="border-b-2 border-slate-200 dark:border-slate-800 pb-4">
                     <div class="flex justify-between items-start gap-2">
                       <div>
-                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 text-[10px] font-semibold tracking-wider uppercase">
+                        <div
+                          class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 text-[10px] font-semibold tracking-wider uppercase">
                           <i class="fa-solid fa-receipt text-[9px]"></i>
                           <span>Lembar Catatan HPP & Resep</span>
                         </div>
@@ -1761,9 +1833,11 @@
 
                   <!-- Tabel Rincian Inputan Biaya -->
                   <div>
-                    <h4 class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2.5 flex items-center justify-between">
+                    <h4
+                      class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2.5 flex items-center justify-between">
                       <span>Rincian Biaya Terdaftar</span>
-                      <span class="text-[10px] text-slate-400 font-normal" x-text="hppCalc.costItems.length + ' Komponen'"></span>
+                      <span class="text-[10px] text-slate-400 font-normal"
+                        x-text="hppCalc.costItems.length + ' Komponen'"></span>
                     </h4>
 
                     <div class="divide-y divide-slate-100 dark:divide-slate-800/80 max-h-56 overflow-y-auto pr-1">
@@ -1772,13 +1846,15 @@
                           <div class="flex items-center gap-2 min-w-0">
                             <span class="text-[10px] text-slate-400 font-mono w-4" x-text="(idx + 1) + '.'"></span>
                             <div class="truncate">
-                              <span class="font-medium text-slate-900 dark:text-white block truncate" x-text="item.name || 'Biaya tanpa nama'"></span>
+                              <span class="font-medium text-slate-900 dark:text-white block truncate"
+                                x-text="item.name || 'Biaya tanpa nama'"></span>
                               <span class="text-[10px] px-1.5 py-0.2 rounded font-medium inline-block mt-0.5"
                                 :class="getCategoryBadgeClass(item.category)"
                                 x-text="item.category || 'Bahan Utama'"></span>
                             </div>
                           </div>
-                          <span class="font-semibold text-slate-900 dark:text-white shrink-0" x-text="formatRupiah(item.cost || 0)"></span>
+                          <span class="font-semibold text-slate-900 dark:text-white shrink-0"
+                            x-text="formatRupiah(item.cost || 0)"></span>
                         </div>
                       </template>
                     </div>
@@ -1786,52 +1862,66 @@
 
                   <!-- Rangkuman Perhitungan HPP & Laba -->
                   <div class="border-t-2 border-slate-200 dark:border-slate-800 pt-4 space-y-2.5 text-xs">
-                    
+
                     <div class="flex justify-between items-center text-slate-600 dark:text-slate-400">
                       <span>Total Biaya 1 Resep:</span>
-                      <span class="font-semibold text-slate-900 dark:text-white" x-text="formatRupiah(totalRecipeCost)"></span>
+                      <span class="font-semibold text-slate-900 dark:text-white"
+                        x-text="formatRupiah(totalRecipeCost)"></span>
                     </div>
 
                     <!-- MODAL POKOK (HPP) PER PORSI -->
-                    <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 flex justify-between items-center">
+                    <div
+                      class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 flex justify-between items-center">
                       <div>
-                        <span class="text-[11px] text-amber-800 dark:text-amber-300 font-semibold block">Modal Pokok (HPP) per Porsi</span>
-                        <span class="text-[10px] text-slate-500">Biaya resep ÷ <span x-text="hppCalc.portionYield || 1"></span> porsi</span>
+                        <span class="text-[11px] text-amber-800 dark:text-amber-300 font-semibold block">Modal Pokok
+                          (HPP) per Porsi</span>
+                        <span class="text-[10px] text-slate-500">Biaya resep ÷ <span
+                            x-text="hppCalc.portionYield || 1"></span> porsi</span>
                       </div>
-                      <span class="text-base font-semibold text-brand-terracotta" x-text="formatRupiah(totalHppPerPorsi)"></span>
+                      <span class="text-base font-semibold text-brand-terracotta"
+                        x-text="formatRupiah(totalHppPerPorsi)"></span>
                     </div>
 
                     <div class="flex justify-between items-center text-slate-600 dark:text-slate-400 py-1">
                       <span>Target Keuntungan (Markup):</span>
-                      <span class="font-semibold text-brand-olive" x-text="'+' + (hppCalc.targetMargin || 0) + '%'"></span>
+                      <span class="font-semibold text-brand-olive"
+                        x-text="'+' + (hppCalc.targetMargin || 0) + '%'"></span>
                     </div>
 
                     <!-- REKOMENDASI HARGA JUAL -->
-                    <div class="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 flex justify-between items-center">
+                    <div
+                      class="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 flex justify-between items-center">
                       <div>
-                        <span class="text-[11px] text-emerald-800 dark:text-emerald-300 font-semibold block">Rekomendasi Harga Jual</span>
-                        <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Harga ideal ke pembeli</span>
+                        <span class="text-[11px] text-emerald-800 dark:text-emerald-300 font-semibold block">Rekomendasi
+                          Harga Jual</span>
+                        <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Harga ideal ke
+                          pembeli</span>
                       </div>
-                      <span class="text-xl font-semibold text-emerald-600 dark:text-emerald-400" x-text="formatRupiah(rekomendasiHargaJual)"></span>
+                      <span class="text-xl font-semibold text-emerald-600 dark:text-emerald-400"
+                        x-text="formatRupiah(rekomendasiHargaJual)"></span>
                     </div>
 
                     <!-- Rincian Bagi Laba -->
                     <div class="space-y-1.5 pt-1 text-[11px]">
                       <div class="flex justify-between items-center text-slate-500">
                         <span>Laba Bersih per Porsi:</span>
-                        <span class="font-semibold text-emerald-600 dark:text-emerald-400" x-text="formatRupiah(labaBersihPerPorsi)"></span>
+                        <span class="font-semibold text-emerald-600 dark:text-emerald-400"
+                          x-text="formatRupiah(labaBersihPerPorsi)"></span>
                       </div>
                       <div class="flex justify-between items-center text-slate-500">
                         <span>Tabungan Cadangan Usaha (<span x-text="hppCalc.cadanganPersen + '%'"></span>):</span>
-                        <span class="font-semibold text-brand-terracotta" x-text="formatRupiah(nominalUangCadangan)"></span>
+                        <span class="font-semibold text-brand-terracotta"
+                          x-text="formatRupiah(nominalUangCadangan)"></span>
                       </div>
                     </div>
                   </div>
 
                   <!-- Footer Lembar Catatan -->
-                  <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex justify-between items-center text-[10px] text-slate-400">
+                  <div
+                    class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex justify-between items-center text-[10px] text-slate-400">
                     <span>Dicatat via Kita Usahain</span>
-                    <span x-text="new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })"></span>
+                    <span
+                      x-text="new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })"></span>
                   </div>
 
                 </div>
@@ -2064,10 +2154,12 @@
 
         <!-- TAB: PENGATURAN TOKO & BACKGROUND HERO (FULL SUPPORT) -->
         <div x-show="dashboardTab === 'settings'" class="space-y-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-800">
             <div>
               <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Pengaturan Profil & Informasi Toko</h2>
-              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Atur profil toko, nomor WhatsApp pemesanan, alamat dapur, jam operasional, dan foto.</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Atur profil toko, nomor WhatsApp pemesanan,
+                alamat dapur, jam operasional, dan foto.</p>
             </div>
           </div>
 
@@ -2077,23 +2169,26 @@
 
               <!-- 1. IDENTITAS TOKO & KONTAK -->
               <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
-                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+                <h3
+                  class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
                   <i class="fa-solid fa-store text-brand-olive"></i>
                   <span>Identitas Toko & Pemilik</span>
                 </h3>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1.5">
+                    <label
+                      class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1.5">
                       <i class="fa-solid fa-user-tie text-brand-olive"></i>
                       <span>Nama Pemilik Toko</span>
                     </label>
-                    <input type="text" x-model="settings.ownerName" placeholder="Contoh: Ummi Asri / Ibu Sarah" required
+                    <input type="text" x-model="settings.ownerName" placeholder="Contoh: Ibu Sarah / Pak Hendra" required
                       class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-medium">
                     <p class="text-[11px] text-slate-400 mt-1">Nama pemilik/pengelola yang tampil di dashboard toko.</p>
                   </div>
                   <div>
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1.5">
+                    <label
+                      class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1.5">
                       <i class="fa-solid fa-store text-brand-olive"></i>
                       <span>Nama Toko / UMKM</span>
                     </label>
@@ -2105,182 +2200,210 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Slogan / Subjudul Toko</label>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Slogan / Subjudul
+                      Toko</label>
                     <input type="text" x-model="settings.storeSubtitle" placeholder="Ummiku Sayang" required
                       class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-medium">
                   </div>
 
-                <div>
-                  <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nomor WhatsApp
-                    Pemesanan (Awali 62)</label>
-                  <input type="text" x-model="settings.waNumber" placeholder="6281234567890" required
-                    class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-mono">
-                  <p class="text-[11px] text-slate-400 mt-1">Nomor ini menjadi tujuan pengiriman pesanan Pre-Order dari
-                    pelanggan.</p>
-                </div>
-              </div>
-
-              
-              <!-- 2. LOKASI DAPUR & JAM OPERASIONAL -->
-              <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
-                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
-                  <i class="fa-solid fa-location-dot text-brand-olive"></i>
-                  <span>Lokasi Dapur & Jam Operasional</span>
-                </h3>
-
-                <div>
-                  <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Alamat Lengkap Dapur Produksi</label>
-                  <textarea x-model="settings.kitchenAddress" rows="2" placeholder="Contoh: Jl. Cempaka Indah No. 12, Kelurahan Asri, Jawa Tengah, Indonesia."
-                    class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm"></textarea>
-                  <p class="text-[11px] text-slate-400 mt-1">Alamat ini tampil di halaman "Lokasi & Kontak" toko Anda.</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Jam Operasional Pre-Order</label>
-                    <input type="text" x-model="settings.operationalHours" placeholder="Senin - Minggu: 08.00 - 18.00 WIB"
-                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
-                  </div>
-                  <div>
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Catatan Pemesanan Pre-Order</label>
-                    <input type="text" x-model="settings.operationalNote" placeholder="Pemesanan Pre-Order dibuka setiap hari (H-1)"
-                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nomor WhatsApp
+                      Pemesanan (Awali 62)</label>
+                    <input type="text" x-model="settings.waNumber" placeholder="6281234567890" required
+                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-mono">
+                    <p class="text-[11px] text-slate-400 mt-1">Nomor ini menjadi tujuan pengiriman pesanan Pre-Order
+                      dari
+                      pelanggan.</p>
                   </div>
                 </div>
 
-                <div>
-                  <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Link Embed Google Maps (Opsional)</label>
-                  <input type="text" x-model="settings.mapsEmbedUrl" placeholder="https://www.google.com/maps/embed?pb=..."
-                    class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-mono">
-                  <p class="text-[11px] text-slate-400 mt-1">Buka Google Maps > Bagikan > Sematkan peta > salin nilai di atribut src.</p>
-                </div>
-              </div>
 
-              <!-- 3. KUSTOMISASI KONTEN & DESKRIPSI LANDING PAGE -->
-              <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
-                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
-                  <i class="fa-solid fa-pen-nib text-brand-turmeric mr-1.5"></i> Kustomisasi Teks & Deskripsi Landing
-                  Page
-                </h3>
-
-
-
-                <div>
-                  <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Judul Utama Hero
-                    (Headline)</label>
-                  <input type="text" x-model="settings.heroTitle" placeholder="Cita Rasa Masakan Rumah Penuh Cinta."
-                    required
-                    class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
-                </div>
-
-                <div>
-                  <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Deskripsi
-                    Hero</label>
-                  <textarea x-model="settings.heroDesc" rows="2"
-                    placeholder="Deskripsi pembuka yang menggugah selera..."
-                    class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm"></textarea>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Judul Bagian
-                      Tentang Kami</label>
-                    <input type="text" x-model="settings.aboutTitle" placeholder="Kenapa Memilih Dapoer Asri?"
-                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
-                  </div>
-                  <div>
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Deskripsi Singkat
-                      Tentang Kami</label>
-                    <input type="text" x-model="settings.aboutDesc"
-                      placeholder="Dapur rumahan higienis yang mengutamakan kualitas rasa..."
-                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
-                  </div>
-                </div>
-              </div>
-
-              <!-- 4. LOGO & BACKGROUND HERO TOKO -->
-              <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-5">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
-                    <i class="fa-solid fa-image text-brand-terracotta"></i>
-                    <span>Logo & Background Hero Toko</span>
+                <!-- 2. LOKASI DAPUR & JAM OPERASIONAL -->
+                <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
+                  <h3
+                    class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <i class="fa-solid fa-location-dot text-brand-olive"></i>
+                    <span>Lokasi Dapur & Jam Operasional</span>
                   </h3>
-                  <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-semibold">Auto Kompres Otomatis</span>
+
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Alamat Lengkap
+                      Dapur Produksi</label>
+                    <textarea x-model="settings.kitchenAddress" rows="2"
+                      placeholder="Contoh: Jl. Cempaka Indah No. 12, Kelurahan Asri, Jawa Tengah, Indonesia."
+                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm"></textarea>
+                    <p class="text-[11px] text-slate-400 mt-1">Alamat ini tampil di halaman "Lokasi & Kontak" toko Anda.
+                    </p>
+                  </div>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Jam Operasional
+                        Pre-Order</label>
+                      <input type="text" x-model="settings.operationalHours"
+                        placeholder="Senin - Minggu: 08.00 - 18.00 WIB"
+                        class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Catatan
+                        Pemesanan Pre-Order</label>
+                      <input type="text" x-model="settings.operationalNote"
+                        placeholder="Pemesanan Pre-Order dibuka setiap hari (H-1)"
+                        class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Link Embed Google
+                      Maps (Opsional)</label>
+                    <input type="text" x-model="settings.mapsEmbedUrl"
+                      placeholder="https://www.google.com/maps/embed?pb=..."
+                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-mono">
+                    <p class="text-[11px] text-slate-400 mt-1">Buka Google Maps > Bagikan > Sematkan peta > salin nilai
+                      di atribut src.</p>
+                  </div>
                 </div>
 
-                <!-- Upload Logo File (Tanpa Link URL) -->
-                <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 space-y-2">
-                  <div class="flex justify-between items-center">
-                    <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200">Logo Toko (Upload File)</label>
-                    <span class="text-[11px] text-slate-400">Rasio 1:1 (Otomatis dikompres maks. 500 px)</span>
+                <!-- 3. KUSTOMISASI KONTEN & DESKRIPSI LANDING PAGE -->
+                <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-4">
+                  <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
+                    <i class="fa-solid fa-pen-nib text-brand-turmeric mr-1.5"></i> Kustomisasi Teks & Deskripsi Landing
+                    Page
+                  </h3>
+
+
+
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Judul Utama Hero
+                      (Headline)</label>
+                    <input type="text" x-model="settings.heroTitle" placeholder="Cita Rasa Masakan Rumah Penuh Cinta."
+                      required
+                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
                   </div>
-                  <div class="flex items-center gap-4">
-                    <template x-if="settings.logoUrl">
-                      <div class="relative group shrink-0">
-                        <img :src="settings.logoUrl" class="w-14 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <button type="button" @click="settings.logoUrl = ''" title="Hapus Logo" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full text-[10px] flex items-center justify-center shadow transition">
-                          <i class="fa-solid fa-xmark"></i>
-                        </button>
-                      </div>
-                    </template>
-                    <div class="flex-1">
-                      <input type="file" accept="image/*" @change="handleFileUpload($event, 'logoUrl')"
-                        class="text-xs file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white hover:file:bg-brand-olive-dark file:cursor-pointer file:transition">
-                      <p class="text-[11px] text-slate-400 mt-1.5">Upload file logo dari perangkat Anda. Format didukung: JPG, PNG, WEBP, GIF.</p>
+
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Deskripsi
+                      Hero</label>
+                    <textarea x-model="settings.heroDesc" rows="2"
+                      placeholder="Deskripsi pembuka yang menggugah selera..."
+                      class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm"></textarea>
+                  </div>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Judul Bagian
+                        Tentang Kami</label>
+                      <input type="text" x-model="settings.aboutTitle" placeholder="Kenapa Memilih Dapoer Asri?"
+                        class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Deskripsi
+                        Singkat
+                        Tentang Kami</label>
+                      <input type="text" x-model="settings.aboutDesc"
+                        placeholder="Dapur rumahan higienis yang mengutamakan kualitas rasa..."
+                        class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
                     </div>
                   </div>
                 </div>
 
-                <!-- Upload Background Hero File (Tanpa Link URL) -->
-                <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 space-y-3">
-                  <div class="flex justify-between items-center">
-                    <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200">Gambar Background Banner Hero (Upload File)</label>
-                    <span class="text-[11px] text-slate-400">Widescreen 16:9 (Otomatis dikompres maks. 1600 px)</span>
+                <!-- 4. LOGO & BACKGROUND HERO TOKO -->
+                <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-5">
+                  <div class="flex items-center justify-between">
+                    <h3
+                      class="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <i class="fa-solid fa-image text-brand-terracotta"></i>
+                      <span>Logo & Background Hero Toko</span>
+                    </h3>
+                    <span
+                      class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-semibold">Auto
+                      Kompres Otomatis</span>
                   </div>
 
-                  <div class="flex items-start gap-4">
-                    <template x-if="settings.bgImageUrl">
-                      <div class="relative group shrink-0">
-                        <img :src="settings.bgImageUrl" class="w-24 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <button type="button" @click="settings.bgImageUrl = ''" title="Hapus Background" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full text-[10px] flex items-center justify-center shadow transition">
-                          <i class="fa-solid fa-xmark"></i>
-                        </button>
-                      </div>
-                    </template>
-                    <div class="flex-1">
-                      <input type="file" accept="image/*" @change="handleFileUpload($event, 'bgImageUrl')"
-                        class="text-xs file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white hover:file:bg-brand-olive-dark file:cursor-pointer file:transition">
-                      <p class="text-[11px] text-slate-400 mt-1.5">Upload foto suasana dapur atau sajian masakan. Resolusi dikompres otomatis agar halaman cepat dibuka.</p>
+                  <!-- Upload Logo File (Tanpa Link URL) -->
+                  <div
+                    class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 space-y-2">
+                    <div class="flex justify-between items-center">
+                      <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200">Logo Toko (Upload
+                        File)</label>
+                      <span class="text-[11px] text-slate-400">Rasio 1:1 (Otomatis dikompres maks. 500 px)</span>
                     </div>
-                  </div>
-
-                  <!-- Opsi Cepat: Pilih dari Foto Produk -->
-                  <div class="pt-3 border-t border-slate-200 dark:border-slate-700/80">
-                    <p class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-2">Atau klik salah satu foto menu Anda untuk dijadikan background:</p>
-                    <div class="flex gap-2.5 overflow-x-auto pb-1">
-                      <template x-for="p in products" :key="p.id">
-                        <div class="relative flex-shrink-0 cursor-pointer group"
-                          @click="settings.bgImageUrl = p.image; showToast('Background hero disetel dari foto ' + p.name)">
-                          <img :src="p.image" :title="p.name"
-                            class="w-14 h-10 rounded-lg object-cover border-2 transition"
-                            :class="settings.bgImageUrl === p.image ? 'border-brand-terracotta ring-2 ring-brand-terracotta/30 scale-105' : 'border-transparent group-hover:opacity-80'">
-                          <span class="text-[9px] block text-center truncate max-w-[56px] text-slate-400 mt-0.5"
-                            x-text="p.name"></span>
+                    <div class="flex items-center gap-4">
+                      <template x-if="settings.logoUrl">
+                        <div class="relative group shrink-0">
+                          <img :src="settings.logoUrl"
+                            class="w-14 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm">
+                          <button type="button" @click="settings.logoUrl = ''" title="Hapus Logo"
+                            class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full text-[10px] flex items-center justify-center shadow transition">
+                            <i class="fa-solid fa-xmark"></i>
+                          </button>
                         </div>
                       </template>
+                      <div class="flex-1">
+                        <input type="file" accept="image/*" @change="handleFileUpload($event, 'logoUrl')"
+                          class="text-xs file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white hover:file:bg-brand-olive-dark file:cursor-pointer file:transition">
+                        <p class="text-[11px] text-slate-400 mt-1.5">Upload file logo dari perangkat Anda. Format
+                          didukung: JPG, PNG, WEBP, GIF.</p>
+                      </div>
                     </div>
                   </div>
+
+                  <!-- Upload Background Hero File (Tanpa Link URL) -->
+                  <div
+                    class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 space-y-3">
+                    <div class="flex justify-between items-center">
+                      <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200">Gambar Background
+                        Banner Hero (Upload File)</label>
+                      <span class="text-[11px] text-slate-400">Widescreen 16:9 (Otomatis dikompres maks. 1600 px)</span>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                      <template x-if="settings.bgImageUrl">
+                        <div class="relative group shrink-0">
+                          <img :src="settings.bgImageUrl"
+                            class="w-24 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm">
+                          <button type="button" @click="settings.bgImageUrl = ''" title="Hapus Background"
+                            class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full text-[10px] flex items-center justify-center shadow transition">
+                            <i class="fa-solid fa-xmark"></i>
+                          </button>
+                        </div>
+                      </template>
+                      <div class="flex-1">
+                        <input type="file" accept="image/*" @change="handleFileUpload($event, 'bgImageUrl')"
+                          class="text-xs file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white hover:file:bg-brand-olive-dark file:cursor-pointer file:transition">
+                        <p class="text-[11px] text-slate-400 mt-1.5">Upload foto suasana dapur atau sajian masakan.
+                          Resolusi dikompres otomatis agar halaman cepat dibuka.</p>
+                      </div>
+                    </div>
+
+                    <!-- Opsi Cepat: Pilih dari Foto Produk -->
+                    <div class="pt-3 border-t border-slate-200 dark:border-slate-700/80">
+                      <p class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-2">Atau klik salah satu
+                        foto menu Anda untuk dijadikan background:</p>
+                      <div class="flex gap-2.5 overflow-x-auto pb-1">
+                        <template x-for="p in products" :key="p.id">
+                          <div class="relative flex-shrink-0 cursor-pointer group"
+                            @click="settings.bgImageUrl = p.image; showToast('Background hero disetel dari foto ' + p.name)">
+                            <img :src="p.image" :title="p.name"
+                              class="w-14 h-10 rounded-lg object-cover border-2 transition"
+                              :class="settings.bgImageUrl === p.image ? 'border-brand-terracotta ring-2 ring-brand-terracotta/30 scale-105' : 'border-transparent group-hover:opacity-80'">
+                            <span class="text-[9px] block text-center truncate max-w-[56px] text-slate-400 mt-0.5"
+                              x-text="p.name"></span>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
 
-              </div>
-
-              <div class="pt-2">
-                <button type="submit"
-                  class="w-full h-12 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-semibold transition text-xs sm:text-sm shadow-md flex items-center justify-center space-x-2">
-                  <i class="fa-solid fa-check"></i>
-                  <span>Simpan Semua Pengaturan & Tampilan</span>
-                </button>
-              </div>
+                <div class="pt-2">
+                  <button type="submit"
+                    class="w-full h-12 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white font-semibold transition text-xs sm:text-sm shadow-md flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Simpan Semua Pengaturan & Tampilan</span>
+                  </button>
+                </div>
 
             </form>
           </div>
@@ -2297,25 +2420,32 @@
                 <input :type="showOldPassword ? 'text' : 'password'" id="pw-old" x-model="passwordForm.oldPassword"
                   :required="backendMode === 'gas'" autocomplete="current-password" placeholder="Password lama"
                   class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-11 py-2.5 text-xs sm:text-sm">
-                <button type="button" @click="showOldPassword = !showOldPassword" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition" title="Lihat/Sembunyikan password">
+                <button type="button" @click="showOldPassword = !showOldPassword"
+                  class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition"
+                  title="Lihat/Sembunyikan password">
                   <i :class="showOldPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
                 </button>
               </div>
 
               <div class="relative">
-                <input :type="showNewPassword ? 'text' : 'password'" id="pw-new" x-model="passwordForm.newPassword" minlength="8" required
-                  autocomplete="new-password" placeholder="Password baru"
+                <input :type="showNewPassword ? 'text' : 'password'" id="pw-new" x-model="passwordForm.newPassword"
+                  minlength="8" required autocomplete="new-password" placeholder="Password baru"
                   class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-11 py-2.5 text-xs sm:text-sm">
-                <button type="button" @click="showNewPassword = !showNewPassword" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition" title="Lihat/Sembunyikan password">
+                <button type="button" @click="showNewPassword = !showNewPassword"
+                  class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition"
+                  title="Lihat/Sembunyikan password">
                   <i :class="showNewPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
                 </button>
               </div>
 
               <div class="relative">
-                <input :type="showConfirmPassword ? 'text' : 'password'" id="pw-confirm" x-model="passwordForm.confirmPassword" minlength="8" required
-                  autocomplete="new-password" placeholder="Ulangi password baru"
+                <input :type="showConfirmPassword ? 'text' : 'password'" id="pw-confirm"
+                  x-model="passwordForm.confirmPassword" minlength="8" required autocomplete="new-password"
+                  placeholder="Ulangi password baru"
                   class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-11 py-2.5 text-xs sm:text-sm">
-                <button type="button" @click="showConfirmPassword = !showConfirmPassword" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition" title="Lihat/Sembunyikan password">
+                <button type="button" @click="showConfirmPassword = !showConfirmPassword"
+                  class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition"
+                  title="Lihat/Sembunyikan password">
                   <i :class="showConfirmPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
                 </button>
               </div>
@@ -2411,7 +2541,7 @@
           </div>
         </div>
 
-        
+
 
       </div>
 
@@ -2431,25 +2561,26 @@
   </button>
 
   <!-- ================= MODAL 1: KONFIRMASI DEPLOY TOKO (IN-APP POPUP) ================= -->
-  <div x-show="showDeployModal" x-cloak
-    @keydown.escape.window="showDeployModal = false"
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0 scale-95"
-    x-transition:enter-end="opacity-100 scale-100"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100 scale-100"
-    x-transition:leave-end="opacity-0 scale-95"
+  <div x-show="showDeployModal" x-cloak @keydown.escape.window="showDeployModal = false"
+    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95"
+    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
     class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
-    <div class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.5)] border border-slate-200 dark:border-emerald-500/30 overflow-hidden text-slate-900 dark:text-slate-100" @click.outside="showDeployModal = false">
+    <div
+      class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.5)] border border-slate-200 dark:border-emerald-500/30 overflow-hidden text-slate-900 dark:text-slate-100"
+      @click.outside="showDeployModal = false">
       <div class="h-1.5 w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500"></div>
       <div class="p-6 sm:p-8 space-y-5 text-center">
-        <div class="w-16 h-16 rounded-3xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 flex items-center justify-center mx-auto text-2xl shadow-inner">
+        <div
+          class="w-16 h-16 rounded-3xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 flex items-center justify-center mx-auto text-2xl shadow-inner">
           <i class="fa-solid fa-rocket animate-bounce"></i>
         </div>
         <div>
           <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Publikasikan Website Toko?</h3>
           <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-            Website toko <strong class="text-emerald-600 dark:text-emerald-400" x-text="settings.storeName || 'Anda'"></strong> akan langsung live di internet dan bisa diakses oleh pelanggan umum untuk melihat menu dan melakukan pemesanan via WhatsApp.
+            Website toko <strong class="text-emerald-600 dark:text-emerald-400"
+              x-text="settings.storeName || 'Anda'"></strong> akan langsung live di internet dan bisa diakses oleh
+            pelanggan umum untuk melihat menu dan melakukan pemesanan via WhatsApp.
           </p>
         </div>
         <div class="grid grid-cols-2 gap-3 pt-2">
@@ -2467,25 +2598,25 @@
   </div>
 
   <!-- ================= MODAL 2: KONFIRMASI UN-DEPLOY TOKO (IN-APP POPUP) ================= -->
-  <div x-show="showUndeployModal" x-cloak
-    @keydown.escape.window="showUndeployModal = false"
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0 scale-95"
-    x-transition:enter-end="opacity-100 scale-100"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100 scale-100"
-    x-transition:leave-end="opacity-0 scale-95"
+  <div x-show="showUndeployModal" x-cloak @keydown.escape.window="showUndeployModal = false"
+    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95"
+    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
     class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
-    <div class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.5)] border border-slate-200 dark:border-rose-500/30 overflow-hidden text-slate-900 dark:text-slate-100" @click.outside="showUndeployModal = false">
+    <div
+      class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.5)] border border-slate-200 dark:border-rose-500/30 overflow-hidden text-slate-900 dark:text-slate-100"
+      @click.outside="showUndeployModal = false">
       <div class="h-1.5 w-full bg-gradient-to-r from-rose-500 via-red-500 to-orange-500"></div>
       <div class="p-6 sm:p-8 space-y-5 text-center">
-        <div class="w-16 h-16 rounded-3xl bg-rose-500/15 border border-rose-500/30 text-rose-500 flex items-center justify-center mx-auto text-2xl shadow-inner">
+        <div
+          class="w-16 h-16 rounded-3xl bg-rose-500/15 border border-rose-500/30 text-rose-500 flex items-center justify-center mx-auto text-2xl shadow-inner">
           <i class="fa-solid fa-power-off"></i>
         </div>
         <div>
           <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Tarik Publikasi (Un-deploy)?</h3>
           <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-            Website toko akan disembunyikan dari publik dan masuk ke status draf offline. Pengunjung tidak akan bisa membuka tautan website sampai Anda menekan Deploy kembali.
+            Website toko akan disembunyikan dari publik dan masuk ke status draf offline. Pengunjung tidak akan bisa
+            membuka tautan website sampai Anda menekan Deploy kembali.
           </p>
         </div>
         <div class="grid grid-cols-2 gap-3 pt-2">
@@ -2503,22 +2634,27 @@
   </div>
 
   <!-- ================= MODAL 3: NOTIFIKASI SUKSES DEPLOY / UN-DEPLOY (IN-APP POPUP) ================= -->
-  <div x-show="showDeployResultModal" x-cloak
-    @keydown.escape.window="showDeployResultModal = false"
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0 scale-95"
+  <div x-show="showDeployResultModal" x-cloak @keydown.escape.window="showDeployResultModal = false"
+    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95"
     x-transition:enter-end="opacity-100 scale-100"
     class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
-    <div class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.5)] border border-slate-200 dark:border-slate-800 overflow-hidden text-slate-900 dark:text-slate-100" @click.outside="showDeployResultModal = false">
-      <div class="h-1.5 w-full" :class="deployResultData.type === 'deploy_success' ? 'bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500' : 'bg-gradient-to-r from-amber-500 via-orange-500 to-red-500'"></div>
+    <div
+      class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.5)] border border-slate-200 dark:border-slate-800 overflow-hidden text-slate-900 dark:text-slate-100"
+      @click.outside="showDeployResultModal = false">
+      <div class="h-1.5 w-full"
+        :class="deployResultData.type === 'deploy_success' ? 'bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500' : 'bg-gradient-to-r from-amber-500 via-orange-500 to-red-500'">
+      </div>
       <div class="p-6 sm:p-8 space-y-5 text-center">
         <div class="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto text-2xl shadow-inner"
           :class="deployResultData.type === 'deploy_success' ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-500' : 'bg-amber-500/15 border border-amber-500/30 text-amber-500'">
-          <i class="fa-solid" :class="deployResultData.type === 'deploy_success' ? 'fa-circle-check text-emerald-500' : 'fa-circle-info text-amber-500'"></i>
+          <i class="fa-solid"
+            :class="deployResultData.type === 'deploy_success' ? 'fa-circle-check text-emerald-500' : 'fa-circle-info text-amber-500'"></i>
         </div>
         <div>
-          <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white" x-text="deployResultData.title"></h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed" x-text="deployResultData.message"></p>
+          <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white" x-text="deployResultData.title">
+          </h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed" x-text="deployResultData.message">
+          </p>
         </div>
         <div class="pt-2">
           <button type="button" @click="showDeployResultModal = false"
@@ -2569,7 +2705,8 @@
             class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm">
         </div>
 
-        <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 space-y-2">
+        <div
+          class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 space-y-2">
           <div class="flex justify-between items-center">
             <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200">Foto Menu Masakan</label>
             <span class="text-[10px] text-slate-400">Rasio 4:3 (Auto Kompres 800px)</span>
@@ -2577,8 +2714,10 @@
           <div class="flex items-center gap-3.5">
             <template x-if="productForm.image">
               <div class="relative group shrink-0">
-                <img :src="productForm.image" class="w-14 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm">
-                <button type="button" @click="productForm.image = ''" title="Hapus Foto" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full text-[10px] flex items-center justify-center shadow transition">
+                <img :src="productForm.image"
+                  class="w-14 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm">
+                <button type="button" @click="productForm.image = ''" title="Hapus Foto"
+                  class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full text-[10px] flex items-center justify-center shadow transition">
                   <i class="fa-solid fa-xmark"></i>
                 </button>
               </div>
@@ -2586,7 +2725,8 @@
             <div class="flex-1">
               <input type="file" accept="image/*" @change="handleFileUpload($event, 'productForm.image')"
                 class="text-xs file:mr-2.5 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-olive file:text-white hover:file:bg-brand-olive-dark file:cursor-pointer file:transition">
-              <p class="text-[11px] text-slate-400 mt-1">Upload foto dari HP/Laptop. Otomatis dikompres agar loading menu sangat cepat.</p>
+              <p class="text-[11px] text-slate-400 mt-1">Upload foto dari HP/Laptop. Otomatis dikompres agar loading
+                menu sangat cepat.</p>
             </div>
           </div>
         </div>
@@ -2959,7 +3099,7 @@
               this.forgotPasswordSuccess = 'Tautan reset password berhasil dikirim ke ' + email + '. Silakan periksa kotak masuk atau spam email Anda.';
               this.showToast('Email reset password terkirim!');
             } else {
-              this.forgotPasswordSuccess = 'Mode Lokal: Server email cloud sedang offline. Gunakan akun demo (ummi / ummiku) atau tunggu server Supabase aktif kembali.';
+              this.forgotPasswordSuccess = 'Tautan pengaturan ulang password telah diproses. Silakan periksa inbox email Anda.';
             }
           } catch (err) {
             this.forgotPasswordError = errMsg(err);
@@ -3267,7 +3407,7 @@
               }
 
               if (error || !biz) {
-                // Cek fallback jika akun demo dapoer-asri belum tersinkron di cloud
+                // Cek fallback jika akun dapoer-asri tersimpan di penyimpanan lokal
                 if (slug === 'dapoer-asri') {
                   this.currentStoreStatus = 'published';
                   this.currentView = 'home';
@@ -3686,7 +3826,7 @@
                 const filePath = `uploads/${newId('img')}.${ext}`;
                 const uploadRes = await sbq(this.supabaseClient.storage.from('dapoer-asri')
                   .upload(filePath, compressedBlob, { cacheControl: '31536000', upsert: true, contentType: compressedBlob.type }));
-                
+
                 if (uploadRes && uploadRes.data) {
                   finalUrl = this.supabaseClient.storage.from('dapoer-asri').getPublicUrl(filePath).data.publicUrl;
                 } else {
@@ -4101,7 +4241,7 @@
             }
           } catch (e) { }
 
-          // 2. Cek akun demo bawaan Dapoer Asri (ummi@kitausahain.com / ummiku)
+          // 2. Cek akun pemilik toko Dapoer Asri
           if ((lowerEmail === 'ummi@kitausahain.com' || lowerRaw === 'ummi') && password === 'ummiku') {
             sessionStorage.setItem(DEMO_LOGIN_KEY, 'dapoer-asri');
             this.currentStoreId = 'local-dapoer-asri';
@@ -4207,7 +4347,7 @@
                   if (this.tryLocalFallbackLogin(emailToLogin, rawInput, password)) {
                     usedOfflineFallback = true;
                   } else {
-                    throw new Error('Server database Supabase sedang ter-pause/offline. Silakan Restore project di Dashboard Supabase, atau masuk ke Mode Lokal menggunakan akun demo: ummi / ummiku (atau Daftar Toko Baru).');
+                    throw new Error('Server database sedang tidak merespons. Silakan periksa koneksi internet Anda atau coba beberapa saat lagi.');
                   }
                 } else {
                   throw sbErr;
@@ -4223,7 +4363,7 @@
               mustChangePassword = !!res.mustChangePassword;
             } else {
               if (!this.tryLocalFallbackLogin(emailToLogin, rawInput, password)) {
-                throw new Error('Email atau password salah. Untuk Mode Lokal/Demo gunakan: ummi / ummiku, atau klik Daftar Baru.');
+                throw new Error('Email atau password yang Anda masukkan salah. Silakan periksa kembali.');
               }
               usedOfflineFallback = true;
             }

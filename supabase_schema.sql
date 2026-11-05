@@ -6,7 +6,7 @@
 --   * 1 Database Supabase untuk seluruh tenant UMKM.
 --   * Multi-tenancy berbasis business_id / slug subdomain.
 --   * Data setiap UMKM terisolasi 100% menggunakan Row Level Security (RLS).
---   * Akun 'dapoer-asri' otomatis di-seed sebagai akun demo / percontohan permanen.
+--   * Akun 'dapoer-asri' otomatis di-seed sebagai akun toko resmi Dapoer Asri.
 --   * Sistem mendukung status 'draft', 'published', dan 'unpublished'.
 -- ==============================================================================
 
@@ -137,7 +137,7 @@ CREATE POLICY "Auth write settings" ON public.settings FOR ALL TO authenticated 
 -- ------------------------------------------------------------------------------
 -- Catatan Pemilik Toko:
 -- Buat akun admin di Supabase Dashboard -> Authentication -> Users -> "Add User"
--- Email: ummi@kitausahain.com | Password: ummiku | Auto Confirm: Yes
+-- Email Akun Resmi: ummi@kitausahain.com | Auto Confirm: Yes
 -- Saat Ummi login di website, sistem otomatis menautkan toko Dapoer Asri ini.
 INSERT INTO public.businesses (
     id, owner_id, slug, business_name, business_subtitle, wa_number, status,
