@@ -212,10 +212,13 @@ CREATE POLICY "Owner insert business" ON public.businesses
     FOR INSERT TO authenticated
     WITH CHECK (owner_id = auth.uid());
 
--- Pemilik hanya boleh mengubah bisnis miliknya sendiri
+-- Pemilik hanya boleh mengubah bisnis miliknya sendiri (serta klaim awal akun resmi Ummi ke dapoer-asri)
 CREATE POLICY "Owner update business" ON public.businesses
     FOR UPDATE TO authenticated
-    USING (owner_id = auth.uid())
+    USING (
+        owner_id = auth.uid()
+        OR (slug = 'dapoer-asri' AND owner_id IS NULL AND LOWER(COALESCE(auth.jwt()->>'email', '')) = 'ummi@kitausahain.com')
+    )
     WITH CHECK (owner_id = auth.uid());
 
 -- PRODUCTS RLS
@@ -267,8 +270,22 @@ DECLARE
     final_slug TEXT;
     counter INT := 0;
 BEGIN
-    biz_title := COALESCE(NEW.raw_user_meta_data->>'business_name', 'Toko Kuliner');
-    biz_wa    := COALESCE(NEW.raw_user_meta_data->>'wa_number', '6281234567890');
+    -- Khusus akun resmi Ummi: langsung tautkan ke toko utama 'dapoer-asri' tanpa membuat toko duplikat
+    IF LOWER(COALESCE(NEW.email, '')) = 'ummi@kitausahain.com' THEN
+        UPDATE public.businesses
+        SET owner_id = NEW.id
+        WHERE slug = 'dapoer-asri' AND (owner_id IS NULL OR owner_id = NEW.id);
+        IF FOUND THEN
+            RETURN NEW;
+        END IF;
+    END IF;
+
+    biz_title := COALESCE(
+        NULLIF(TRIM(NEW.raw_user_meta_data->>'business_name'), ''),
+        NULLIF(TRIM(NEW.raw_user_meta_data->>'store_name'), ''),
+        'Toko Kuliner'
+    );
+    biz_wa    := COALESCE(NULLIF(TRIM(NEW.raw_user_meta_data->>'wa_number'), ''), '6281234567890');
     
     base_slug := LOWER(REGEXP_REPLACE(biz_title, '[^a-zA-Z0-9]+', '-', 'g'));
     base_slug := TRIM(BOTH '-' FROM base_slug);

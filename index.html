@@ -314,7 +314,7 @@
   </div>
 
   <!-- LOADING SPINNER -->
-  <div x-show="loading" x-cloak
+  <div x-show="loading && !showLoginModal && !showRegisterModal && !showForgotPasswordModal && currentView !== 'auth'" x-cloak
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
     <div
       class="bg-white dark:bg-[#161f30] border border-slate-200 dark:border-slate-800 px-6 py-4 rounded-2xl shadow-xl flex items-center space-x-3.5">
@@ -323,8 +323,8 @@
     </div>
   </div>
 
-  <!-- ================= NAVBAR ================= -->
-  <header x-show="currentView !== 'splash'" x-cloak
+  <!-- ================= NAVBAR TOKO & DASHBOARD ================= -->
+  <header x-show="!['auth', 'splash', 'not_found', 'unpublished'].includes(currentView)" x-cloak
     class="sticky top-0 z-40 bg-white/95 dark:bg-[#0b0f17]/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-10 h-20 sm:h-24 flex items-center justify-between gap-4">
 
@@ -389,9 +389,10 @@
 
         <!-- Icon Login Admin -->
         <template x-if="!isLoggedIn">
-          <button @click="openLoginModal()" title="Login Admin"
-            class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center justify-center text-sm">
-            <i class="fa-solid fa-lock"></i>
+          <button @click="openLoginModal()" title="Login Pemilik Toko"
+            class="h-10 w-10 sm:w-auto sm:px-3.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center justify-center gap-2 text-xs font-semibold">
+            <i class="fa-solid fa-lock text-xs"></i>
+            <span class="hidden sm:inline">Masuk Toko</span>
           </button>
         </template>
 
@@ -454,7 +455,346 @@
       :style="`width: ${scrollPercent}%`"></div>
   </header>
 
-  <!-- ================= MULTI-TENANT SPLASH PORTAL (HALAMAN PERTAMA) ================= -->
+  <!-- ================= HALAMAN UTAMA PLATFORM: LOGIN / DAFTAR TOKO (ROOT DOMAIN) ================= -->
+  <main x-show="currentView === 'auth'" x-cloak x-transition:enter="transition ease-out duration-300"
+    class="min-h-screen flex flex-col justify-between relative overflow-x-clip bg-[#FAF6F0] dark:bg-[#0b0f17] text-slate-800 dark:text-slate-100 transition-colors duration-300">
+
+    <!-- Ambient Radial Glow -->
+    <div
+      class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_10%,rgba(186,74,36,0.09)_0%,transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_10%,rgba(217,91,48,0.14)_0%,transparent_65%)]">
+    </div>
+
+    <!-- Top Bar Platform Login -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 pt-5 pb-3 w-full flex items-center justify-between relative z-10 gap-3">
+      <div class="flex items-center space-x-2.5 select-none min-w-0">
+        <div
+          class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-terracotta to-amber-500 text-white flex items-center justify-center font-semibold text-base shadow-sm flex-shrink-0">
+          <i class="fa-solid fa-store"></i>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="font-semibold text-base sm:text-lg text-slate-900 dark:text-white leading-tight tracking-tight whitespace-nowrap">Kita Usahain</span>
+            <span class="hidden sm:inline-block text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-brand-terracotta/15 text-brand-terracotta flex-shrink-0">Platform</span>
+          </div>
+          <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 block leading-tight">Portal Pemilik Toko UMKM</span>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2 flex-shrink-0">
+        <button type="button" @click="openDemoStore()"
+          class="h-10 px-3 sm:px-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/85 dark:bg-[#131b28] text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#1a2436] text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-arrow-up-right-from-square text-[11px] text-brand-terracotta dark:text-amber-400"></i>
+          <span>Contoh Toko</span>
+        </button>
+
+        <button type="button" @click="toggleDarkMode()" title="Ganti Tema Terang / Gelap"
+          class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/85 dark:bg-[#131b28] text-slate-700 dark:text-amber-400 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-[#1a2436] shadow-sm transition">
+          <i class="fa-solid text-xs" :class="darkMode ? 'fa-sun text-amber-400' : 'fa-moon'"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Center Split / Card Container -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 py-4 sm:py-10 my-auto w-full relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+        <!-- Left Column (Desktop Brand Showcase - Hidden on Mobile so Form is Immediately Above the Fold) -->
+        <div class="hidden lg:block lg:col-span-6 space-y-7 pr-4">
+          <div
+            class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-brand-terracotta/10 text-brand-terracotta dark:text-orange-400 border border-brand-terracotta/20">
+            <i class="fa-solid fa-sparkles text-xs"></i>
+            <span>Platform Website & Kasir Pre-Order UMKM</span>
+          </div>
+
+          <h1 class="text-4xl xl:text-5xl font-semibold text-slate-900 dark:text-white leading-[1.2] tracking-tight">
+            Kelola Website Toko, Menu & Laporan Kas Dalam Satu Pintu.
+          </h1>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Masuk ke akun toko Anda untuk mengatur katalog menu, mencatat pesanan Pre-Order WhatsApp, menghitung HPP resep, dan memantau keuntungan harian.
+          </p>
+
+          <div class="space-y-3.5 pt-1">
+            <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-white/80 dark:bg-[#131b28]/90 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+              <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-link"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-semibold text-slate-900 dark:text-white">Link Toko Mandiri (?store=namatoko)</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Pelanggan hanya melihat landing page & menu toko Anda, terpisah dari portal login platform.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-white/80 dark:bg-[#131b28]/90 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+              <div class="w-9 h-9 rounded-xl bg-orange-50 dark:bg-orange-950/60 text-brand-terracotta dark:text-orange-400 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">
+                <i class="fa-solid fa-calculator"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-semibold text-slate-900 dark:text-white">Kalkulator HPP & Rekap Untung Otomatis</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Hitung modal bahan per porsi dan pantau laba bersih setiap pesanan secara akurat.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-1 flex items-center gap-4 text-xs">
+            <button type="button" @click="currentView = 'splash'; window.scrollTo({top: 0, behavior: 'smooth'})"
+              class="text-slate-500 dark:text-slate-400 hover:text-brand-terracotta dark:hover:text-amber-400 font-medium inline-flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-circle-info text-[11px]"></i>
+              <span>Pelajari Fitur Lengkap Platform</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Column (Main Auth Card - Full Focus on Mobile & Desktop) -->
+        <div class="lg:col-span-6 w-full max-w-md mx-auto lg:ml-auto lg:mr-0">
+          <div class="bg-white dark:bg-[#0c1322] w-full rounded-3xl shadow-warm-lg dark:shadow-[0_25px_70px_rgba(0,0,0,0.5)] border border-slate-200/90 dark:border-slate-800 overflow-hidden">
+            <!-- Top Accent Bar -->
+            <div class="h-1.5 w-full transition-colors duration-300"
+              :class="authTab === 'register' ? 'bg-gradient-to-r from-emerald-500 via-brand-olive to-teal-500' : 'bg-gradient-to-r from-amber-500 via-brand-terracotta to-orange-500'"></div>
+
+            <div class="p-5 sm:p-8 space-y-5">
+
+              <!-- Segmented Tab Switcher (Masuk vs Daftar) -->
+              <div x-show="authTab !== 'forgot'" class="grid grid-cols-2 p-1 rounded-2xl bg-slate-100 dark:bg-[#141d30] border border-slate-200/70 dark:border-slate-800">
+                <button type="button" @click="switchAuthTab('login')"
+                  :class="authTab === 'login' ? 'bg-white dark:bg-[#0c1322] text-brand-terracotta dark:text-amber-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'"
+                  class="h-10 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-arrow-right-to-bracket text-[11px]"></i>
+                  <span>Masuk Toko</span>
+                </button>
+                <button type="button" @click="switchAuthTab('register')"
+                  :class="authTab === 'register' ? 'bg-white dark:bg-[#0c1322] text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'"
+                  class="h-10 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-store text-[11px]"></i>
+                  <span>Daftar Baru</span>
+                </button>
+              </div>
+
+              <!-- Cloud Offline / Fallback Info Banner -->
+              <div x-show="supabaseOffline" x-cloak
+                class="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-xs text-amber-900 dark:text-amber-200 space-y-2">
+                <div class="flex items-start gap-2.5">
+                  <i class="fa-solid fa-cloud-bolt text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0"></i>
+                  <div class="leading-relaxed">
+                    <span class="font-semibold block">Server Cloud Sedang Ter-Pause / Offline</span>
+                    <span class="text-[11px] text-amber-800/90 dark:text-amber-300/90">Database Supabase belum merespons. Anda tetap bisa masuk dengan akun demo (<code class="font-mono font-semibold">ummi</code> / <code class="font-mono font-semibold">ummiku</code>) atau mendaftar toko di Mode Lokal browser.</span>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <button type="button" @click="retrySupabaseConnection()"
+                    class="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-semibold transition inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-rotate text-[10px]"></i>
+                    <span>Cek Ulang Koneksi Cloud</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- ================= TAB 1: FORM LOGIN PLATFORM ================= -->
+              <div x-show="authTab === 'login'" class="space-y-5">
+                <div>
+                  <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">Masuk ke Toko Saya</h2>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                    Kelola pesanan pelanggan, katalog menu, dan laporan kas kuliner Anda.
+                  </p>
+                </div>
+
+                <form @submit.prevent="login()" class="space-y-4">
+                  <div>
+                    <label for="page-login-username" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
+                      <i class="fa-regular fa-envelope text-brand-terracotta"></i>
+                      <span>Email Toko / Username</span>
+                    </label>
+                    <input type="text" id="page-login-username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false"
+                      x-model="loginForm.username" placeholder="nama@email.com atau ummi" required
+                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-2 focus:ring-brand-terracotta/20 transition-all font-medium">
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between items-center mb-1.5 gap-2">
+                      <label for="page-login-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-lock text-brand-terracotta"></i>
+                        <span>Password</span>
+                      </label>
+                      <button type="button" @click="switchAuthTab('forgot')"
+                        class="text-xs text-brand-terracotta hover:text-brand-terracotta-dark dark:text-orange-400 dark:hover:text-orange-300 hover:underline font-semibold py-0.5 transition">
+                        Lupa password?
+                      </button>
+                    </div>
+                    <div class="relative">
+                      <input :type="showLoginPassword ? 'text' : 'password'" id="page-login-password" name="password" autocomplete="current-password"
+                        x-model="loginForm.password" placeholder="Masukkan password Anda" required
+                        class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl pl-4 pr-12 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-2 focus:ring-brand-terracotta/20 transition-all font-medium">
+                      <button type="button" @click="showLoginPassword = !showLoginPassword"
+                        class="absolute inset-y-0 right-1.5 w-10 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition rounded-xl"
+                        :aria-label="showLoginPassword ? 'Sembunyikan password' : 'Lihat password'" title="Lihat/Sembunyikan password">
+                        <i :class="showLoginPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div x-show="loginError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-start gap-2.5 text-xs text-rose-600 dark:text-rose-400 font-medium">
+                    <i class="fa-solid fa-triangle-exclamation mt-0.5 flex-shrink-0"></i>
+                    <span x-text="loginError"></span>
+                  </div>
+
+                  <button type="submit" id="page-login-submit" :disabled="loading"
+                    class="w-full h-12 rounded-2xl bg-gradient-to-r from-amber-600 via-brand-terracotta to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold transition-all duration-200 text-sm shadow-lg shadow-orange-950/25 hover:shadow-orange-900/40 disabled:opacity-60 flex items-center justify-center space-x-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-arrow-right-to-bracket text-xs" x-show="!loading"></i>
+                    <span x-show="!loading">Masuk ke Dashboard Toko</span>
+                    <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Memverifikasi Akun...</span></span>
+                  </button>
+                </form>
+
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
+                  <span class="inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved" :class="supabaseOffline ? 'text-amber-500' : 'text-emerald-500'"></i>
+                    <span x-text="supabaseOffline ? 'Mode Penyimpanan Lokal' : 'Supabase RLS Protected'"></span>
+                  </span>
+                  <span class="inline-flex items-center gap-1 text-[10px] text-slate-500">
+                    <i class="fa-solid fa-lock"></i> Data Toko Terisolasi
+                  </span>
+                </div>
+              </div>
+
+              <!-- ================= TAB 2: FORM DAFTAR TOKO BARU ================= -->
+              <div x-show="authTab === 'register'" x-cloak class="space-y-5">
+                <div>
+                  <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">Daftar Toko Baru</h2>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                    Buat website toko kuliner mandiri lengkap dengan link katalog pemesanan sendiri.
+                  </p>
+                </div>
+
+                <form @submit.prevent="registerNewStore()" class="space-y-3.5">
+                  <div>
+                    <label for="page-reg-store" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
+                      <i class="fa-solid fa-store text-emerald-600 dark:text-emerald-400"></i>
+                      <span>Nama Toko Kuliner Anda</span>
+                    </label>
+                    <input type="text" id="page-reg-store" autocomplete="organization" x-model="registerForm.storeName" placeholder="Contoh: Dapur Berkah Bu Siti" required
+                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
+                  </div>
+
+                  <div>
+                    <label for="page-reg-wa" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
+                      <i class="fa-brands fa-whatsapp text-emerald-600 dark:text-emerald-400"></i>
+                      <span>Nomor WhatsApp Pemesanan</span>
+                    </label>
+                    <input type="tel" id="page-reg-wa" inputmode="tel" autocomplete="tel" x-model="registerForm.waNumber" placeholder="Contoh: 628123456789" required
+                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 font-mono focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
+                  </div>
+
+                  <div>
+                    <label for="page-reg-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
+                      <i class="fa-regular fa-envelope text-emerald-600 dark:text-emerald-400"></i>
+                      <span>Email Pemilik Toko</span>
+                    </label>
+                    <input type="email" id="page-reg-email" autocomplete="email" x-model="registerForm.email" placeholder="owner@tokosaya.com" required
+                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
+                  </div>
+
+                  <div>
+                    <label for="page-reg-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
+                      <i class="fa-solid fa-lock text-emerald-600 dark:text-emerald-400"></i>
+                      <span>Buat Password</span>
+                    </label>
+                    <div class="relative">
+                      <input :type="showRegisterPassword ? 'text' : 'password'" id="page-reg-password" autocomplete="new-password" x-model="registerForm.password" placeholder="Minimal 6 karakter" required minlength="6"
+                        class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl pl-4 pr-12 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
+                      <button type="button" @click="showRegisterPassword = !showRegisterPassword"
+                        class="absolute inset-y-0 right-1.5 w-10 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition rounded-xl"
+                        :aria-label="showRegisterPassword ? 'Sembunyikan password' : 'Lihat password'" title="Lihat/Sembunyikan password">
+                        <i :class="showRegisterPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div x-show="loginError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-start gap-2.5 text-xs text-rose-600 dark:text-rose-400 font-medium">
+                    <i class="fa-solid fa-triangle-exclamation mt-0.5 flex-shrink-0"></i>
+                    <span x-text="loginError"></span>
+                  </div>
+
+                  <button type="submit" :disabled="loading"
+                    class="w-full h-12 rounded-2xl bg-gradient-to-r from-emerald-600 via-brand-olive to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-semibold transition-all duration-200 text-sm shadow-lg shadow-emerald-950/25 hover:shadow-emerald-900/40 disabled:opacity-60 flex items-center justify-center space-x-2 active:scale-[0.99]">
+                    <i class="fa-solid fa-rocket text-xs" x-show="!loading"></i>
+                    <span x-show="!loading">Daftar & Buat Toko Saya</span>
+                    <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Membuat Toko...</span></span>
+                  </button>
+                </form>
+              </div>
+
+              <!-- ================= TAB 3: LUPA PASSWORD ================= -->
+              <div x-show="authTab === 'forgot'" x-cloak class="space-y-5">
+                <div>
+                  <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[11px] font-semibold mb-2">
+                    <i class="fa-solid fa-key text-[10px]"></i>
+                    <span>Pemulihan Akun Toko</span>
+                  </div>
+                  <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">Lupa Password Toko</h2>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                    Masukkan email toko Anda yang terdaftar untuk menerima tautan pengaturan ulang password.
+                  </p>
+                </div>
+
+                <form @submit.prevent="sendPasswordResetEmail()" class="space-y-4">
+                  <div>
+                    <label for="page-forgot-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
+                      <i class="fa-regular fa-envelope text-amber-500"></i>
+                      <span>Email Terdaftar</span>
+                    </label>
+                    <input type="email" id="page-forgot-email" autocomplete="email" x-model="forgotPasswordEmail" placeholder="nama@email.com" required
+                      class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all font-medium">
+                  </div>
+
+                  <div x-show="forgotPasswordError" x-cloak class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-start gap-2.5 text-xs text-rose-600 dark:text-rose-400 font-medium">
+                    <i class="fa-solid fa-triangle-exclamation mt-0.5 flex-shrink-0"></i>
+                    <span x-text="forgotPasswordError"></span>
+                  </div>
+
+                  <div x-show="forgotPasswordSuccess" x-cloak class="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-700 dark:text-emerald-300 font-medium leading-relaxed flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 flex-shrink-0"></i>
+                    <span x-text="forgotPasswordSuccess"></span>
+                  </div>
+
+                  <button type="submit" :disabled="loading"
+                    class="w-full h-12 rounded-2xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold transition-all duration-200 text-sm shadow-lg shadow-amber-950/25 disabled:opacity-60 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-paper-plane text-xs" x-show="!loading"></i>
+                    <span x-show="!loading">Kirim Link Reset Password</span>
+                    <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Mengirim Email...</span></span>
+                  </button>
+                </form>
+
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 text-center text-xs text-slate-500 dark:text-slate-400">
+                  Ingat password Anda?
+                  <button type="button" @click="switchAuthTab('login')" class="text-brand-terracotta hover:underline font-semibold ml-1 dark:text-amber-400">
+                    Kembali ke Login
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Mobile Compact Info Link Below Card -->
+          <div class="lg:hidden mt-5 flex items-center justify-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+            <button type="button" @click="currentView = 'splash'; window.scrollTo({top: 0, behavior: 'smooth'})"
+              class="hover:text-brand-terracotta dark:hover:text-amber-400 font-medium inline-flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-circle-info text-[11px]"></i>
+              <span>Tentang Platform Kita Usahain</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom Footer Platform Auth -->
+    <div class="py-4 px-4 border-t border-slate-200/60 dark:border-slate-800/60 text-center text-[11px] text-slate-400 relative z-10">
+      <p>© 2026 Kita Usahain • Platform Website Builder UMKM Indonesia</p>
+    </div>
+  </main>
+
+  <!-- ================= MULTI-TENANT INFO / SPLASH PORTAL ================= -->
   <main x-show="currentView === 'splash'" x-cloak x-transition:enter="transition ease-out duration-300"
     class="min-h-screen flex flex-col justify-between relative overflow-hidden bg-[#FAF6F0] dark:bg-[#0b0f17] text-slate-800 dark:text-slate-100 transition-colors duration-300">
 
@@ -481,7 +821,15 @@
         </div>
       </div>
 
-      <div class="flex items-center space-x-3">
+      <div class="flex items-center space-x-2.5">
+        <template x-if="!isLoggedIn">
+          <button @click="goToPlatformAuth('login')"
+            class="h-9 px-3.5 rounded-xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-warm-sm">
+            <i class="fa-solid fa-arrow-right-to-bracket text-[11px]"></i>
+            <span>Masuk Toko</span>
+          </button>
+        </template>
+
         <!-- Tombol Cepat jika sudah Login -->
         <template x-if="isLoggedIn">
           <div class="flex items-center space-x-2">
@@ -528,13 +876,13 @@
       <!-- Pilihan Utama Splash: Tergantung Status Login -->
       <template x-if="!isLoggedIn">
         <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
-          <button @click="openRegisterModal()"
+          <button @click="goToPlatformAuth('register')"
             class="w-full sm:w-auto min-w-[150px] h-12 sm:h-13 px-8 rounded-2xl bg-brand-terracotta hover:bg-brand-terracotta-dark text-white font-medium text-sm shadow-warm-md hover:shadow-warm-lg transition flex items-center justify-center space-x-2 whitespace-nowrap">
             <i class="fa-solid fa-store text-sm"></i>
             <span>Daftar Toko Baru</span>
           </button>
 
-          <button @click="openLoginModal()"
+          <button @click="goToPlatformAuth('login')"
             class="w-full sm:w-auto min-w-[150px] h-12 sm:h-13 px-8 rounded-2xl bg-white dark:bg-[#131b28] hover:bg-slate-50 dark:hover:bg-[#1a2436] text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700/80 font-medium text-sm shadow-sm hover:shadow transition flex items-center justify-center space-x-2 whitespace-nowrap">
             <i class="fa-solid fa-arrow-right-to-bracket text-brand-terracotta"></i>
             <span>Login Toko</span>
@@ -618,13 +966,13 @@
         <h2 class="font-sans text-2xl font-semibold text-slate-900 dark:text-white">Toko Tidak Ditemukan</h2>
         <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
           Alamat website toko <span class="font-mono font-semibold text-brand-terracotta"
-            x-text="'?' + currentStoreSlug"></span> belum terdaftar di platform kami.
+            x-text="'?store=' + currentStoreSlug"></span> belum terdaftar di platform kami.
         </p>
       </div>
       <div class="pt-2 flex flex-col gap-2.5">
-        <button @click="currentView = 'splash'; window.history.pushState({}, '', '/');"
+        <button @click="goToPlatformRoot()"
           class="w-full h-11 rounded-xl bg-brand-terracotta text-white font-medium text-xs hover:bg-brand-terracotta-dark transition shadow-sm">
-          Kembali ke Halaman Utama Platform
+          Ke Halaman Login Platform
         </button>
       </div>
     </div>
@@ -648,9 +996,9 @@
         </p>
       </div>
       <div class="pt-2">
-        <button @click="currentView = 'splash'; window.history.pushState({}, '', '/');"
+        <button @click="goToPlatformRoot()"
           class="w-full h-11 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-semibold text-xs hover:opacity-90 transition shadow-sm">
-          Ke Halaman Utama Platform
+          Ke Halaman Login Platform
         </button>
       </div>
     </div>
@@ -658,7 +1006,7 @@
 
   <!-- ================= MULTI-VIEW SPA: BERANDA (HOME) ================= -->
   <!-- FLOATING OWNER CONTROL BAR (HANYA MUNCUL JIKA PEMILIK TOKO SEDANG LOGIN) -->
-  <div x-show="isLoggedIn && currentView !== 'dashboard' && currentView !== 'splash'" x-cloak
+  <div x-show="isLoggedIn && !['dashboard', 'auth', 'splash', 'not_found', 'unpublished'].includes(currentView)" x-cloak
     class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white text-xs py-2 px-4 border-b border-amber-500/30 flex items-center justify-between gap-3 shadow-md z-30 relative">
     <div class="flex items-center gap-2 truncate">
       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -1170,7 +1518,7 @@
   </main>
 
   <!-- ================= FOOTER BERSAMA (SHARED) ================= -->
-  <footer x-show="currentView !== 'dashboard' && currentView !== 'splash'" x-cloak
+  <footer x-show="!['dashboard', 'auth', 'splash', 'not_found', 'unpublished'].includes(currentView)" x-cloak
     class="py-14 border-t border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0c121e] text-xs text-slate-500 dark:text-slate-400">
     <div class="max-w-7xl mx-auto px-6 sm:px-10">
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 pb-10 border-b border-slate-200 dark:border-slate-800">
@@ -1251,7 +1599,7 @@
           <div class="min-w-0">
             <p class="font-semibold text-xs truncate text-slate-900 dark:text-white"
               x-text="currentUser.ummiName || settings.storeName || 'Ummiku Sayang'"></p>
-            <p class="text-[11px] text-slate-400">Admin Dapoer Asri</p>
+            <p class="text-[11px] text-slate-400 truncate" x-text="'Pemilik ' + (settings.storeName || 'Toko')"></p>
           </div>
         </div>
 
@@ -2344,24 +2692,25 @@
     <i class="fa-solid fa-arrow-up text-xs"></i>
   </button>
 
-  <!-- ================= MODAL 1: LOGIN (MASUK KE TOKO - ULTRA PREMIUM) ================= -->
-  <div x-show="showLoginModal" x-cloak 
+  <!-- ================= MODAL 1: LOGIN (MASUK KE TOKO - DARI HALAMAN TOKO) ================= -->
+  <div x-show="showLoginModal" x-cloak
+    @keydown.escape.window="if (!loading) showLoginModal = false"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 scale-95"
     x-transition:enter-end="opacity-100 scale-100"
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 scale-100"
     x-transition:leave-end="opacity-0 scale-95"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
-    <div class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.45)] relative border border-slate-200/90 dark:border-amber-500/25 text-slate-900 dark:text-slate-100 overflow-hidden" @click.outside="showLoginModal = false">
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto">
+    <div class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.45)] relative border border-slate-200/90 dark:border-amber-500/25 text-slate-900 dark:text-slate-100 max-h-[90vh] overflow-y-auto my-auto" @click.outside="if (!loading) showLoginModal = false">
       <!-- Ambient Glow Top Bar -->
       <div class="h-1.5 w-full bg-gradient-to-r from-amber-500 via-brand-terracotta to-orange-500"></div>
 
-      <button @click="showLoginModal = false" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white w-9 h-9 rounded-full bg-slate-100/70 dark:bg-slate-800/70 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-all border border-slate-200/50 dark:border-slate-700/50">
+      <button type="button" @click="if (!loading) showLoginModal = false" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white w-9 h-9 rounded-full bg-slate-100/70 dark:bg-slate-800/70 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-all border border-slate-200/50 dark:border-slate-700/50" aria-label="Tutup">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
-      <div class="p-7 sm:p-8 space-y-6 text-left">
+      <div class="p-6 sm:p-8 space-y-5 text-left">
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-terracotta/10 dark:bg-orange-500/15 border border-brand-terracotta/20 dark:border-orange-500/30 text-brand-terracotta dark:text-orange-400 text-[11px] font-semibold mb-3 tracking-wide">
             <i class="fa-solid fa-crown text-[10px]"></i>
@@ -2373,33 +2722,38 @@
           </p>
         </div>
 
+        <div x-show="supabaseOffline" x-cloak class="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-[11px] text-amber-900 dark:text-amber-200 leading-relaxed">
+          <i class="fa-solid fa-cloud-bolt text-amber-600 dark:text-amber-400 mr-1"></i>
+          <b>Mode Lokal Aktif:</b> Server cloud belum merespons. Gunakan akun demo (<code class="font-mono">ummi</code> / <code class="font-mono">ummiku</code>) atau akun lokal.
+        </div>
+
         <form @submit.prevent="login()" class="space-y-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
+            <label for="login-username" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
               <i class="fa-regular fa-envelope text-brand-terracotta"></i>
               <span>Email Toko / Username</span>
             </label>
             <div class="relative">
-              <input type="text" id="login-username" autocomplete="username" x-model="loginForm.username" placeholder="nama@email.com atau username" required 
-                class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-2 focus:ring-brand-terracotta/20 transition-all font-medium">
+              <input type="text" id="login-username" autocomplete="username" autocapitalize="none" spellcheck="false" x-model="loginForm.username" placeholder="nama@email.com atau ummi" required
+                class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-2 focus:ring-brand-terracotta/20 transition-all font-medium">
             </div>
           </div>
 
           <div>
-            <div class="flex justify-between items-center mb-1.5">
-              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+            <div class="flex justify-between items-center mb-1.5 gap-2">
+              <label for="login-password" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                 <i class="fa-solid fa-lock text-brand-terracotta"></i>
                 <span>Password</span>
               </label>
-              <button type="button" @click="openForgotPasswordModal()" class="text-[11px] text-brand-terracotta hover:text-brand-terracotta-dark dark:text-orange-400 dark:hover:text-orange-300 hover:underline font-semibold transition">
+              <button type="button" @click="openForgotPasswordModal()" class="text-xs text-brand-terracotta hover:text-brand-terracotta-dark dark:text-orange-400 dark:hover:text-orange-300 hover:underline font-semibold py-0.5 transition">
                 Lupa password?
               </button>
             </div>
             <div class="relative">
-              <input :type="showLoginPassword ? 'text' : 'password'" x-model="loginForm.password" placeholder="Masukkan password Anda" required 
-                class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl pl-4 pr-12 py-3 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-2 focus:ring-brand-terracotta/20 transition-all font-medium">
-              <button type="button" @click="showLoginPassword = !showLoginPassword" class="absolute right-3.5 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition" title="Lihat/Sembunyikan password">
-                <i :class="showLoginPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
+              <input :type="showLoginPassword ? 'text' : 'password'" id="login-password" autocomplete="current-password" x-model="loginForm.password" placeholder="Masukkan password Anda" required
+                class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl pl-4 pr-12 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-terracotta focus:ring-2 focus:ring-brand-terracotta/20 transition-all font-medium">
+              <button type="button" @click="showLoginPassword = !showLoginPassword" class="absolute inset-y-0 right-1.5 w-10 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-xl transition" title="Lihat/Sembunyikan password" :aria-label="showLoginPassword ? 'Sembunyikan password' : 'Lihat password'">
+                <i :class="showLoginPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-sm"></i>
               </button>
             </div>
           </div>
@@ -2409,8 +2763,8 @@
             <span x-text="loginError"></span>
           </div>
 
-          <button type="submit" id="login-submit" :disabled="loading" 
-            class="w-full h-12 rounded-2xl bg-gradient-to-r from-amber-600 via-brand-terracotta to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold transition-all duration-200 text-xs sm:text-sm shadow-lg shadow-orange-950/25 hover:shadow-orange-900/40 disabled:opacity-60 flex items-center justify-center space-x-2 active:scale-[0.99]">
+          <button type="submit" id="login-submit" :disabled="loading"
+            class="w-full h-12 rounded-2xl bg-gradient-to-r from-amber-600 via-brand-terracotta to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold transition-all duration-200 text-sm shadow-lg shadow-orange-950/25 hover:shadow-orange-900/40 disabled:opacity-60 flex items-center justify-center space-x-2 active:scale-[0.99]">
             <i class="fa-solid fa-arrow-right-to-bracket text-xs" x-show="!loading"></i>
             <span x-show="!loading">Masuk ke Toko</span>
             <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Memverifikasi Akun...</span></span>
@@ -2418,10 +2772,10 @@
         </form>
 
         <!-- Security Footnote Badge -->
-        <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+        <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
           <span class="inline-flex items-center gap-1.5">
-            <i class="fa-solid fa-shield-halved text-emerald-500"></i>
-            <span>Supabase RLS Protected</span>
+            <i class="fa-solid fa-shield-halved" :class="supabaseOffline ? 'text-amber-500' : 'text-emerald-500'"></i>
+            <span x-text="supabaseOffline ? 'Mode Penyimpanan Lokal' : 'Supabase RLS Protected'"></span>
           </span>
           <span class="inline-flex items-center gap-1 text-[10px] text-slate-500">
             <i class="fa-solid fa-lock"></i> Anti-Brute Force Active
@@ -2430,7 +2784,7 @@
 
         <!-- Switch Link ke Popup Daftar -->
         <div class="text-center text-xs text-slate-500 dark:text-slate-400 pt-1">
-          Belum punya akun toko? 
+          Belum punya akun toko?
           <button type="button" @click="openRegisterModal()" class="text-brand-terracotta hover:underline font-semibold ml-1 dark:text-orange-400">
             Daftar Toko Baru
           </button>
@@ -2439,24 +2793,25 @@
     </div>
   </div>
 
-  <!-- ================= MODAL 2: SIGN UP (DAFTAR TOKO BARU - ULTRA PREMIUM) ================= -->
-  <div x-show="showRegisterModal" x-cloak 
+  <!-- ================= MODAL 2: SIGN UP (DAFTAR TOKO BARU - DARI HALAMAN TOKO) ================= -->
+  <div x-show="showRegisterModal" x-cloak
+    @keydown.escape.window="if (!loading) showRegisterModal = false"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 scale-95"
     x-transition:enter-end="opacity-100 scale-100"
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 scale-100"
     x-transition:leave-end="opacity-0 scale-95"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
-    <div class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.45)] relative border border-slate-200/90 dark:border-emerald-500/25 text-slate-900 dark:text-slate-100 max-h-[92vh] overflow-y-auto" @click.outside="showRegisterModal = false">
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto">
+    <div class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.45)] relative border border-slate-200/90 dark:border-emerald-500/25 text-slate-900 dark:text-slate-100 max-h-[90vh] overflow-y-auto my-auto" @click.outside="if (!loading) showRegisterModal = false">
       <!-- Ambient Glow Top Bar -->
       <div class="h-1.5 w-full bg-gradient-to-r from-emerald-500 via-brand-olive to-teal-500"></div>
 
-      <button @click="showRegisterModal = false" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white w-9 h-9 rounded-full bg-slate-100/70 dark:bg-slate-800/70 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-all border border-slate-200/50 dark:border-slate-700/50">
+      <button type="button" @click="if (!loading) showRegisterModal = false" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white w-9 h-9 rounded-full bg-slate-100/70 dark:bg-slate-800/70 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-all border border-slate-200/50 dark:border-slate-700/50" aria-label="Tutup">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
-      <div class="p-7 sm:p-8 space-y-6 text-left">
+      <div class="p-6 sm:p-8 space-y-5 text-left">
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/20 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-[11px] font-semibold mb-3 tracking-wide">
             <i class="fa-solid fa-rocket text-[10px]"></i>
@@ -2474,8 +2829,8 @@
               <i class="fa-solid fa-store text-emerald-600 dark:text-emerald-400"></i>
               <span>Nama Toko Kuliner Anda</span>
             </label>
-            <input type="text" x-model="registerForm.storeName" placeholder="Contoh: Dapur Berkah Bu Siti" required 
-              class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
+            <input type="text" autocomplete="organization" x-model="registerForm.storeName" placeholder="Contoh: Dapur Berkah Bu Siti" required
+              class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
           </div>
 
           <div>
@@ -2483,8 +2838,8 @@
               <i class="fa-brands fa-whatsapp text-emerald-600 dark:text-emerald-400"></i>
               <span>Nomor WhatsApp Pemesanan</span>
             </label>
-            <input type="text" x-model="registerForm.waNumber" placeholder="Contoh: 628123456789" required 
-              class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 font-mono focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
+            <input type="tel" inputmode="tel" autocomplete="tel" x-model="registerForm.waNumber" placeholder="Contoh: 628123456789" required
+              class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 font-mono focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
           </div>
 
           <div>
@@ -2492,8 +2847,8 @@
               <i class="fa-regular fa-envelope text-emerald-600 dark:text-emerald-400"></i>
               <span>Email Pemilik Toko</span>
             </label>
-            <input type="email" x-model="registerForm.email" placeholder="owner@tokosaya.com" required 
-              class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
+            <input type="email" autocomplete="email" x-model="registerForm.email" placeholder="owner@tokosaya.com" required
+              class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
           </div>
 
           <div>
@@ -2502,21 +2857,21 @@
               <span>Buat Password</span>
             </label>
             <div class="relative">
-              <input :type="showRegisterPassword ? 'text' : 'password'" x-model="registerForm.password" placeholder="Minimal 6 karakter" required minlength="6" 
-                class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl pl-4 pr-12 py-3 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
-              <button type="button" @click="showRegisterPassword = !showRegisterPassword" class="absolute right-3.5 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition" title="Lihat/Sembunyikan password">
-                <i :class="showRegisterPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-xs"></i>
+              <input :type="showRegisterPassword ? 'text' : 'password'" autocomplete="new-password" x-model="registerForm.password" placeholder="Minimal 6 karakter" required minlength="6"
+                class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl pl-4 pr-12 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-olive focus:ring-2 focus:ring-brand-olive/20 transition-all font-medium">
+              <button type="button" @click="showRegisterPassword = !showRegisterPassword" class="absolute inset-y-0 right-1.5 w-10 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-xl transition" title="Lihat/Sembunyikan password" :aria-label="showRegisterPassword ? 'Sembunyikan password' : 'Lihat password'">
+                <i :class="showRegisterPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="text-sm"></i>
               </button>
             </div>
           </div>
-          
+
           <div x-show="loginError" class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-start gap-2.5 text-xs text-rose-600 dark:text-rose-400 font-medium">
             <i class="fa-solid fa-triangle-exclamation mt-0.5 flex-shrink-0"></i>
             <span x-text="loginError"></span>
           </div>
 
-          <button type="submit" :disabled="loading" 
-            class="w-full h-12 rounded-2xl bg-gradient-to-r from-emerald-600 via-brand-olive to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-semibold transition-all duration-200 text-xs sm:text-sm shadow-lg shadow-emerald-950/25 hover:shadow-emerald-900/40 disabled:opacity-60 flex items-center justify-center space-x-2 active:scale-[0.99]">
+          <button type="submit" :disabled="loading"
+            class="w-full h-12 rounded-2xl bg-gradient-to-r from-emerald-600 via-brand-olive to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-semibold transition-all duration-200 text-sm shadow-lg shadow-emerald-950/25 hover:shadow-emerald-900/40 disabled:opacity-60 flex items-center justify-center space-x-2 active:scale-[0.99]">
             <i class="fa-solid fa-rocket text-xs" x-show="!loading"></i>
             <span x-show="!loading">Daftar & Buat Toko Saya</span>
             <span x-show="loading" class="flex items-center gap-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Membuat Toko...</span></span>
@@ -2525,7 +2880,7 @@
 
         <!-- Switch Link ke Popup Login -->
         <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 text-center text-xs text-slate-500 dark:text-slate-400">
-          Sudah punya akun toko? 
+          Sudah punya akun toko?
           <button type="button" @click="openLoginModal()" class="text-brand-olive hover:underline font-semibold ml-1 dark:text-emerald-400">
             Masuk di sini
           </button>
@@ -2534,24 +2889,25 @@
     </div>
   </div>
 
-  <!-- ================= MODAL 3: LUPA PASSWORD (ULTRA PREMIUM) ================= -->
-  <div x-show="showForgotPasswordModal" x-cloak 
+  <!-- ================= MODAL 3: LUPA PASSWORD (DARI HALAMAN TOKO) ================= -->
+  <div x-show="showForgotPasswordModal" x-cloak
+    @keydown.escape.window="if (!loading) showForgotPasswordModal = false"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 scale-95"
     x-transition:enter-end="opacity-100 scale-100"
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 scale-100"
     x-transition:leave-end="opacity-0 scale-95"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
-    <div class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.45)] relative border border-slate-200/90 dark:border-amber-500/25 text-slate-900 dark:text-slate-100 overflow-hidden" @click.outside="showForgotPasswordModal = false">
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto">
+    <div class="bg-white dark:bg-[#0c1322] w-full max-w-md rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.45)] relative border border-slate-200/90 dark:border-amber-500/25 text-slate-900 dark:text-slate-100 max-h-[90vh] overflow-y-auto my-auto" @click.outside="if (!loading) showForgotPasswordModal = false">
       <!-- Ambient Glow Top Bar -->
       <div class="h-1.5 w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600"></div>
 
-      <button @click="showForgotPasswordModal = false" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white w-9 h-9 rounded-full bg-slate-100/70 dark:bg-slate-800/70 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-all border border-slate-200/50 dark:border-slate-700/50">
+      <button type="button" @click="if (!loading) showForgotPasswordModal = false" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white w-9 h-9 rounded-full bg-slate-100/70 dark:bg-slate-800/70 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-all border border-slate-200/50 dark:border-slate-700/50" aria-label="Tutup">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
-      <div class="p-7 sm:p-8 space-y-6 text-left">
+      <div class="p-6 sm:p-8 space-y-5 text-left">
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/20 dark:border-amber-500/30 text-amber-700 dark:text-amber-400 text-[11px] font-semibold mb-3 tracking-wide">
             <i class="fa-solid fa-key text-[10px]"></i>
@@ -2569,8 +2925,8 @@
               <i class="fa-regular fa-envelope text-amber-500"></i>
               <span>Email Terdaftar</span>
             </label>
-            <input type="email" x-model="forgotPasswordEmail" placeholder="nama@email.com" required 
-              class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all font-medium">
+            <input type="email" autocomplete="email" x-model="forgotPasswordEmail" placeholder="nama@email.com" required
+              class="w-full bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-700/80 rounded-2xl px-4 py-3 text-base sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all font-medium">
           </div>
 
           <div x-show="forgotPasswordError" class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-start gap-2.5 text-xs text-rose-600 dark:text-rose-400 font-medium">
@@ -2684,6 +3040,53 @@
     const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
     const GAS_TOKEN_KEY = 'dapoer_gas_token';
     const DEMO_LOGIN_KEY = 'dapoer_demo_login';
+    const LOCAL_ACCOUNTS_KEY = 'ummi_local_accounts';
+
+    function detectInitialTenantSlug() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const qSlug = urlParams.get('store');
+        if (qSlug && qSlug.trim()) return qSlug.trim().toLowerCase();
+
+        const host = (window.location.hostname || '').toLowerCase();
+        const parts = host.split('.');
+        const isLocal = host === 'localhost' || host === '127.0.0.1' || host === '';
+        // Domain *.vercel.app adalah domain platform/preview deployment, bukan subdomain toko
+        const isVercelDomain = host.endsWith('.vercel.app');
+        if (!isLocal && !isVercelDomain && parts.length > 2) {
+          const sub = parts[0];
+          if (!['www', 'app', 'admin', 'api', 'dashboard', 'platform', 'login', 'register'].includes(sub)) {
+            return sub;
+          }
+        }
+      } catch (e) { }
+      return null;
+    }
+
+    function detectInitialAuthTab() {
+      try {
+        const path = (window.location.pathname || '').toLowerCase();
+        const mode = new URLSearchParams(window.location.search).get('mode');
+        if (path === '/register' || path === '/daftar' || mode === 'register') return 'register';
+        if (path === '/forgot-password' || mode === 'forgot') return 'forgot';
+      } catch (e) { }
+      return 'login';
+    }
+
+    function isNetworkError(e) {
+      const msg = String((e && e.message) || e || '');
+      return /failed to fetch|load failed|networkerror|fetch failed|enotfound|err_name_not_resolved|network request failed|timed out/i.test(msg);
+    }
+
+    function withTimeout(promise, ms) {
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => reject(new Error('Request timed out')), ms);
+        Promise.resolve(promise).then(
+          val => { clearTimeout(timer); resolve(val); },
+          err => { clearTimeout(timer); reject(err); }
+        );
+      });
+    }
 
     // Tanggal hari ini menurut zona waktu perangkat (bukan UTC)
     function todayLocal() {
@@ -2721,6 +3124,9 @@
       const msg = (e && e.message) || String(e || 'Terjadi kesalahan');
       if (/row-level security|JWT|permission denied|not authorized/i.test(msg)) {
         return 'Akses ditolak. Silakan login ulang sebagai admin.';
+      }
+      if (isNetworkError(e)) {
+        return 'Tidak dapat terhubung ke server database (Supabase sedang offline/ter-pause atau jaringan terputus).';
       }
       return msg;
     }
@@ -2831,13 +3237,15 @@
         loading: false,
         loadingText: '',
         darkMode: false,
-        currentView: 'home',
+        currentView: detectInitialTenantSlug() ? 'home' : 'auth',
+        authTab: detectInitialAuthTab(),
+        supabaseOffline: false,
         scrollPercent: 0,
         dashboardTab: 'overview',
         isLoggedIn: false,
         currentUser: {},
         currentStoreId: '',
-        currentStoreSlug: 'dapoer-asri',
+        currentStoreSlug: detectInitialTenantSlug() || 'dapoer-asri',
         currentStoreStatus: 'published',
         showLoginModal: false,
         showRegisterModal: false,
@@ -2851,6 +3259,59 @@
         forgotPasswordError: '',
         forgotPasswordSuccess: '',
         authMode: 'login',
+
+        switchAuthTab(tab) {
+          this.loginError = '';
+          this.forgotPasswordError = '';
+          this.forgotPasswordSuccess = '';
+          if (tab === 'forgot') {
+            this.forgotPasswordEmail = (this.loginForm.username && this.loginForm.username.includes('@')) ? this.loginForm.username : '';
+          }
+          this.authTab = tab;
+        },
+
+        goToPlatformAuth(tab = 'login') {
+          this.showLoginModal = false;
+          this.showRegisterModal = false;
+          this.showForgotPasswordModal = false;
+          this.switchAuthTab(tab);
+          try { window.history.pushState({}, '', '/'); } catch (e) { }
+          this.currentView = 'auth';
+          document.title = 'Kita Usahain - Masuk / Daftar Toko UMKM';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+
+        goToPlatformRoot() {
+          try { window.history.pushState({}, '', '/'); } catch (e) { }
+          if (this.isLoggedIn) {
+            this.currentView = 'dashboard';
+          } else {
+            this.switchAuthTab('login');
+            this.currentView = 'auth';
+            document.title = 'Kita Usahain - Masuk / Daftar Toko UMKM';
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+
+        async retrySupabaseConnection() {
+          if (!this.supabaseClient) return;
+          this.loading = true;
+          try {
+            const { error } = await withTimeout(
+              this.supabaseClient.from('businesses').select('id').limit(1),
+              4500
+            );
+            if (error && isNetworkError(error)) throw error;
+            this.supabaseOffline = false;
+            this.loginError = '';
+            this.showToast('Koneksi server Cloud Supabase kembali aktif!');
+          } catch (e) {
+            this.supabaseOffline = true;
+            this.showToast('Server Supabase masih belum merespons (pastikan project sudah di-Restore di Dashboard Supabase).', 'error');
+          } finally {
+            this.loading = false;
+          }
+        },
 
         openLoginModal() {
           this.showRegisterModal = false;
@@ -2888,15 +3349,15 @@
 
           try {
             if (this.backendMode === 'supabase') {
-              const { error } = await this.supabaseClient.auth.resetPasswordForEmail(email, {
-                redirectTo: window.location.origin
-              });
+              const { error } = await withTimeout(
+                this.supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin }),
+                6000
+              );
               if (error) throw error;
               this.forgotPasswordSuccess = 'Tautan reset password berhasil dikirim ke ' + email + '. Silakan periksa kotak masuk atau spam email Anda.';
               this.showToast('Email reset password terkirim!');
             } else {
-              this.forgotPasswordSuccess = 'Simulasi: Link reset password telah dikirim ke ' + email + '.';
-              this.showToast('Email reset password terkirim!');
+              this.forgotPasswordSuccess = 'Mode Lokal: Server email cloud sedang offline. Gunakan akun demo (ummi / ummiku) atau tunggu server Supabase aktif kembali.';
             }
           } catch (err) {
             this.forgotPasswordError = errMsg(err);
@@ -3016,6 +3477,7 @@
           // ================= TENANT RESOLUTION ENGINE (SUBDOMAIN & QUERY FALLBACK) =================
           const detectedSlug = this.detectTenantSlug();
 
+          // Cek cepat keterhubungan Supabase & pulihkan sesi (dengan batas waktu agar mobile tidak hang)
           await this.restoreSession();
 
           if (detectedSlug) {
@@ -3023,15 +3485,21 @@
             this.currentStoreSlug = detectedSlug;
             await this.loadTenantWebsite(detectedSlug);
           } else if (this.isLoggedIn) {
-            // Pemilik UMKM sedang login di portal utama
+            // Pemilik UMKM sedang login di portal utama -> langsung ke Dashboard
             this.currentView = 'dashboard';
+            document.title = 'Dashboard Toko - Kita Usahain';
             await this.fetchData();
           } else {
-            // Kunjungan ke domain root utama (platform builder)
-            this.currentView = 'splash';
-            document.title = 'Kita Usahain - Platform Website Builder UMKM';
-            this.currentStoreSlug = 'dapoer-asri';
-            this.fetchData();
+            // Kunjungan ke domain root utama (kitausahain.vercel.app) -> langsung ke Halaman Login Platform
+            this.currentView = 'auth';
+            this.authTab = detectInitialAuthTab();
+            document.title = 'Kita Usahain - Masuk / Daftar Toko UMKM';
+            if (this.isSupabaseConfigured && !this.supabaseOffline) {
+              // Ping ringan di background agar banner offline muncul otomatis bila project Supabase sedang ter-pause
+              withTimeout(this.supabaseClient.from('businesses').select('id').limit(1), 4000)
+                .then(({ error }) => { if (error && isNetworkError(error)) this.supabaseOffline = true; })
+                .catch(err => { if (isNetworkError(err)) this.supabaseOffline = true; });
+            }
           }
         },
 
@@ -3044,9 +3512,9 @@
           return !!(this.supabaseConfig.url && this.supabaseConfig.anonKey && this.supabaseClient);
         },
 
-        // Backend aktif: hanya SATU yang dipakai untuk baca & tulis
+        // Backend aktif: otomatis beralih ke 'local' sementara bila server Supabase terdeteksi offline/ter-pause
         get backendMode() {
-          if (this.isSupabaseConfigured) return 'supabase';
+          if (this.isSupabaseConfigured && !this.supabaseOffline) return 'supabase';
           if (hasGas()) return 'gas';
           return 'local';
         },
@@ -3161,26 +3629,7 @@
 
         // Mesin Deteksi Tenant Berdasarkan Subdomain & Query Fallback
         detectTenantSlug() {
-          const urlParams = new URLSearchParams(window.location.search);
-          const qSlug = urlParams.get('store');
-          if (qSlug && qSlug.trim()) {
-            return qSlug.trim().toLowerCase();
-          }
-
-          // Cek subdomain dari window.location.hostname
-          const host = window.location.hostname.toLowerCase();
-          const parts = host.split('.');
-          const isLocal = host === 'localhost' || host === '127.0.0.1';
-          const isVercelRoot = host.endsWith('.vercel.app') && parts.length === 3; // misal: platformkita.vercel.app
-
-          if (!isLocal && !isVercelRoot && parts.length > 2) {
-            const sub = parts[0];
-            if (!['www', 'app', 'admin', 'api', 'dashboard', 'platform'].includes(sub)) {
-              return sub;
-            }
-          }
-
-          return null;
+          return detectInitialTenantSlug();
         },
 
         async loadTenantWebsite(slug) {
@@ -3189,11 +3638,23 @@
 
           try {
             if (this.backendMode === 'supabase') {
-              const { data: biz, error } = await this.supabaseClient
-                .from('businesses')
-                .select('*')
-                .eq('slug', slug)
-                .maybeSingle();
+              let biz = null;
+              let error = null;
+              try {
+                const res = await withTimeout(
+                  this.supabaseClient.from('businesses').select('*').eq('slug', slug).maybeSingle(),
+                  5000
+                );
+                biz = res.data;
+                error = res.error;
+                if (error && isNetworkError(error)) throw error;
+              } catch (netErr) {
+                if (isNetworkError(netErr)) {
+                  this.supabaseOffline = true;
+                  return await this.loadTenantWebsite(slug);
+                }
+                throw netErr;
+              }
 
               if (error || !biz) {
                 // Cek fallback jika akun demo dapoer-asri belum tersinkron di cloud
@@ -3664,21 +4125,31 @@
 
         async loadSupabaseStore(user) {
           try {
-            // Cari toko milik user yang sedang login
-            let { data: store, error } = await this.supabaseClient.from('businesses').select('*').eq('owner_id', user.id).maybeSingle();
+            const emailLower = (user.email || '').toLowerCase();
 
-            // Khusus akun resmi Ummi (ummi@kitausahain.com): otomatis tautkan ke toko dapoer-asri jika belum bertaut
-            if (!store && user.email === 'ummi@kitausahain.com') {
+            // Khusus akun resmi Ummi (ummi@kitausahain.com): utamakan toko utama 'dapoer-asri'
+            if (emailLower === 'ummi@kitausahain.com') {
               let { data: dapoerBiz } = await this.supabaseClient.from('businesses').select('*').eq('slug', 'dapoer-asri').maybeSingle();
               if (dapoerBiz) {
-                await this.supabaseClient.from('businesses').update({ owner_id: user.id }).eq('id', dapoerBiz.id);
-                store = { ...dapoerBiz, owner_id: user.id };
+                if (!dapoerBiz.owner_id) {
+                  await this.supabaseClient.from('businesses').update({ owner_id: user.id }).eq('id', dapoerBiz.id);
+                }
+                const linkedStore = { ...dapoerBiz, owner_id: dapoerBiz.owner_id || user.id };
+                this.currentStoreId = linkedStore.id;
+                this.currentStoreSlug = linkedStore.slug;
+                this.currentUser = { id: user.id, username: user.email, ummiName: linkedStore.business_name || linkedStore.store_name || 'Dapoer Asri', role: 'owner' };
+                this.isLoggedIn = true;
+                this.applySettingsFromStore(linkedStore);
+                return true;
               }
             }
 
+            // Cari toko milik user yang sedang login
+            let { data: store, error } = await this.supabaseClient.from('businesses').select('*').eq('owner_id', user.id).maybeSingle();
+
             // Jika user baru belum punya toko, buatkan otomatis
             if (!store && !error) {
-              const metaName = (user.user_metadata && user.user_metadata.store_name) || 'Toko ' + user.email.split('@')[0];
+              const metaName = (user.user_metadata && (user.user_metadata.business_name || user.user_metadata.store_name)) || 'Toko ' + user.email.split('@')[0];
               const metaWa = (user.user_metadata && user.user_metadata.wa_number) || '6281234567890';
               const newSlug = this.generateSlug(metaName);
 
@@ -3695,15 +4166,52 @@
             if (store) {
               this.currentStoreId = store.id;
               this.currentStoreSlug = store.slug;
-              this.currentUser = { username: user.email, ummiName: store.store_name, role: 'owner' };
+              this.currentUser = { id: user.id, username: user.email, ummiName: store.business_name || store.store_name || 'Pemilik Toko', role: 'owner' };
               this.isLoggedIn = true;
               this.applySettingsFromStore(store);
               return true;
             }
           } catch (e) {
             console.warn('Error loading store:', e);
+            if (isNetworkError(e)) throw e;
           }
           return false;
+        },
+
+        createLocalStoreSession({ name, wa, email, password }) {
+          const slug = this.generateSlug(name);
+          const newStore = {
+            id: 'store-' + Date.now(),
+            slug: slug,
+            business_name: name,
+            store_name: name,
+            store_subtitle: 'Cita Rasa Masakan Rumah',
+            wa_number: normalizeWa(wa) || '6281234567890',
+            status: 'published',
+            logo_url: '',
+            bg_image_url: '',
+            hero_title: 'Cita Rasa Masakan Rumah Penuh Cinta.',
+            hero_desc: 'Olahan bersih, higienis, dan 100% halal khusus untuk keluarga Anda.',
+            about_title: 'Kenapa Memilih ' + name + '?',
+            about_desc: 'Dapur rumahan higienis yang mengutamakan kualitas rasa dan kesehatan keluarga Anda.'
+          };
+
+          localStorage.setItem('ummi_store_' + slug, JSON.stringify(newStore));
+          try {
+            const accounts = JSON.parse(localStorage.getItem(LOCAL_ACCOUNTS_KEY) || '[]');
+            const filtered = Array.isArray(accounts) ? accounts.filter(a => a.email !== email.toLowerCase()) : [];
+            filtered.push({ email: email.toLowerCase(), password, slug, storeName: name });
+            localStorage.setItem(LOCAL_ACCOUNTS_KEY, JSON.stringify(filtered));
+          } catch (e) { }
+          sessionStorage.setItem(DEMO_LOGIN_KEY, slug);
+
+          this.currentStoreId = newStore.id;
+          this.currentStoreSlug = slug;
+          this.currentStoreStatus = 'published';
+          this.currentUser = { id: 'local-' + slug, username: email, ummiName: name, role: 'owner' };
+          this.isLoggedIn = true;
+          this.applySettingsFromStore(newStore);
+          return slug;
         },
 
         async registerNewStore() {
@@ -3712,64 +4220,75 @@
           this.loginError = '';
 
           const name = this.registerForm.storeName.trim();
-          const wa = this.registerForm.waNumber.trim();
+          const wa = normalizeWa(this.registerForm.waNumber.trim());
           const email = this.registerForm.email.trim();
           const password = this.registerForm.password;
 
+          if (!name) {
+            this.loading = false;
+            this.loginError = 'Nama toko wajib diisi.';
+            return;
+          }
+          if (password.length < 6) {
+            this.loading = false;
+            this.loginError = 'Password minimal 6 karakter.';
+            return;
+          }
+
           try {
             if (this.backendMode === 'supabase') {
-              const { data, error } = await this.supabaseClient.auth.signUp({
-                email,
-                password,
-                options: {
-                  data: {
-                    store_name: name,
-                    wa_number: wa
-                  }
-                }
-              });
+              try {
+                const { data, error } = await withTimeout(
+                  this.supabaseClient.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                      data: {
+                        business_name: name,
+                        store_name: name,
+                        wa_number: wa
+                      }
+                    }
+                  }),
+                  8000
+                );
 
-              if (error) throw new Error(error.message);
+                if (error) throw new Error(error.message);
 
-              if (data && data.user) {
-                if (data.session) {
-                  await this.loadSupabaseStore(data.user);
+                if (data && data.user) {
                   this.showLoginModal = false;
+                  this.showRegisterModal = false;
+                  this.registerForm = { storeName: '', waNumber: '628', email: '', password: '' };
+                  if (data.session) {
+                    await this.loadSupabaseStore(data.user);
+                    this.currentView = 'dashboard';
+                    await this.fetchData();
+                    this.showToast('Selamat! Toko baru Anda berhasil dibuat dan siap pakai.');
+                  } else {
+                    this.switchAuthTab('login');
+                    this.showToast('Pendaftaran berhasil! Cek email Anda untuk konfirmasi akun.');
+                  }
+                  return;
+                }
+              } catch (sbErr) {
+                if (isNetworkError(sbErr)) {
+                  this.supabaseOffline = true;
+                  const slug = this.createLocalStoreSession({ name, wa, email, password });
+                  this.showLoginModal = false;
+                  this.showRegisterModal = false;
+                  this.registerForm = { storeName: '', waNumber: '628', email: '', password: '' };
                   this.currentView = 'dashboard';
                   await this.fetchData();
-                  this.showToast('Selamat! Toko baru Anda berhasil dibuat dan siap pakai.');
-                } else {
-                  this.showLoginModal = false;
-                  this.showToast('Pendaftaran berhasil! Cek email Anda untuk konfirmasi akun.');
+                  this.showToast('Server Cloud sedang offline. Toko "' + name + '" dibuat di Mode Lokal (?store=' + slug + ').');
+                  return;
                 }
+                throw sbErr;
               }
             } else {
-              // Simulasi Toko Baru Mandiri di Local Storage
-              const slug = this.generateSlug(name);
-              const newStore = {
-                id: 'store-' + Date.now(),
-                slug: slug,
-                store_name: name,
-                store_subtitle: 'Cita Rasa Masakan Rumah',
-                wa_number: wa,
-                logo_url: '',
-                bg_image_url: '',
-                hero_title: 'Cita Rasa Masakan Rumah Penuh Cinta.',
-                hero_desc: 'Olahan bersih, higienis, dan 100% halal khusus untuk keluarga Anda.',
-                about_title: 'Kenapa Memilih Kami?',
-                about_desc: 'Dapur rumahan higienis yang mengutamakan kualitas rasa dan kesehatan keluarga Anda.'
-              };
-
-              localStorage.setItem('ummi_store_' + slug, JSON.stringify(newStore));
-              sessionStorage.setItem(DEMO_LOGIN_KEY, slug);
-
-              this.currentStoreId = newStore.id;
-              this.currentStoreSlug = slug;
-              this.currentUser = { username: email, ummiName: name, role: 'owner' };
-              this.isLoggedIn = true;
-              this.applySettingsFromStore(newStore);
-
+              const slug = this.createLocalStoreSession({ name, wa, email, password });
               this.showLoginModal = false;
+              this.showRegisterModal = false;
+              this.registerForm = { storeName: '', waNumber: '628', email: '', password: '' };
               this.currentView = 'dashboard';
               await this.fetchData();
               this.showToast('Toko baru berhasil dibuat! Halaman toko Anda: ?store=' + slug);
@@ -3905,11 +4424,85 @@
 
         // ================= AUTH =================
 
+        restoreLocalSession() {
+          const demoSlug = sessionStorage.getItem(DEMO_LOGIN_KEY);
+          if (!demoSlug) return false;
+          if (demoSlug === 'dapoer-asri') {
+            this.currentStoreId = 'local-dapoer-asri';
+            this.currentStoreSlug = 'dapoer-asri';
+            this.currentUser = { id: 'local-ummi', username: 'ummi@kitausahain.com', ummiName: 'Dapoer Asri', role: 'owner' };
+            this.isLoggedIn = true;
+            return true;
+          }
+          try {
+            const saved = JSON.parse(localStorage.getItem('ummi_store_' + demoSlug) || 'null');
+            if (saved) {
+              this.currentStoreId = saved.id || ('local-' + demoSlug);
+              this.currentStoreSlug = saved.slug || demoSlug;
+              this.currentUser = { id: 'local-' + demoSlug, username: demoSlug, ummiName: saved.business_name || saved.store_name || 'Toko Saya', role: 'owner' };
+              this.isLoggedIn = true;
+              this.applySettingsFromStore(saved);
+              return true;
+            }
+          } catch (e) { }
+          return false;
+        },
+
+        tryLocalFallbackLogin(emailToLogin, rawInput, password) {
+          const lowerEmail = emailToLogin.toLowerCase();
+          const lowerRaw = rawInput.toLowerCase();
+
+          // 1. Cek akun lokal yang didaftarkan di browser ini
+          try {
+            const accounts = JSON.parse(localStorage.getItem(LOCAL_ACCOUNTS_KEY) || '[]');
+            if (Array.isArray(accounts)) {
+              const found = accounts.find(a =>
+                (a.email === lowerEmail || a.email === lowerRaw || a.slug === lowerRaw) && a.password === password
+              );
+              if (found) {
+                sessionStorage.setItem(DEMO_LOGIN_KEY, found.slug);
+                const saved = JSON.parse(localStorage.getItem('ummi_store_' + found.slug) || 'null');
+                this.currentStoreId = (saved && saved.id) || ('local-' + found.slug);
+                this.currentStoreSlug = found.slug;
+                this.currentUser = { id: 'local-' + found.slug, username: found.email, ummiName: found.storeName || 'Toko Saya', role: 'owner' };
+                this.isLoggedIn = true;
+                if (saved) this.applySettingsFromStore(saved);
+                return true;
+              }
+            }
+          } catch (e) { }
+
+          // 2. Cek akun demo bawaan Dapoer Asri (ummi@kitausahain.com / ummiku)
+          if ((lowerEmail === 'ummi@kitausahain.com' || lowerRaw === 'ummi') && password === 'ummiku') {
+            sessionStorage.setItem(DEMO_LOGIN_KEY, 'dapoer-asri');
+            this.currentStoreId = 'local-dapoer-asri';
+            this.currentStoreSlug = 'dapoer-asri';
+            this.currentUser = { id: 'local-ummi', username: 'ummi@kitausahain.com', ummiName: 'Dapoer Asri', role: 'owner' };
+            this.isLoggedIn = true;
+            return true;
+          }
+
+          return false;
+        },
+
         async restoreSession() {
           try {
             if (this.backendMode === 'supabase') {
-              const { data } = await this.supabaseClient.auth.getSession();
-              if (data && data.session) await this.loadSupabaseStore(data.session.user);
+              try {
+                const { data, error } = await withTimeout(this.supabaseClient.auth.getSession(), 4500);
+                if (error && isNetworkError(error)) throw error;
+                if (data && data.session) {
+                  await withTimeout(this.loadSupabaseStore(data.session.user), 4500);
+                  return;
+                }
+              } catch (sbErr) {
+                if (isNetworkError(sbErr)) {
+                  this.supabaseOffline = true;
+                  this.restoreLocalSession();
+                  return;
+                }
+                throw sbErr;
+              }
             } else if (this.backendMode === 'gas') {
               const token = sessionStorage.getItem(GAS_TOKEN_KEY);
               if (token) {
@@ -3918,13 +4511,16 @@
                   this.gasToken = token;
                   this.currentUser = res.user;
                   this.isLoggedIn = true;
+                  return;
                 } else {
                   sessionStorage.removeItem(GAS_TOKEN_KEY);
                 }
               }
             }
+            this.restoreLocalSession();
           } catch (e) {
             console.warn('Restore session failed:', e);
+            this.restoreLocalSession();
           }
         },
 
@@ -3947,6 +4543,7 @@
           const rawInput = this.loginForm.username.trim();
           const password = this.loginForm.password;
           let mustChangePassword = false;
+          let usedOfflineFallback = false;
 
           // Normalisasi: jika pengguna mengetik 'ummi', otomatis diarahkan ke akun resmi 'ummi@kitausahain.com'
           let emailToLogin = rawInput;
@@ -3960,15 +4557,32 @@
 
           try {
             if (this.backendMode === 'supabase') {
-              const { data, error } = await this.supabaseClient.auth.signInWithPassword({ email: emailToLogin, password });
-              if (error) {
-                if (/invalid login/i.test(error.message) || /invalid_credentials/i.test(error.message)) {
-                  throw new Error('Email atau password salah. Pastikan akun sudah dibuat di Supabase.');
+              try {
+                const { data, error } = await withTimeout(
+                  this.supabaseClient.auth.signInWithPassword({ email: emailToLogin, password }),
+                  7000
+                );
+                if (error) {
+                  if (isNetworkError(error)) throw error;
+                  if (/invalid login/i.test(error.message) || /invalid_credentials/i.test(error.message)) {
+                    throw new Error('Email atau password salah. Pastikan akun sudah terdaftar.');
+                  }
+                  throw new Error(error.message);
                 }
-                throw new Error(error.message);
-              }
-              if (!(await this.loadSupabaseStore(data.user))) {
-                throw new Error('Akun ini belum memiliki toko terdaftar di platform.');
+                if (!(await this.loadSupabaseStore(data.user))) {
+                  throw new Error('Akun ini belum memiliki toko terdaftar di platform.');
+                }
+              } catch (sbErr) {
+                if (isNetworkError(sbErr)) {
+                  this.supabaseOffline = true;
+                  if (this.tryLocalFallbackLogin(emailToLogin, rawInput, password)) {
+                    usedOfflineFallback = true;
+                  } else {
+                    throw new Error('Server database Supabase sedang ter-pause/offline. Silakan Restore project di Dashboard Supabase, atau masuk ke Mode Lokal menggunakan akun demo: ummi / ummiku (atau Daftar Toko Baru).');
+                  }
+                } else {
+                  throw sbErr;
+                }
               }
             } else if (this.backendMode === 'gas') {
               const res = await gasCall('checkLoginCredentials', emailToLogin, password);
@@ -3979,17 +4593,24 @@
               this.isLoggedIn = true;
               mustChangePassword = !!res.mustChangePassword;
             } else {
-              throw new Error('Sistem backend tidak terhubung');
+              if (!this.tryLocalFallbackLogin(emailToLogin, rawInput, password)) {
+                throw new Error('Email atau password salah. Untuk Mode Lokal/Demo gunakan: ummi / ummiku, atau klik Daftar Baru.');
+              }
+              usedOfflineFallback = true;
             }
 
             this.showLoginModal = false;
+            this.showRegisterModal = false;
             this.loginForm = { username: '', password: '' };
             this.currentView = 'dashboard';
+            document.title = 'Dashboard Toko - Kita Usahain';
             await this.fetchData();
 
             if (mustChangePassword) {
               this.dashboardTab = 'settings';
               this.showToast('Anda masih memakai password bawaan. Segera ganti password!', 'error');
+            } else if (usedOfflineFallback && this.supabaseOffline) {
+              this.showToast('Masuk dalam Mode Lokal (Server Cloud Supabase sedang offline).');
             } else {
               this.showToast('Login berhasil. Selamat datang kembali!');
             }
@@ -4005,14 +4626,21 @@
           this.currentUser = {};
           this.gasToken = '';
           this.orders = [];
-          this.currentView = 'home';
+          const hasTenant = !!this.detectTenantSlug();
+          this.currentView = hasTenant ? 'home' : 'auth';
+          if (!hasTenant) {
+            this.authTab = 'login';
+            document.title = 'Kita Usahain - Masuk / Daftar Toko UMKM';
+          }
           sessionStorage.removeItem(GAS_TOKEN_KEY);
           sessionStorage.removeItem(DEMO_LOGIN_KEY);
         },
 
         async logout(silent = false) {
           try {
-            if (this.supabaseClient) await this.supabaseClient.auth.signOut();
+            if (this.supabaseClient && !this.supabaseOffline) {
+              await withTimeout(this.supabaseClient.auth.signOut(), 3000).catch(() => { });
+            }
             if (this.gasToken && hasGas()) gasCall('logoutSession', this.gasToken).catch(() => { });
           } catch (e) {
             console.warn('Logout error:', e);
@@ -4023,7 +4651,7 @@
 
         async changePassword() {
           const f = this.passwordForm;
-          if (f.newPassword.length < 8) return this.showToast('Password baru minimal 8 karakter', 'error');
+          if (f.newPassword.length < 6) return this.showToast('Password baru minimal 6 karakter', 'error');
           if (f.newPassword !== f.confirmPassword) return this.showToast('Konfirmasi password tidak sama', 'error');
 
           this.loading = true;
