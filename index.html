@@ -925,7 +925,7 @@
                   Pre-Order</span>
                 <span class="text-lg font-semibold text-brand-terracotta" x-text="formatRupiah(product.price)"></span>
               </div>
-              <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo Dapoer Asri, saya ingin pesan: ' + product.name + ' (' + formatRupiah(product.price) + ')')}`"
+              <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo ' + (settings.storeName || 'Admin') + ', saya ingin pesan: ' + product.name + ' (' + formatRupiah(product.price) + ')')}`"
                 target="_blank"
                 class="h-10 px-4 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm">
                 <i class="fa-brands fa-whatsapp text-white text-sm"></i>
@@ -1012,7 +1012,7 @@
                   Pre-Order</span>
                 <span class="text-lg font-semibold text-brand-terracotta" x-text="formatRupiah(product.price)"></span>
               </div>
-              <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo Dapoer Asri, saya ingin memesan menu Pre-Order: ' + product.name + ' (' + formatRupiah(product.price) + '). Mohon info slot pengiriman terdekat.')}`"
+              <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo ' + (settings.storeName || 'Admin') + ', saya ingin memesan menu Pre-Order: ' + product.name + ' (' + formatRupiah(product.price) + '). Mohon info slot pengiriman terdekat.')}`"
                 target="_blank"
                 class="h-10 px-4 rounded-xl bg-brand-olive hover:bg-brand-olive-dark text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm">
                 <i class="fa-brands fa-whatsapp text-white text-sm"></i>
@@ -1069,7 +1069,7 @@
           </p>
 
           <p>
-            Di <b>Dapoer Asri</b>, seluruh pesanan diolah menggunakan sistem <b>Pre-Order (PO)</b>. Sistem ini kami
+            Di <b x-text="settings.storeName || 'Dapoer Asri'"></b>, seluruh pesanan diolah menggunakan sistem <b>Pre-Order (PO)</b>. Sistem ini kami
             terapkan agar bumbu dapat meresap sempurna, bahan dibeli segar setiap subuh di pasar, dan masakan sampai di
             meja Anda dalam kondisi baru matang, bukan makanan simpanan lama.
           </p>
@@ -1126,7 +1126,7 @@
             Lebih hemat hingga Rp 15.000 untuk pengiriman minggu ini!
           </p>
           <div class="pt-2 flex flex-wrap items-center gap-4">
-            <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo Dapoer Asri, saya ingin klaim Promo Paket Bundling Keluarga Hemat (2 Kentang + 2 Salad Buah).')}`"
+            <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo ' + (settings.storeName || 'Admin') + ', saya ingin klaim Promo Paket Spesial.')}`"
               target="_blank"
               class="h-12 px-7 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-semibold text-xs sm:text-sm transition flex items-center space-x-2 shadow-md">
               <i class="fa-brands fa-whatsapp text-emerald-600 text-base"></i>
@@ -1259,7 +1259,7 @@
               <p class="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1"
                 x-text="'+' + cleanWaNumber"></p>
               <div class="pt-2">
-                <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo Dapoer Asri, saya ingin tanya info lokasi dan pesanan.')}`"
+                <a :href="`https://wa.me/${cleanWaNumber}?text=${encodeURIComponent('Halo ' + (settings.storeName || 'Admin') + ', saya ingin tanya info lokasi dan pesanan.')}`"
                   target="_blank"
                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-sm transition">
                   <i class="fa-brands fa-whatsapp"></i>
@@ -4110,17 +4110,7 @@
                 console.warn('Products query info:', errProd);
               }
 
-              // 3. Fallback pembacaan settings (aman tanpa error bila tabel belum ada)
-              try {
-                const { data: settingsRows } = await this.supabaseClient.from('settings').select('key, value');
-                if (settingsRows && settingsRows.length > 0) {
-                  const s = {};
-                  settingsRows.forEach(row => { s[row.key] = row.value; });
-                  this.applySettings(s);
-                }
-              } catch (errSettings) {
-                // Abaikan bila tabel settings tidak ada di Supabase
-              }
+              // 3. Pengaturan profil visual murni 100% terisolasi per tenant dari tabel businesses
 
               // 4. Ambil pesanan toko jika pemilik sedang login
               if (this.isLoggedIn && this.currentStoreId) {
@@ -4441,9 +4431,12 @@
             if (this.backendMode === 'supabase') {
               if (this.currentStoreId) {
                 await this.supabaseClient.from('businesses').update({
+                  owner_name: this.settings.ownerName || '',
                   business_name: this.settings.storeName,
                   business_subtitle: this.settings.storeSubtitle,
                   wa_number: this.settings.waNumber,
+                  logo_url: this.settings.logoUrl || '',
+                  bg_image_url: this.settings.bgImageUrl || '',
                   hero_title: this.settings.heroTitle,
                   hero_desc: this.settings.heroDesc,
                   about_title: this.settings.aboutTitle,
@@ -4454,12 +4447,6 @@
                   maps_embed_url: this.settings.mapsEmbedUrl || '',
                   updated_at: new Date().toISOString()
                 }).eq('id', this.currentStoreId);
-              }
-              try {
-                const updates = SETTINGS_KEYS.map(k => ({ key: k, value: String(this.settings[k] || ''), updated_at: new Date().toISOString() }));
-                await this.supabaseClient.from('settings').upsert(updates, { onConflict: 'key' });
-              } catch (e) {
-                // Opsional sinkron settings
               }
             } else if (this.backendMode === 'gas') {
               const res = await this.gas('saveStoreSettings', this.gasToken, { ...this.settings });
@@ -4535,7 +4522,9 @@
           this.loading = true;
           try {
             if (this.backendMode === 'supabase') {
-              await sbq(this.supabaseClient.from('products').delete().eq('id', id));
+              let delQ = this.supabaseClient.from('products').delete().eq('id', id);
+              if (this.currentStoreId) delQ = delQ.eq('business_id', this.currentStoreId);
+              await sbq(delQ);
             } else if (this.backendMode === 'gas') {
               await this.gas('deleteProductData', this.gasToken, id);
             }
@@ -4600,7 +4589,9 @@
           this.loadingText = 'Menyimpan pesanan...';
           try {
             if (this.backendMode === 'supabase') {
-              await sbq(this.supabaseClient.from('orders').upsert(toDbOrder(record)));
+              const dbOrder = toDbOrder(record);
+              if (this.currentStoreId) dbOrder.business_id = this.currentStoreId;
+              await sbq(this.supabaseClient.from('orders').upsert(dbOrder));
             } else if (this.backendMode === 'gas') {
               const res = await this.gas('saveOrderData', this.gasToken, record);
               if (res && res.order) record = res.order;
@@ -4637,7 +4628,9 @@
 
           try {
             if (this.backendMode === 'supabase') {
-              await sbq(this.supabaseClient.from('orders').update({ status: nextStatus }).eq('id', order.id));
+              let upQ = this.supabaseClient.from('orders').update({ status: nextStatus }).eq('id', order.id);
+              if (this.currentStoreId) upQ = upQ.eq('business_id', this.currentStoreId);
+              await sbq(upQ);
             } else if (this.backendMode === 'gas') {
               await this.gas('saveOrderData', this.gasToken, { ...order, status: nextStatus });
             }
@@ -4654,7 +4647,9 @@
           this.loading = true;
           try {
             if (this.backendMode === 'supabase') {
-              await sbq(this.supabaseClient.from('orders').delete().eq('id', id));
+              let delQ = this.supabaseClient.from('orders').delete().eq('id', id);
+              if (this.currentStoreId) delQ = delQ.eq('business_id', this.currentStoreId);
+              await sbq(delQ);
             } else if (this.backendMode === 'gas') {
               await this.gas('deleteOrderData', this.gasToken, id);
             }

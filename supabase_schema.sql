@@ -17,12 +17,14 @@ CREATE TABLE IF NOT EXISTS public.businesses (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     owner_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
     slug TEXT UNIQUE NOT NULL,
+    owner_name TEXT DEFAULT '',
     business_name TEXT NOT NULL,
     business_subtitle TEXT DEFAULT 'Cita Rasa Masakan Rumah',
     wa_number TEXT DEFAULT '6281234567890',
     status TEXT NOT NULL DEFAULT 'published' CHECK (status IN ('draft', 'published', 'unpublished')),
     logo_url TEXT DEFAULT '',
     banner_url TEXT DEFAULT '',
+    bg_image_url TEXT DEFAULT '',
     hero_title TEXT DEFAULT 'Cita Rasa Masakan Rumah Penuh Cinta.',
     hero_desc TEXT DEFAULT 'Olahan bersih, higienis, dan 100% halal khusus untuk keluarga Anda.',
     about_title TEXT DEFAULT 'Kenapa Memilih Kami?',
@@ -39,6 +41,10 @@ CREATE TABLE IF NOT EXISTS public.businesses (
     CONSTRAINT slug_format_check CHECK (slug ~* '^[a-z0-9]+(-[a-z0-9]+)*$'),
     CONSTRAINT reserved_slug_check CHECK (slug NOT IN ('admin', 'api', 'login', 'register', 'dashboard', 'app', 'www', 'platform', 'public', 'static'))
 );
+
+-- Idempotent column additions for existing installations
+ALTER TABLE public.businesses ADD COLUMN IF NOT EXISTS owner_name TEXT DEFAULT '';
+ALTER TABLE public.businesses ADD COLUMN IF NOT EXISTS bg_image_url TEXT DEFAULT '';
 
 CREATE INDEX IF NOT EXISTS businesses_slug_idx ON public.businesses(slug);
 CREATE INDEX IF NOT EXISTS businesses_owner_idx ON public.businesses(owner_id);
